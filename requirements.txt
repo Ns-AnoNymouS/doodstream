@@ -2,3 +2,4 @@ tgcrypto
 motor
 dnspython
 pyrogram
+requests
