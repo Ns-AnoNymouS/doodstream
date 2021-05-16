@@ -2,7 +2,7 @@ import requests
 from pyrogram import Client, filters
 
 
-@Client_on_message(filters.command('token'))
+@Client.on_message(filters.command('token'))
 async def login(c, m):
     if len(m.command) == 2:
         cmd, api_key = m.text.split(' ')
