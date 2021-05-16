@@ -7,5 +7,5 @@ async def login(c, m):
     if len(m.command) == 2:
         cmd, api_key = m.text.split(' ')
         url = f"https://doodapi.com/api/account/info?key={api_key}"
-        
-        await m.reply_text()
+        userdetails = requests.get(url).json()
+        await m.reply_text(userdetails)
