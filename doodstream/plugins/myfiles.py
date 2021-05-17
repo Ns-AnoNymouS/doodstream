@@ -23,3 +23,8 @@ async def myfiles(c, m):
     else:
         text = "Something Went wrong"
     await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
+
+
+@Client.on_callback_query(filters.regex('nxt'))
+async def nxt(c, m):
+    await m.answer()
