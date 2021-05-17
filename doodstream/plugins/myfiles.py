@@ -47,12 +47,12 @@ async def nxt(c, m):
         for folder in folders:
             buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}")])
         if len(folders) < 10:
-            files = data['result']['files'][fil]
+            files = data['result']['files'][fil: fil + 10]
             for file in files:
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
         if len(buttons) > 10:
             buttons.pop()
-            buttons.append([InlineKeyboardButton('Next ➡️', callback_data=f'nxt+{fld + 10}+{fld + 10}')])
+            buttons.append([InlineKeyboardButton('Next ➡️', callback_data=f'nxt+{fld + 10}+{fil + 10}')])
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
     else:
         text = "Something Went wrong"
