@@ -49,7 +49,7 @@ async def open_file(c, m):
 async def open_file(c, m):
     await m.answer()
     api_key = await c.db.get_credential_status(m.from_user.id)
-    cmd, file_code, fld, fil = m.data.split('+')
+    cmd, folder_id, file_code, fld, fil = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
     data_file = requests.get(files_url).json()
@@ -71,7 +71,7 @@ async def open_file(c, m):
             InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
             ],[
             InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}"),
-            InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil}")
+            InlineKeyboardButton("Back 🔙", callback_data=f"folder+{folder_id}+{fld}+{fil}")
         ]]
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
