@@ -52,7 +52,7 @@ async def nxt(c, m):
         for folder in folders:
             buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}+0+0")])
         if len(folders) < 10:
-            val = fil
+            val = fil if fil >=0 else 0
             fil = fil + 11 if len(folders) == 0 else 11 - len(folders)
             files = data['result']['files'][val: fil]
             fil += 10
