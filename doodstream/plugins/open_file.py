@@ -9,7 +9,7 @@ async def open_file(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     cmd, file_code, fld, fil = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
-    files_url = f"https://doodapi.com/api/folder/list?key={api_key}"
+    files_url = f"https://doodapi.com/api/file/list?key={api_key}"
     data_file = requests.get(files_url).json()
     files = data_file['result']['files'] #.find_one({'filecode':file_code})
     for file in files:
