@@ -29,10 +29,10 @@ async def folder(c, m):
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}+{fld}+{fil - 10}")])
         button = []
         if fld != 0:
-             button.append(InlineKeyboardButton('⬅️', callback_data=f'nxt+{fld - 10}+{fil - 20}'))
+             button.append(InlineKeyboardButton('⬅️', callback_data=f'folder+{folder_id}+{fld - 10}+{fil - 20}'))
         if len(buttons) > 10:
             buttons.pop()
-            button.append(InlineKeyboardButton('➡️', callback_data=f'nxt+{fld + 10}+{fil}'))
+            button.append(InlineKeyboardButton('➡️', callback_data=f'folder+{folder_id}+{fld + 10}+{fil}'))
         buttons.append(button)
         if len(buttons) != 0:
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
