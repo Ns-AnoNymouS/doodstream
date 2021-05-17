@@ -36,7 +36,7 @@ async def folder(c, m):
         buttons.append(button)
         buttons.append([InlineKeyboardButton('Home 🏡', callback_data="nxt+0+0")])
         print(buttons)
-        if len(buttons) != 1:
+        if len(buttons) != 2:
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
         else:
             return await m.message.edit("You didn't have any files", reply_markup=InlineKeyboardMarkup(buttons))
