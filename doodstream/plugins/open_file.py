@@ -18,17 +18,18 @@ async def open_file(c, m):
     data = requests.get(url).json()
 
     if data['status'] == 200:
-        text = f"**📁 Title:** {data['result'][0]['title']}\n"
-        text += f"**⏰ Duration:** {data['result'][0]['length']}\n"
-        text += f"**📊 Size:** {data['result'][0]['size']}"
-        text += f"**👁 Views:** {data['result'][0]['views']}"
+        text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
+        text += f"**⏰ Duration:** {data['result'][0]['length']}\n\n"
+        text += f"**📊 Size:** {data['result'][0]['size']}\n\n"
+        text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
         text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
         buttons = [[
             InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
             InlineKeyboardButton("Download", url=f"{file_data['download_url']}"),
+            ],[
             InlineKeyboardButton("Download Url", url=f"https://dood.so{data['result'][0]['protected_dl']}")
+            InlineKeyboardButton("Embedded Url", url=f"https://dood.so{data['result'][0]['protected_embed']}")
         ]]
-           # InlineKeyboardButton()
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
     elif data['status'] == 451:
