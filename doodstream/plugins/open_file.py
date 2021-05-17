@@ -29,7 +29,7 @@ async def open_file(c, m):
     elif data['status'] == 403:
         text = "Your TOKEN was expired. So please logout and login again"
  
-   else:
+    else:
         text = "File Not Found 🤪"
 
     await m.message.edit(text)
