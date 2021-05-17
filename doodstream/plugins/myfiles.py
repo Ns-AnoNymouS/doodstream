@@ -53,11 +53,13 @@ async def nxt(c, m):
             fil += 10
             for file in files:
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
+        button = []
+        if fld != 0:
+             button.append([InlineKeyboardButton('⬅️ Back', callback_data=f'nxt+{fld - 10}+{fil - 20}')])
         if len(buttons) > 10:
             buttons.pop()
-            buttons.append([InlineKeyboardButton('Next ➡️', callback_data=f'nxt+{fld + 10}+{fil}')])
-        if fld != 0:
-             buttons.append([InlineKeyboardButton('⬅️ Back', callback_data=f'nxt+{fld - 10}+{fil - 20}')])
+            button.append([InlineKeyboardButton('Next ➡️', callback_data=f'nxt+{fld + 10}+{fil}')])
+        buttons.append(button)
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
     else:
         text = "Something Went wrong"
