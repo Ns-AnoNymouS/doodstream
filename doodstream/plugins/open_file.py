@@ -9,5 +9,5 @@ async def open_file(c, m):
     cmd, file_code = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     data = requests.get(url).json()
-    print(data)
-    await m.message.edit(data)
+    text = "Title: {data['result']['title']}"
+    await m.message.edit(text)
