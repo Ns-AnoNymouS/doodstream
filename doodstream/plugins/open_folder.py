@@ -35,7 +35,7 @@ async def folder(c, m):
             button.append(InlineKeyboardButton('➡️', callback_data=f'folder+{folder_id}+{fld + 10}+{fil}'))
         buttons.append(button)
         buttons.append([InlineKeyboardButton('Home 🏡', callback_data="nxt+0+0")])
-        print(len(buttons))
+        print(buttons)
         if len(buttons) != 1:
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
         else:
