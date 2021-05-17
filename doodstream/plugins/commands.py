@@ -35,7 +35,7 @@ async def myfiles(c, m):
         if len(folders) >= 10:
             buttons = []
             for folder in folders:
-                buttons.append([InlineKeyboardButton(f'📁 {folder['name']}', callback_data=f"folder+{folder['fld_id']}")])
+                buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}")])
     else:
         text = "Something Went wrong"
     await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
