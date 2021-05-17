@@ -22,8 +22,8 @@ async def myfiles(c, m):
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
         if len(buttons) > 10:
             buttons.pop()
-            buttons.append([InlineKeyboardButton('Next ➡️', callback_data=f'nxt+10+{10 - len(folders)}')])
-        return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
+            buttons.append([InlineKeyboardButton('➡️', callback_data=f'nxt+10+{10 - len(folders)}')])
+        return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), quote=True)
     else:
         text = "Something Went wrong"
     await m.reply_text(text)
@@ -55,10 +55,10 @@ async def nxt(c, m):
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
         button = []
         if fld != 0:
-             button.append(InlineKeyboardButton('⬅️ Back', callback_data=f'nxt+{fld - 10}+{fil - 20}'))
+             button.append(InlineKeyboardButton('⬅️', callback_data=f'nxt+{fld - 10}+{fil - 20}'))
         if len(buttons) > 10:
             buttons.pop()
-            button.append(InlineKeyboardButton('Next ➡️', callback_data=f'nxt+{fld + 10}+{fil}'))
+            button.append(InlineKeyboardButton('➡️', callback_data=f'nxt+{fld + 10}+{fil}'))
         buttons.append(button)
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
     else:
