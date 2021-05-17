@@ -62,7 +62,7 @@ async def nxt(c, m):
              button.append(InlineKeyboardButton('⬅️', callback_data=f'nxt+{fld - 10}+{fil - 10}'))
         if len(buttons) > 10:
             buttons.pop()
-            button.append(InlineKeyboardButton('➡️', callback_data=f'nxt+{fld + 10}+{fil}'))
+            button.append(InlineKeyboardButton('➡️', callback_data=f'nxt+{fld + 10}+{fil + 10}'))
         buttons.append(button)
         if len(buttons) != 1:
             #print(fil)
