@@ -20,7 +20,7 @@ def main():
                  workers=100)
 
 
-    app.db = Database(Config.DATABASE_URL, 'Gdrive_NsBot')
+    app.db = Database(Config.DATABASE_URL, 'Doodstream_NsBot')
     app.run()
 
 
