@@ -5,7 +5,4 @@ class Config(object):
       APP_ID = int(os.environ.get("APP_ID", 12345))
       API_HASH = os.environ.get("API_HASH")
       OWNER = os.environ.get("OWNER_ID", [1337144652])
-      Password = os.environ.get('Password', '0000')
-      SEND = []
-      LOGIN = []
-      feedback = []
+
