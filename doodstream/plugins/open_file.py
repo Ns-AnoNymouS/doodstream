@@ -12,7 +12,7 @@ async def open_file(c, m):
     data_file = requests.get(files_url).json()
     files = data_file['result']['files'] #.find_one({'filecode':file_code})
     for file in files:
-        if file['filecode'] == file_code:
+        if file['file_code'] == file_code:
             file_data = file
             break
     print(file_data)
