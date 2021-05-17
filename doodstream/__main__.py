@@ -7,6 +7,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from .config import Config
 from pyrogram import Client
+from .database.database import Database
 
 
 def main():
@@ -18,6 +19,8 @@ def main():
                  plugins=plugins,
                  workers=100)
 
+
+    app.db = Database(Config.DATABASE_URL, 'Gdrive_NsBot')
     app.run()
 
 
