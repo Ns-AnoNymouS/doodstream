@@ -10,9 +10,9 @@ async def open_file(c, m):
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     data = requests.get(url).json()
     if data['status'] == 200:
-        text = f"**📁 Title:** {data['result']['title']}"
-        text += f"**⏰ Duration:** {data['result']['length']}"
-        text += f"**📊 Size:** {data['result']['size']}"
+        text = f"**📁 Title:** {data['result'][0]['title']}"
+        text += f"**⏰ Duration:** {data['result'][0]['length']}"
+        text += f"**📊 Size:** {data['result'][0]['size']}"
     elif data['status'] == 451:
         text = "Your video was disabled due to DMCA"
     elif data['status'] == 403:
