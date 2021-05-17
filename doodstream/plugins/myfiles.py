@@ -12,16 +12,17 @@ async def myfiles(c, m):
         text = "Send me the correct token"
     elif data['status'] == 200:
         text = "Select your file\n\n"
-        folders = data['result']['folders'][:10]
+        folders = data['result']['folders'][:11]
         buttons = []
         for folder in folders:
             buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}")])
         if len(folders) < 10:
-            files = data['result']['files'][:10 - len(folders)]
+            files = data['result']['files'][:11 - len(folders)]
             for file in files:
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
         if len(buttons) > 10:
-            
+            buttons.pop()
+            buttons.append([InlineKeyboardButton('Next ➡️', callback_data='nxt')])
     else:
         text = "Something Went wrong"
     await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
