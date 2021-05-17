@@ -10,10 +10,10 @@ from pyrogram import Client
 
 
 def main():
-    plugins = dict(root="plugins")
+    plugins = dict(root="doodstream/plugins")
     app = Client("Dood-Stream",
-                 bot_token=Config.TG_BOT_TOKEN,
-                 api_id=Config.APP_ID,
+                 bot_token=Config.BOT_TOKEN,
+                 api_id=Config.API_ID,
                  api_hash=Config.API_HASH,
                  plugins=plugins,
                  workers=100)
