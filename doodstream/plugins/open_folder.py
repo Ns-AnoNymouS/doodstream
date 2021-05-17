@@ -1,4 +1,4 @@
-import requests
+9import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -26,7 +26,7 @@ async def folder(c, m):
             files = data['result']['files'][fil: fil + 11]
             fil += 10
             for file in files:
-                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"fle+{file['file_code']}+{folder_id}+{fld}+{fil - 10}")])
+                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"fle+{folder_id}+{file['file_code']}+{fld}+{fil - 10}")])
         button = []
         if fld != 0:
              button.append(InlineKeyboardButton('⬅️', callback_data=f'folder+{folder_id}+{fld - 10}+{fil - 20}'))
@@ -35,7 +35,6 @@ async def folder(c, m):
             button.append(InlineKeyboardButton('➡️', callback_data=f'folder+{folder_id}+{fld + 10}+{fil}'))
         buttons.append(button)
         buttons.append([InlineKeyboardButton('Home 🏡', callback_data="nxt+0+0")])
-        print(buttons)
         if len(buttons) != 2:
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
         else:
