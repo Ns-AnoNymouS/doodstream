@@ -1,7 +1,7 @@
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from ..tools.progress_bar import humanbytes, TimeFormatter
 
 @Client.on_callback_query(filters.regex('^file'))
 async def open_file(c, m):
@@ -20,8 +20,8 @@ async def open_file(c, m):
 
     if data['status'] == 200:
         text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
-        text += f"**⏰ Duration:** {data['result'][0]['length']}\n\n"
-        text += f"**📊 Size:** {data['result'][0]['size']}\n\n"
+        text += f"**⏰ Duration:** {TimeFormatter(data['result'][0]['length'] * 1000)}\n\n"
+        text += f"**📊 Size:** {humanbytes(data['result'][0]['size'])}\n\n"
         text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
         text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
         buttons = [[
