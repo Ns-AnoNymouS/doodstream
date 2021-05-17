@@ -34,10 +34,10 @@ async def myfiles(c, m):
 
 @Client.on_callback_query(filters.regex('^nxt'))
 async def nxt(c, m):
+    await m.answer()
     cmd, fld, fil = m.data.split("+")
     fld = int(fld)
     fil = int(fil)
-    await m.answer()
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
     data = requests.get(url).json()
