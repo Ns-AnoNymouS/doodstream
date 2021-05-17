@@ -22,10 +22,7 @@ async def myfiles(c, m):
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
         if len(buttons) > 10:
             buttons.pop()
-            if len(folders) < 10:
-               buttons.append([InlineKeyboardButton('Next ➡️', callback_data='nxt+1')])
-            else:
-               buttons.append([InlineKeyboardButton('Next ➡️', callback_data='nxt+1')])
+            buttons.append([InlineKeyboardButton('Next ➡️', callback_data='nxt+1+{11 - len(folders)}')])
         return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
     else:
         text = "Something Went wrong"
