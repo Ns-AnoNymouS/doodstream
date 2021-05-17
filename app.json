@@ -22,6 +22,10 @@
       "description": "Your id to recieve feedbacks from users",
       "value": ""
     },
+    "DATABASE_URL": {
+      "description": "Mongodb token for saving the users data",
+      "value": ""
+    },
     "API_ID": {
       "description": "Get this value from https://my.telegram.org",
       "value": ""
