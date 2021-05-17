@@ -65,6 +65,7 @@ async def nxt(c, m):
             button.append(InlineKeyboardButton('➡️', callback_data=f'nxt+{fld + 10}+{fil}'))
         buttons.append(button)
         if len(buttons) != 1:
+            print(fil)
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
         else:
             return await m.message.edit("Something went wrong 🤔")
