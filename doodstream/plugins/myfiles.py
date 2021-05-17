@@ -19,7 +19,7 @@ async def myfiles(c, m):
         if len(folders) < 10:
             files = data['result']['files'][:11 - len(folders)]
             for file in files:
-                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
+                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}")])
         if len(buttons) > 10:
             buttons.pop()
             buttons.append([InlineKeyboardButton('➡️', callback_data=f'nxt+10+{10 - len(folders)}')])
@@ -55,7 +55,7 @@ async def nxt(c, m):
             files = data['result']['files'][fil: fil + 11]
             fil += 10
             for file in files:
-                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
+                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}")])
         button = []
         if fld != 0:
              button.append(InlineKeyboardButton('⬅️', callback_data=f'nxt+{fld - 10}+{fil - 20}'))
