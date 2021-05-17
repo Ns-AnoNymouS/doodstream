@@ -14,19 +14,15 @@
       "description": "Setting this to ANYTHING will enable webhooks when in env mode",
       "value": "ANYTHING"
     },
-    "TG_BOT_TOKEN": {
+    "BOT_TOKEN": {
       "description": "Your bot token, as a string.",
-      "value": ""
-    },
-    "Password": {
-      "description": "Set a password for admins to recieve feedbacks",
       "value": ""
     },
     "OWNER_ID": {
       "description": "Your id to recieve feedbacks from users",
       "value": ""
     },
-    "APP_ID": {
+    "API_ID": {
       "description": "Get this value from https://my.telegram.org",
       "value": ""
     },
