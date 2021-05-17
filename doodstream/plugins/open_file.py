@@ -10,7 +10,7 @@ async def open_file(c, m):
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/folder/list?key={api_key}"
     data_file = requests.get(files_url).json()
-    Download_url = data_file['result'].find_one({'filecode':file_code})
+    Download_url = data_file['result']['files'].find_one({'filecode':file_code})
     print(Download_url)
     data = requests.get(url).json()
 
