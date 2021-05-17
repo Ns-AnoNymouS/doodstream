@@ -13,6 +13,10 @@ async def open_file(c, m):
         text = f"Title: {data['result']['title']}"
         text += f"Duration: {data['result']['length']}"
         text += f"Size: {data['result']['size']}"
-    else:
+    elif data['status'] == 451:
+        text = "Your video was disabled due to DMCA"
+    elif data['status'] == 451:
         text = "Your TOKEN was expired. Send me new one"
+    else:
+        text = "File Not Found 🤪"
     await m.message.edit(text)
