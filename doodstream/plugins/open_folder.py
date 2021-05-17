@@ -34,10 +34,11 @@ async def folder(c, m):
             buttons.pop()
             button.append(InlineKeyboardButton('➡️', callback_data=f'folder+{folder_id}+{fld + 10}+{fil}'))
         buttons.append(button)
-        if len(buttons) != 0:
+        buttons.append([InlineKeyboardButton('', callback_data="nxt+{fld + 10}+{fil}")])
+        if len(buttons) != 1:
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
         else:
-            return await m.message.edit("Something went wrong 🤔")
+            return await m.message.edit("You didn't have any files", reply_markup=InlineKeyboardMarkup(buttons))
     else:
         text = "Something Went wrong"
     await m.reply_text(text)
