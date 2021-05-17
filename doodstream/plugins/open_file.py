@@ -6,7 +6,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 @Client.on_callback_query(filters.regex('^file'))
 async def open_file(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
-    cmd, file_code = m.data.split('+')
+    cmd, file_code, fld, fil = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/folder/list?key={api_key}"
     data_file = requests.get(files_url).json()
@@ -27,7 +27,8 @@ async def open_file(c, m):
             InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
             InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
             ],[
-            InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}")
+            InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}"),
+            InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil}")
         ]]
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
