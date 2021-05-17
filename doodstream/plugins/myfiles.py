@@ -32,6 +32,7 @@ async def myfiles(c, m):
 @Client.on_callback_query(filters.regex('^nxt'))
 async def nxt(c, m):
     cmd, num = m.data.split("+")
+    num = int(num)
     await m.answer()
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
@@ -40,7 +41,7 @@ async def nxt(c, m):
         text = "Token Expired"
     elif data['status'] == 200:
         text = "Select your file\n\n"
-        folders = data['result']['folders'][:11]
+        folders = data['result']['folders'][1 * num:11 * num]
         buttons = []
         for folder in folders:
             buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}")])
