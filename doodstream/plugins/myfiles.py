@@ -23,7 +23,10 @@ async def myfiles(c, m):
         if len(buttons) > 10:
             buttons.pop()
             buttons.append([InlineKeyboardButton('➡️', callback_data=f'nxt+10+{10 - len(folders)}')])
-        return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), quote=True)
+        if len(buttons) != 0:
+            return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), quote=True)
+        else:
+            return await m.reply_text("You didn't have any files yet", quote=True)
     else:
         text = "Something Went wrong"
     await m.reply_text(text)
