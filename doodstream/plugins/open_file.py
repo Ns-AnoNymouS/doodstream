@@ -25,10 +25,9 @@ async def open_file(c, m):
         text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
         buttons = [[
             InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
-            InlineKeyboardButton("Download", url=f"{file_data['download_url']}"),
+            InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
             ],[
-            InlineKeyboardButton("Download Url", url=f"https://dood.so{data['result'][0]['protected_dl']}"),
-            InlineKeyboardButton("Embedded Url", url=f"https://dood.so{data['result'][0]['protected_embed']}")
+            InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}")
         ]]
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
