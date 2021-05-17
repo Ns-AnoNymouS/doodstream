@@ -9,5 +9,10 @@ async def open_file(c, m):
     cmd, file_code = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     data = requests.get(url).json()
-    text = "Title: {data['result']['title']}"
+    if data['status'] == 200:
+        text = f"Title: {data['result']['title']}"
+        text += f"Duration: {data['result']['length']}"
+        text += f"Size: {data['result']['size']}"
+    else:
+        text = "Your TOKEN was expired. Send me new one"
     await m.message.edit(text)
