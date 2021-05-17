@@ -39,7 +39,8 @@ async def nxt(c, m):
     fld = int(fld)
     try:
         fil = int(fil)
-    except:
+    except Exception as e:
+        print(e)
         fil = 0
     print(fld, fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
