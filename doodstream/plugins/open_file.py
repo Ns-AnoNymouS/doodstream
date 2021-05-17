@@ -30,7 +30,7 @@ async def open_file(c, m):
             InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
             ],[
             InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}"),
-            InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil - 10}")
+            InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{int(fil) - 10}")
         ]]
         return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
