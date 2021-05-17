@@ -15,8 +15,6 @@ async def open_file(c, m):
         if file['file_code'] == file_code:
             file_data = file
             break
-    print(file_data)
-    print(Download_url)
     data = requests.get(url).json()
 
     if data['status'] == 200:
@@ -27,6 +25,7 @@ async def open_file(c, m):
         text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
         buttons = [[
             InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
+            InlineKeyboardButton("Download", url=f"{file_data['download_url']}"),
             InlineKeyboardButton("Download Url", url=f"https://dood.so{data['result'][0]['protected_dl']}")
         ]]
            # InlineKeyboardButton()
