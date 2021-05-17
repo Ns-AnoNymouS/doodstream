@@ -15,8 +15,8 @@ async def open_file(c, m):
         text += f"Size: {data['result']['size']}"
     elif data['status'] == 451:
         text = "Your video was disabled due to DMCA"
-    elif data['status'] == 451:
-        text = "Your TOKEN was expired. Send me new one"
+    elif data['status'] == 403:
+        text = "Your TOKEN was expired. So please logout and login again"
     else:
         text = "File Not Found 🤪"
     await m.message.edit(text)
