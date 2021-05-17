@@ -20,6 +20,8 @@ async def myfiles(c, m):
             files = data['result']['files'][:10 - len(folders)]
             for file in files:
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
+        if len(buttons) > 10:
+            
     else:
         text = "Something Went wrong"
     await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
