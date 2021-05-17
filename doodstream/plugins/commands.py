@@ -31,8 +31,11 @@ async def myfiles(c, m):
         text = "Send me the correct token"
     elif userdetails['status'] == 200:
         text = "Select your file\n\n"
-        folders = data['result']['folders']
-        
+        folders = data['result']['folders'][:10]
+        if len(folders) >= 10:
+            buttons = []
+            for folder in folders:
+                buttons.append([InlineKeyboardButton(f'📁 {folder['name']}', callback_data=f"folder+{folder['fld_id']}")])
     else:
         text = "Something Went wrong"
-    await m.reply_text(text)
+    await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
