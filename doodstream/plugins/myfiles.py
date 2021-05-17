@@ -43,6 +43,7 @@ async def nxt(c, m):
     elif data['status'] == 200:
         text = "Select your file\n\n"
         folders = data['result']['folders'][fld : fld + 10]
+        print(fld)
         buttons = []
         for folder in folders:
             buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}")])
