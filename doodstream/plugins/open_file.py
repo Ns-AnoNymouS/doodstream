@@ -8,6 +8,7 @@ async def open_file(c, m):
     await m.answer()
     api_key = await c.db.get_credential_status(m.from_user.id)
     cmd, file_code, fld, fil = m.data.split('+')
+    print(fil)
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
     data_file = requests.get(files_url).json()
