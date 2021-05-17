@@ -27,9 +27,9 @@ async def myfiles(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
     data = requests.get(url).json()
-    if userdetails['status'] == 403:
+    if data['status'] == 403:
         text = "Send me the correct token"
-    elif userdetails['status'] == 200:
+    elif data['status'] == 200:
         text = "Select your file\n\n"
         folders = data['result']['folders'][:10]
         if len(folders) >= 10:
