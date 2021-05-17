@@ -46,7 +46,7 @@ async def open_file(c, m):
 
 
 @Client.on_callback_query(filters.regex('^fle'))
-async def open_file(c, m):
+async def openfile(c, m):
     await m.answer()
     api_key = await c.db.get_credential_status(m.from_user.id)
     cmd, folder_id, file_code, fld, fil = m.data.split('+')
