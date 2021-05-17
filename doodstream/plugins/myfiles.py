@@ -39,7 +39,7 @@ async def nxt(c, m):
     cmd, fld, fil = m.data.split("+")
     fld = int(fld)
     fil = int(fil)
-    print(fld, fil)
+    #print(fld, fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
     data = requests.get(url).json()
@@ -54,6 +54,7 @@ async def nxt(c, m):
         if len(folders) < 10:
             val = fil if fil >=0 else 0
             fil = fil + 11 if len(folders) == 0 else 11 - len(folders)
+            print(val, fil)
             files = data['result']['files'][val: fil]
             fil += 10
             for file in files:
@@ -66,7 +67,7 @@ async def nxt(c, m):
             button.append(InlineKeyboardButton('➡️', callback_data=f'nxt+{fld + 10}+{fil}'))
         buttons.append(button)
         if len(buttons) != 1:
-            print(fil)
+            #print(fil)
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
         else:
             return await m.message.edit("Something went wrong 🤔")
