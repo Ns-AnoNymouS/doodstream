@@ -22,7 +22,7 @@ async def myfiles(c, m):
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"folder+{file['file_code']}")])
         if len(buttons) > 10:
             buttons.pop()
-            buttons.append([InlineKeyboardButton('Next ➡️', callback_data='nxt+1+{11 - len(folders)}')])
+            buttons.append([InlineKeyboardButton('Next ➡️', callback_data='nxt+11+{11 - len(folders)}')])
         return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
     else:
         text = "Something Went wrong"
@@ -31,7 +31,7 @@ async def myfiles(c, m):
 
 @Client.on_callback_query(filters.regex('^nxt'))
 async def nxt(c, m):
-    cmd, num = m.data.split("+")
+    cmd, fld, fil = m.data.split("+")
     num = int(num)
     await m.answer()
     api_key = await c.db.get_credential_status(m.from_user.id)
