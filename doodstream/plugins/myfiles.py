@@ -41,7 +41,7 @@ async def nxt(c, m):
         text = "Token Expired"
     elif data['status'] == 200:
         text = "Select your file\n\n"
-        folders = data['result']['folders'][1 * num:11 * num]
+        folders = data['result']['folders'][10 * num:(10 * num) + 10]
         buttons = []
         for folder in folders:
             buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}")])
@@ -52,7 +52,7 @@ async def nxt(c, m):
         if len(buttons) > 10:
             buttons.pop()
             buttons.append([InlineKeyboardButton('Next ➡️', callback_data='nxt+1')])
-        return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons))
+        return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
     else:
         text = "Something Went wrong"
     await m.reply_text(text)
