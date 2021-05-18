@@ -29,7 +29,10 @@ async def default(c, m):
             if json_data['result'][0]['status'] == 'pending':
                 print(json_data)
             elif json_data['result'][0]['status'] == 'working':
-                await m.message.edit('Uploading')
+                try:
+                    await m.message.edit('Uploading')
+                except:
+                    pass
             else:
                 print(json_data)
                 break
