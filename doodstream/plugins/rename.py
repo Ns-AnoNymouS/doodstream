@@ -6,6 +6,7 @@ from ..tools.progress_bar import humanbytes, TimeFormatter
 
 @Client.on_callback_query(filters.regex('^rename'))
 async def remame(c, m):
+    await m.answer()
     api_key = await c.db.get_credential_status(m.from_user.id)
     fld = False
     try:
