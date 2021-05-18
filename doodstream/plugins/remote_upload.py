@@ -53,6 +53,7 @@ async def default(c, m):
                     await asyncio.sleep(3)
                 except Exception as e:
                     break
+    print(5)
 
     try:
         if file['status'] == 'error':
