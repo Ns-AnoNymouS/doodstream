@@ -23,7 +23,7 @@ async def myfiles(c, m):
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}+0+{0 - len(all_folders)}")])
         if len(buttons) > 10:
             buttons.pop()
-            buttons.append([InlineKeyboardButton('➡️', callback_data=f'nxt+10+{0 - len(all_folders)}')])
+            buttons.append([InlineKeyboardButton('➡️', callback_data=f'nxt+10+{10 - len(all_folders)}')])
         if len(buttons) != 0:
             return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), quote=True)
         else:
@@ -38,7 +38,6 @@ async def nxt(c, m):
     await m.answer()
     cmd, fld, fil = m.data.split("+")
     fld = int(fld)
-    fil = int(fil) + 10
     #print(fld, fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
@@ -52,9 +51,9 @@ async def nxt(c, m):
         for folder in folders:
             buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}+0+0")])
         if len(folders) < 10:
-            val = fil if fil > 0 else 0
+            val = fil - 10 if fil > 10 else 0
             print(val, fil+10)
-            files = data['result']['files'][val: fil + 10]
+            files = data['result']['files'][val: fil]
             for file in files:
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}+{fld}+{fil}")])
         button = []
