@@ -51,6 +51,19 @@ async def tg_upload(c, m):
     fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
     if st[0] == "OK":
         dic = {"status": st[0], "file_id": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
+        text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
+        text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
+        text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
+        text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
+        text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
+        buttons = [[
+            InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
+            InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
+            ],[
+            InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}")
+        ]]
+        return await msg.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
+
     else:
         return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
 
