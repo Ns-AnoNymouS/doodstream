@@ -5,7 +5,7 @@ from ..tools.progress_bar import progress_bar
 from ..config import Config
 
 
-@Client.on_message((filters.document|filters.video))
+@Client.on_message((filters.document|filters.video) & filters.private & filters.incoming)
 async def tg_upload(c, m):
     msg = await m.reply_text("𝖢𝗁𝖾𝖼𝗄𝗂𝗇𝗀....🕵️‍♂️", quote=True)
 
