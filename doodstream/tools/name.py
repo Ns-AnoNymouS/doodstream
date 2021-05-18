@@ -19,7 +19,7 @@ async def isdownloadable_link(link):
                 content_type = response.content_type
                 filesize = int(response.headers.get("Content-Length", 0))
                 if 'text' in content_type.lower() or 'html' in content_type.lower() or filesize < 100:
-                    filename = link.rsplit("/")[0]
+                    filename = link.rsplit("/")[-1]
                     filename = await replace(filename)
                     return False, filename
                 else:
