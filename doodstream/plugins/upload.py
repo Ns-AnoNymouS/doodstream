@@ -39,7 +39,8 @@ async def tg_upload(c, m):
             return
         except:
             pass
-    await msg.edit("Downloaded Sucessfully\n\nTrying to upload to doodstream.con")
+
+    await msg.edit("Downloaded Sucessfully\n\nTrying to upload to doodstream.com")
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
     data = requests.get(url).json()
@@ -48,6 +49,7 @@ async def tg_upload(c, m):
     post_files = {"file": (filename, open(file_location, "rb"))}
     post_data = {"api_key": api_key}
     up = requests.post(url_for_upload, data=post_data, files=post_files)
+    st = re.findall(r'name="st">(.*?)</text' , str(up.text))
     fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
     if st[0] == "OK":
         dic = {"status": st[0], "file_code": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
