@@ -11,6 +11,13 @@ async def actions(c, m):
     data = requests.get(url).json()
     remote_list = requests.get(list_uploads).json()
     print(data, remote_list)
+    text = "--**Remote Upload:**--\n\n"
+    text += f"**Total Slots:** {data['total_slots']}\n"
+    text += f"**Used Slots:** {data['used_slots']}\n\n\n"
+    if data['used_slots'] != 0:
+        text += "--**Active Uploads:**--\n\n"
+        text += f"**Total Slots:** {data['total_slots']}\n"
+        text += f"**Used Slots:** {data['used_slots']}\n\n\n"
     """buttons = [[
     ]]
     await m.reply_text()"""
