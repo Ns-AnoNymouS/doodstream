@@ -28,28 +28,32 @@ async def default(c, m):
         return await m.message.edit('Your URL already exist in the queue 🙄')
     await m.message.edit('Adding to queue...')
 
-    while True:
-        link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
-        json_data = requests.get(link).json()
-        try:
-            if json_data['result'][0]['status'] == 'pending':
+    link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
+    json_data = requests.get(link).json()
+    for file in json_data['result']:
+        if file['file_code'] == data['result']['filecode']:
+            while True:
+                link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
+                json_data = requests.get(link).json()
                 try:
-                    await m.message.edit(f"Your task was added to queue. Uploading start soon")
-                except:
-                    pass
-            elif json_data['result'][0]['status'] == 'working':
-                try:
-                    await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(json_data['result'][0]['bytes_total'])}\n**Done:** {humanbytes(json_data['result'][0]['bytes_downloaded'])}\n**Started on:** {json_data['result'][0]['created']}")
-                except:
-                    pass
-            else:
-                break
-            asyncio.sleep(3)
-        except Exception as e:
-            break
+                    if file['status'] == 'pending':
+                        try:
+                            await m.message.edit(f"Your task was added to queue. Uploading start soon")
+                        except:
+                            pass
+                    elif file['status'] == 'working':
+                        try:
+                            await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(file['bytes_total'])}\n**Done:** {humanbytes(file['bytes_downloaded'])}\n**Started on:** {file['created']}")
+                        except:
+                            pass
+                    else:
+                        break
+                    asyncio.sleep(3)
+                except Exception as e:
+                    break
 
     try:
-        if json_data['result'][0]['status'] == 'error':
+        if file['status'] == 'error':
             await m.message.edit('The link you provided is not valid or not in supporting Sites so please try with different link')
     except:
         file_code = data['result']['filecode']
