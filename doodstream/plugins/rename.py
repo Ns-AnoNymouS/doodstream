@@ -15,9 +15,9 @@ async def remame(c, m):
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     data = requests.get(url).json()
 
-    await Client.ask(
+    newname = await Client.ask(
         self=c,
         chat_id=m.chat.id,
-        text="Send me the New file Name",
+        text="**FileName:** {data['result'][0]['title']}\n\nSend me the New file Name",
         filters=filters.text
     )
