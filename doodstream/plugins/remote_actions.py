@@ -16,8 +16,9 @@ async def actions(c, m):
     text += f"**Used Slots:** {data['used_slots']}\n\n\n"
     if data['used_slots'] != 0:
         text += "--**Active Uploads:**--\n\n"
-        text += f"**Total Slots:** {data['total_slots']}\n"
-        text += f"**Used Slots:** {data['used_slots']}\n\n\n"
+        for file in remote_list['result']:
+            text += f"**Total Slots:** {data['total_slots']}\n"
+            text += f"**Used Slots:** {data['used_slots']}\n\n\n"
     """buttons = [[
     ]]
     await m.reply_text()"""
