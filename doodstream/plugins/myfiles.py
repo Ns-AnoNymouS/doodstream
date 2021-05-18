@@ -38,6 +38,7 @@ async def nxt(c, m):
     await m.answer()
     cmd, fld, fil = m.data.split("+")
     fld = int(fld)
+    fil = int(fil)
     #print(fld, fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
