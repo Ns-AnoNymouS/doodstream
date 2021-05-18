@@ -4,7 +4,7 @@ import time
 import requests
 from pyrogram import Client, filters
 from ..tools.progress_bar import progress_bar
-from ..config import Config
+from ..config import Config, humanbytes, TimeFormatter
 
 
 @Client.on_message((filters.document|filters.video) & filters.private & filters.incoming)
