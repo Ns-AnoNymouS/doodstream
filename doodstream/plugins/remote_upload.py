@@ -26,6 +26,8 @@ async def default(c, m):
         json_data = requests.get(link).json()
         if json_data['result'][0]['status'] == 'pending':
             print(json_data)
+        elif json_data['result'][0]['status'] == 'working':
+            print(json_data)
         else:
             break
     print(data)
