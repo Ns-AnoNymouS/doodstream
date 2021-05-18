@@ -35,7 +35,6 @@ async def default(c, m):
                 break
             asyncio.sleep(3)
         except Exception as e:
-            print(json_data, e)
             break
 
     if json_data['result'][0]['status'] == 'error':
