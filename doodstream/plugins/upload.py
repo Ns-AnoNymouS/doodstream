@@ -7,7 +7,7 @@ from ..config import Config
 
 @Client.on_message((filters.document|filters.video))
 async def tg_upload(c, m):
-    msg = await m.reply_text("𝖢𝗁𝖾𝖼𝗄𝗂𝗇𝗀....🕵️‍♂️")
+    msg = await m.reply_text("𝖢𝗁𝖾𝖼𝗄𝗂𝗇𝗀....🕵️‍♂️", quote=True)
 
     start_time = time.time()
     id = f"{time.time()}/{m.from_user.id}"
