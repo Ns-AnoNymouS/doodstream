@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 @Client.on_message(filters.command('remote_actions'))
-async def actions(c, m):
+async def actions(c, m, cb=False):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/urlupload/slots?key={api_key}"
     list_uploads = f"https://doodapi.com/api/urlupload/list?key={api_key}"
@@ -26,4 +26,7 @@ async def actions(c, m):
             InlineKeyboardButton("🗑 Clear All", callback_data="clearall")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-    await m.reply_text(text=text, reply_markup=reply_markup, quote=True)
+    if not cb:
+       await m.reply_text(text=text, reply_markup=reply_markup, quote=True)
+    else:
+       await m.message.edit(text=text, reply_markup=reply_markup)
