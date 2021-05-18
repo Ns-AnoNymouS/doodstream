@@ -36,4 +36,7 @@ async def actions(c, m, cb=False):
 async def cb_action(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     cmd, act = m.data.split('+')
-    url = f"https://doodapi.com/api/urlupload/actions?key={api_key}&{}"
+    url = f"https://doodapi.com/api/urlupload/actions?key={api_key}&{act}=1"
+    requests.get(url).json()
+    await actions(c, m, cb=True)
+    
