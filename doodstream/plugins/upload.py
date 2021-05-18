@@ -1,5 +1,6 @@
 import os
 import time
+import requests
 from pyrogram import Client, filters
 from ..tools.progress_bar import progress_bar
 from ..config import Config
