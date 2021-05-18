@@ -2,8 +2,6 @@ import time
 from pyrogram import Client, filters
 from ..tools.progress_bar import progress_bar
 from ..config import Config
-import doodstream
-from doodstream import DoodStream
 
 
 @Client.on_message((filters.document|filters.video))
@@ -40,6 +38,6 @@ async def tg_upload(c, m):
             pass
 
     api_key = await c.db.get_credential_status(m.from_user.id)
-    d = DoodStream(api_key)
-    data = d.local_upload(file_location)
+    url = f"https://doodapi.com/api/upload/server?key={api_key}" 
+    data = requests.get(url).json()
     print(data)
