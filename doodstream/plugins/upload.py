@@ -39,7 +39,7 @@ async def tg_upload(c, m):
             return
         except:
             pass
-
+    await msg.edit("Downloaded Sucessfully\n\nTrying to upload to doodstream.con")
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
     data = requests.get(url).json()
