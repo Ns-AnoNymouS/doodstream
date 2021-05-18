@@ -3,6 +3,7 @@ import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.name import isdownloadable_link
+from ..tools.progress_bar import humanbytes, TimeFormatter
 
 
 @Client.on_message(filters.regex('.*http.*'))
@@ -30,7 +31,7 @@ async def default(c, m):
                 print(json_data)
             elif json_data['result'][0]['status'] == 'working':
                 try:
-                    await m.message.edit(f"Uploading\n\nTotal Size: {json_data['result'][0]['bytes_total']}")
+                    await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(json_data['result'][0]['bytes_total'])}\n**Done:** {humanbytes(json_data['result'][0]['bytes_downloaded'])}\n**Started on:** {json_data['result'][0]['created']}")
                 except:
                     pass
             else:
