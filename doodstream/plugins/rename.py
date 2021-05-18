@@ -37,7 +37,7 @@ async def remame(c, m):
     data = requests.get(url).json()
 
     if data['status'] == 200:
-        text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
+        text = f"**📁 Title:** {new_title.text}\n\n"
         text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
         text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
         text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
