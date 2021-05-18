@@ -10,7 +10,8 @@ async def actions(c, m):
     list_uploads = f"https://doodapi.com/api/urlupload/list?key={api_key}"
     data = requests.get(url).json()
     remote_list = requests.get(list_uploads).json()
-    print(data, remote_list)
+
+    reply_markup = None
     text = "--**Remote Upload:**--\n\n"
     text += f"**Total Slots:** {data['total_slots']}\n"
     text += f"**Used Slots:** {data['used_slots']}\n\n\n"
@@ -24,4 +25,5 @@ async def actions(c, m):
             InlineKeyboardButton("", callback_data="")
             InlineKeyboardButton("", callback_data="")
         ]]
-    await m.reply_text(text)
+        reply_markup = InlineKeyboardMarkup(buttons)
+    await m.reply_text(text=text, reply_markup=reply_markup, quote=True)
