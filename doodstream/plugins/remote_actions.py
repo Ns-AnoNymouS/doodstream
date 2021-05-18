@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-@Client.on_message(filters.command('remote_actions))
+@Client.on_message(filters.command('remote_actions'))
 async def actions(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/urlupload/slots?key={api_key}"
