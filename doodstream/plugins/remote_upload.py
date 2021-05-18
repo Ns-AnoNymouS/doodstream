@@ -35,5 +35,5 @@ async def default(c, m):
         except Exception as e:
             print(json_data, e)
             break
-    print(data)
-    await m.message.edit(json_data)
+    if json_data['result'][0]['status'] == 'error':
+        await m.message.edit(json_data)
