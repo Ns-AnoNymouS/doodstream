@@ -22,7 +22,8 @@ async def actions(c, m, cb=False):
             text += f"**📊 Status:** {file['status']}\n\n\n"
         buttons = [[
             InlineKeyboardButton("🔄 Restart Errors", callback_data="action+restart_errors"),
-            InlineKeyboardButton("🛑 Clear Errors", callback_data="action+clear_errors"),
+            InlineKeyboardButton("🛑 Clear Errors", callback_data="action+clear_errors")
+            ],[
             InlineKeyboardButton("🗑 Clear All", callback_data="action+clear_all")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
