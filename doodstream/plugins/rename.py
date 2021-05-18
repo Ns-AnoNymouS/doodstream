@@ -33,7 +33,7 @@ async def remame(c, m):
     rename_url = f"https://doodapi.com/api/file/rename?key={api_key}&file_code={file_code}&title={new_title.text}"
     sts = requests.get(rename_url).json()
     if sts['status'] != 200:
-        return await c.send_message(m.from_user.id,  "Unable to rename the file")
+        return await c.send_message(m.from_user.id,  "Unable to rename the file\n**Reason:** {sts['msg']}")
 
     if data['status'] == 200:
         text = f"**📁 Title:** {new_title.text}\n\n"
