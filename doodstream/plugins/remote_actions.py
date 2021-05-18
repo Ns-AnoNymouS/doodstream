@@ -21,12 +21,19 @@ async def actions(c, m, cb=False):
             text += f"**🔗 Url:** {file['remote_url']}\n"
             text += f"**📊 Status:** {file['status']}\n\n\n"
         buttons = [[
-            InlineKeyboardButton("🔄 Restart Errors", callback_data="restarterrors"),
-            InlineKeyboardButton("🛑 Clear Errors", callback_data="clearerrors"),
-            InlineKeyboardButton("🗑 Clear All", callback_data="clearall")
+            InlineKeyboardButton("🔄 Restart Errors", callback_data="action+restart_errors"),
+            InlineKeyboardButton("🛑 Clear Errors", callback_data="action+clear_errors"),
+            InlineKeyboardButton("🗑 Clear All", callback_data="action+clear_all")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
     if not cb:
         await m.reply_text(text=text, reply_markup=reply_markup, quote=True)
     else:
         await m.message.edit(text=text, reply_markup=reply_markup)
+
+
+@Client.on_callback_query(filters.regex('^action'))
+async def cb_action(c, m):
+    api_key = await c.db.get_credential_status(m.from_user.id)
+    cmd, act = m.data.split('+')
+    url = f"https://doodapi.com/api/urlupload/actions?key={api_key}&{}"
