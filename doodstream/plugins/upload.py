@@ -50,7 +50,9 @@ async def tg_upload(c, m):
     up = requests.post(url_for_upload, data=post_data, files=post_files)
     fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
     if st[0] == "OK":
-        dic = {"status": st[0], "file_id": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
+        dic = {"status": st[0], "file_code": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
+        url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={dic['file_code']}"
+        data = requests.get(url).json()
         text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
         text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
         text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
@@ -58,7 +60,7 @@ async def tg_upload(c, m):
         text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
         buttons = [[
             InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
-            InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
+            InlineKeyboardButton("Download 📥", url=f"{dic['file_url']}"),
             ],[
             InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}")
         ]]
