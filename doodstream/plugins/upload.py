@@ -2,6 +2,7 @@ import time
 from pyrogram import Client, filters
 from ..tools.progress_bar import progress_bar
 from ..config import Config
+import doodstream
 from doodstream import DoodStream
 
 
