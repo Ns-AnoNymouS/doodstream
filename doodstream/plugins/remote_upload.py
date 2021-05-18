@@ -36,6 +36,7 @@ async def default(c, m):
                 link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
                 json_data = requests.get(link).json()
                 try:
+                    file = file
                     if file['status'] == 'pending':
                         try:
                             await m.message.edit(f"Your task was added to queue. Uploading start soon")
