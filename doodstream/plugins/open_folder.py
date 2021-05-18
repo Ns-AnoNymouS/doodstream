@@ -25,7 +25,7 @@ async def folder(c, m):
             fil = 10 - len(folders)
         if len(folders) < 10:
             val = fil - 10 if fil > 10 else 0
-            print(val, fil)
+            #print(val, fil)
             files = data['result']['files'][val: fil + 1]
             for file in files:
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"fle+{folder_id}+{file['file_code']}+{fld}+{fil}")])
