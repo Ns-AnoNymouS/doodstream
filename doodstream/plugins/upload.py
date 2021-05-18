@@ -43,6 +43,7 @@ async def tg_upload(c, m):
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
     data = requests.get(url).json()
     url_for_upload = data['result']
+    filename = file_location.split("/")[-1]
     post_files = {"file": (filename, open(file_location, "rb"))}
     post_data = {"api_key": api_key}
     up = requests.post(url_for_upload, data=post_data, files=post_files)
