@@ -28,10 +28,11 @@ async def default(c, m):
             if json_data['result'][0]['status'] == 'pending':
                 print(json_data)
             elif json_data['result'][0]['status'] == 'working':
-                print(json_data)
+                await m.message.edit('Uploading')
             else:
                 print(json_data)
                 break
+            asyncio.sleep(3)
         except Exception as e:
             print(json_data, e)
             break
@@ -39,3 +40,4 @@ async def default(c, m):
     if json_data['result'][0]['status'] == 'error':
         await m.message.edit('The link you provided is not valid or not in supporting Sites so please try with different link')
     else:
+        await m.message.edit()
