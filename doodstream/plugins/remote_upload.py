@@ -26,20 +26,23 @@ async def default(c, m):
     data = requests.get(url).json()
     if data['status'] == 400:
         return await m.message.edit('Your URL already exist in the queue 🙄')
+    await m.message.edit('Adding to queue...')
 
     while True:
         link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
         json_data = requests.get(link).json()
         try:
             if json_data['result'][0]['status'] == 'pending':
-                print(json_data)
+                try:
+                    await m.message.edit(f"Your task was added to queue. Uploading start soon")
+                except:
+                    pass
             elif json_data['result'][0]['status'] == 'working':
                 try:
                     await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(json_data['result'][0]['bytes_total'])}\n**Done:** {humanbytes(json_data['result'][0]['bytes_downloaded'])}\n**Started on:** {json_data['result'][0]['created']}")
                 except:
                     pass
             else:
-                print(json_data)
                 break
             asyncio.sleep(3)
         except Exception as e:
