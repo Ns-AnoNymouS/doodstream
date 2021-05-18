@@ -22,7 +22,7 @@ async def tg_upload(c, m):
     except:
         pass
 
-    file_location = await media_msg.download(
+    file_location = await m.download(
         file_name=download_location,
         progress=progress_bar,
         progress_args=("Downloading:", start_time, c, msg, id)
