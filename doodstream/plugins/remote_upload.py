@@ -48,6 +48,7 @@ async def default(c, m):
                         except:
                             pass
                     else:
+                        print(8)
                         break
                     await asyncio.sleep(3)
                 except Exception as e:
