@@ -20,7 +20,7 @@ async def remame(c, m):
         chat_id=m.from_user.id,
         text=f"**FileName:** {data['result'][0]['title']}\n\nSend me the New file Name",
         filters=filters.text
-    ).text
-    rename_url = "https://doodapi.com/api/file/rename?key={api_key}&file_code={file_code}&title={new_title}"
+    )
+    rename_url = "https://doodapi.com/api/file/rename?key={api_key}&file_code={file_code}&title={new_title.text}"
     data = requests.get(rename_url).json()
     print(data)
