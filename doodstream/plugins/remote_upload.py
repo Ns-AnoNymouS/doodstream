@@ -1,3 +1,4 @@
+import asyncio
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -40,4 +41,4 @@ async def default(c, m):
     if json_data['result'][0]['status'] == 'error':
         await m.message.edit('The link you provided is not valid or not in supporting Sites so please try with different link')
     else:
-        await m.message.edit()
+        await m.message.edit('sucess')
