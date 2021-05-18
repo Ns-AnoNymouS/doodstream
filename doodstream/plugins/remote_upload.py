@@ -31,8 +31,8 @@ async def default(c, m):
                 print(json_data)
             else:
                 break
-        except:
-            print(json_data)
+        except Exception as e:
+            print(json_data, e)
             break
     print(data)
     await m.message.edit(json_data)
