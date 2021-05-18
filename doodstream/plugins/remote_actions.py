@@ -15,7 +15,7 @@ async def actions(c, m, cb=False):
     text = "--**Remote Upload:**--\n\n"
     text += f"**Total Slots:** {data['total_slots']}\n"
     text += f"**Used Slots:** {data['used_slots']}\n\n\n"
-    if data['used_slots'] != 0:
+    if len(remote_list['result']) != 0:
         text += "--**Active Uploads:**--\n\n"
         for file in remote_list['result']:
             text += f"**🔗 Url:** {file['remote_url']}\n"
