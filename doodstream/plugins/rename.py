@@ -21,4 +21,4 @@ async def remame(c, m):
         text=f"**FileName:** {data['result'][0]['title']}\n\nSend me the New file Name",
         filters=filters.text
     )
-    print(newname)
+    print(newname.text)
