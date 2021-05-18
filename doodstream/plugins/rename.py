@@ -22,5 +22,5 @@ async def remame(c, m):
         filters=filters.text
     )
     rename_url = f"https://doodapi.com/api/file/rename?key={api_key}&file_code={file_code}&title={new_title.text}"
-    data = requests.post(rename_url).json()
+    data = requests.get(rename_url).json()
     print(data, new_title.text)
