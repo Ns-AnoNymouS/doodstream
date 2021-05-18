@@ -46,7 +46,8 @@ async def tg_upload(c, m):
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
     data = requests.get(url).json()
     url_for_upload = data['result']
-    if data['status'] != 200:
+    if  data['status'] == 403:
+        return await msg.edit(text="Your TOKEN was expired. So please logout and login again")
         
     filename = file_location.split("/")[-1]
     post_files = {"file": (filename, open(file_location, "rb"))}
