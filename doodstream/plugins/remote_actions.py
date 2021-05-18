@@ -27,6 +27,6 @@ async def actions(c, m, cb=False):
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
     if not cb:
-       await m.reply_text(text=text, reply_markup=reply_markup, quote=True)
+        await m.reply_text(text=text, reply_markup=reply_markup, quote=True)
     else:
-       await m.message.edit(text=text, reply_markup=reply_markup)
+        await m.message.edit(text=text, reply_markup=reply_markup)
