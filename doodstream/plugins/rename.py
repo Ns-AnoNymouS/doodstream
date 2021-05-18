@@ -7,6 +7,7 @@ from ..tools.progress_bar import humanbytes, TimeFormatter
 @Client.on_callback_query(filters.regex('^rename'))
 async def remame(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
+    fld = False
     try:
         cmd, file_code, fld, fil = m.data.split('+')
     except:
@@ -46,8 +47,9 @@ async def remame(c, m):
             InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
             ],[
             InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}"),
-            InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil}")
         ]]
+        if fld:
+            buttons[1].append(InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil}"))
         return await c.send_message(m.from_user.id, text, reply_markup=InlineKeyboardMarkup(buttons))
 
     elif data['status'] == 451:
