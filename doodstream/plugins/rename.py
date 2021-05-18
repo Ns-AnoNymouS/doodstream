@@ -5,4 +5,10 @@ from ..tools.progress_bar import humanbytes, TimeFormatter
 
 
 @Client.on_callback_query(filters.regex('^rename'))
-aaync def remame(c, m):
+async def remame(c, m):
+    await Client.ask(
+        self=c,
+        chat_id=m.chat.id,
+        text="Send me the New file Name",
+        filters=filters.text
+    )
