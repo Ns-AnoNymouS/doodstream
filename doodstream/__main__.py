@@ -7,6 +7,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from .config import Config
 from pyrogram import Client
+from pyromod import listen
 from .database.database import Database
 
 
