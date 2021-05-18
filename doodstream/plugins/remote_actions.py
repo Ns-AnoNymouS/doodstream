@@ -21,9 +21,9 @@ async def actions(c, m):
             text += f"**🔗 Url:** {file['remote_url']}\n"
             text += f"**📊 Status:** {file['status']}\n\n\n"
         buttons = [[
-            InlineKeyboardButton("Restart Errors", callback_data="restarterrors"),
-            InlineKeyboardButton("Clear Errors", callback_data="clearerrors"),
-            InlineKeyboardButton("Clear All", callback_data="clearall")
+            InlineKeyboardButton("🔄 Restart Errors", callback_data="restarterrors"),
+            InlineKeyboardButton("🛑 Clear Errors", callback_data="clearerrors"),
+            InlineKeyboardButton("🗑 Clear All", callback_data="clearall")
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
     await m.reply_text(text=text, reply_markup=reply_markup, quote=True)
