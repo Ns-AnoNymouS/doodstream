@@ -20,6 +20,6 @@ async def default(c, m):
     upload_url = m.message.reply_to_message.text
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}"
-    data = requests.get(url).json
+    data = requests.get(url).text
     print(data)
     await m.message.edit(data)
