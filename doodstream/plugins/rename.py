@@ -18,7 +18,7 @@ async def remame(c, m):
     newname = await Client.ask(
         self=c,
         chat_id=m.from_user.id,
-        text="**FileName:** {data['result'][0]['title']}\n\nSend me the New file Name",
+        text=f"**FileName:** {data['result'][0]['title']}\n\nSend me the New file Name",
         filters=filters.text
     )
     print(newname)
