@@ -37,23 +37,22 @@ async def default(c, m):
                 json_data = requests.get(link).json()
                 try:
                     file = file
-                    if file['status'] == 'pending':
+                    index = json_data['result'].index(file)
+                    if json_data['result'][index]['status'] == 'pending':
                         try:
                             await m.message.edit(f"Your task was added to queue. Uploading start soon")
                         except:
                             pass
-                    elif file['status'] == 'working':
+                    elif json_data['result'][index]['status'] == 'working':
                         try:
                             await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(file['bytes_total'])}\n**Done:** {humanbytes(file['bytes_downloaded'])}\n**Started on:** {file['created']}")
                         except:
                             pass
                     else:
-                        print(8)
                         break
                     await asyncio.sleep(3)
                 except Exception as e:
                     break
-    print(5)
 
     try:
         if file['status'] == 'error':
