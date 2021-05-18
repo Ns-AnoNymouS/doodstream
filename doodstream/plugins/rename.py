@@ -11,7 +11,9 @@ async def remame(c, m):
         cmd, file_code, fld, fil = m.data.split('+')
     except:
         cmd, file_code = m.data.split('+')
+
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
+    data = requests.get(url).json()
 
     await Client.ask(
         self=c,
