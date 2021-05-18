@@ -3,6 +3,7 @@ import re
 import time
 import requests
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import progress_bar, humanbytes, TimeFormatter
 from ..config import Config
 
