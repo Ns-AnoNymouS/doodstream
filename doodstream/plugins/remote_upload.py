@@ -30,7 +30,7 @@ async def default(c, m):
                 print(json_data)
             elif json_data['result'][0]['status'] == 'working':
                 try:
-                    await m.message.edit('Uploading')
+                    await m.message.edit(f"Uploading\n\nTotal Size: {json_data['result'][0]['bytes_total']}")
                 except:
                     pass
             else:
