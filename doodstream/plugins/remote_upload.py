@@ -30,6 +30,7 @@ async def default(c, m):
             elif json_data['result'][0]['status'] == 'working':
                 print(json_data)
             else:
+                print(json_data)
                 break
         except Exception as e:
             print(json_data, e)
