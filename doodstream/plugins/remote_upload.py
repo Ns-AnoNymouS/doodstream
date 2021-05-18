@@ -48,7 +48,7 @@ async def default(c, m):
                             pass
                     else:
                         break
-                    asyncio.sleep(3)
+                    await asyncio.sleep(3)
                 except Exception as e:
                     break
 
