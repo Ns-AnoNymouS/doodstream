@@ -12,7 +12,7 @@ async def remote_upload(c, m):
         InlineKeyboardButton('Default', callback_data='default'),
         InlineKeyboardButton('Rename', callback_data='rename')
     ]]
-    await m.reply_text(f'File Name: {name}', reply_markup=InlineKeyboardMarkup(buttons))
+    await m.reply_text(f'**File Name:** `{name}`', reply_markup=InlineKeyboardMarkup(buttons), quote=True)
 
 
 @Client.on_callback_query(filters.regex('^default$'))
