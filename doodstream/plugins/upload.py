@@ -40,4 +40,5 @@ async def tg_upload(c, m):
 
     api_key = await c.db.get_credential_status(m.from_user.id)
     d = DoodStream(api_key)
-    d.local_upload(file_location)
+    data = d.local_upload(file_location)
+    print(data)
