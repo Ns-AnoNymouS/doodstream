@@ -17,8 +17,11 @@ async def actions(c, m):
     if data['used_slots'] != 0:
         text += "--**Active Uploads:**--\n\n"
         for file in remote_list['result']:
-            text += f"**Total Slots:** {data['total_slots']}\n"
-            text += f"**Used Slots:** {data['used_slots']}\n\n\n"
-    """buttons = [[
-    ]]
-    await m.reply_text()"""
+            text += f"**🔗 Url:** {file['remote_url']}\n"
+            text += f"**📊 Status:** {file['status']}\n\n\n"
+        buttons = [[
+            InlineKeyboardButton("", callback_data="")
+            InlineKeyboardButton("", callback_data="")
+            InlineKeyboardButton("", callback_data="")
+        ]]
+    await m.reply_text(text)
