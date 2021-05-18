@@ -35,7 +35,7 @@ async def default(c, m):
             file = file
             index = json_data['result'].index(file)
 
-     while True:
+    while True:
         link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
         json_data = requests.get(link).json()
         try:
