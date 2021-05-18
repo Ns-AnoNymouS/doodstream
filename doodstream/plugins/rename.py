@@ -16,6 +16,14 @@ async def remame(c, m):
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     data = requests.get(url).json()
 
+    files_url = f"https://doodapi.com/api/file/list?key={api_key}"
+    data_file = requests.get(files_url).json()
+    files = data_file['result']['files'] 
+    for file in files:
+        if file['file_code'] == file_code:
+            file_data = file
+            break
+    print(file_data)
     new_title = await Client.ask(
         self=c,
         chat_id=m.from_user.id,
@@ -26,15 +34,7 @@ async def remame(c, m):
     data = requests.get(rename_url).json()
     print(data, new_title.text)
 
-    url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
-    files_url = f"https://doodapi.com/api/file/list?key={api_key}"
-    data_file = requests.get(files_url).json()
-    files = data_file['result']['files'] #.find_one({'filecode':file_code})
-    for file in files:
-        if file['file_code'] == file_code:
-            file_data = file
-            break
-    data = requests.get(url).json()
+
 
     if data['status'] == 200:
         text = f"**📁 Title:** {new_title.text}\n\n"
