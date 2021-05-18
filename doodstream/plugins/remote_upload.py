@@ -1,7 +1,7 @@
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from ..name import isdownloadable_link
+from ..tools.name import isdownloadable_link
 
 
 @Client.on_message(filters.regex('.*http.*'))
