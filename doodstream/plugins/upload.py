@@ -1,5 +1,7 @@
+import time
 from pyrogram import Client, filters
 from ..tools.progress_bar import progress_bar
+from ..config import Config
 
 
 @Client.on_message((filters.document|filters.video))
