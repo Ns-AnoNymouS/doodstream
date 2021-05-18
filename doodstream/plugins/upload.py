@@ -38,5 +38,6 @@ async def tg_upload(c, m):
         except:
             pass
 
-    
-    d = DoodStream("API_KEY")
+    api_key = await c.db.get_credential_status(m.from_user.id)
+    d = DoodStream(api_key)
+    d.local_upload(file_location)
