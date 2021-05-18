@@ -16,6 +16,7 @@ async def remote_upload(c, m):
 
 
 @Client.on_callback_query(filters.regex('^default$'))
+async def default(c, m):
     upload_url = m.reply_to_message.text
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}"
