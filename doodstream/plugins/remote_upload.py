@@ -24,7 +24,7 @@ async def default(c, m):
     while True:
         link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
         json_data = requests.get(link).json()
-        if json_data['result']['status'] == pending:
+        if json_data['result'][0]['status'] == pending:
             print(json_data)
         else:
             break
