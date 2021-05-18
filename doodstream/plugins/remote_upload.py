@@ -1,7 +1,7 @@
 import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from ..name import 
 
 @Client.on_message(filters.regex('.*http.*'))
 async def remote_upload(c, m):
