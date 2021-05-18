@@ -35,5 +35,7 @@ async def default(c, m):
         except Exception as e:
             print(json_data, e)
             break
+
     if json_data['result'][0]['status'] == 'error':
-        await m.message.edit(json_data)
+        await m.message.edit('The link you provided is not valid or not in supporting Sites so please try with different link')
+    else:
