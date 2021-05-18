@@ -47,5 +47,9 @@ async def tg_upload(c, m):
     post_files = {"file": (filename, open(file_location, "rb"))}
     post_data = {"api_key": api_key}
     up = requests.post(url_for_upload, data=post_data, files=post_files)
-    print(data)
-    print(up.text)
+    fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
+    if st[0] == "OK":
+        return {"status": st[0], "file_id": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
+    else:
+        return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
+
