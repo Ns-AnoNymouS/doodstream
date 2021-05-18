@@ -7,7 +7,7 @@ from ..tools.name import isdownloadable_link
 @Client.on_message(filters.regex('.*http.*'))
 async def remote_upload(c, m):
     upload_url = m.text
-    status, name = isdownloadable_link(upload_url)
+    status, name = await isdownloadable_link(upload_url)
     buttons = [[
         InlineKeyboardButton('Default', callback_data='default'),
         InlineKeyboardButton('Rename', callback_data='rename')
