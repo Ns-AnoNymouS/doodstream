@@ -25,7 +25,7 @@ async def open_file(c, m):
         text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
         text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
         buttons = [[
-            InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
+            InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}+{fld}+{fil}"),
             InlineKeyboardButton("Download 📥", url=f"{file_data['download_url']}"),
             ],[
             InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}"),
