@@ -26,7 +26,7 @@ async def myfiles(c, m):
         if len(folders) < 10:
             files = data['result']['files'][:11 - len(folders)]
             for file in files:
-                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}+0+{0 - len(all_folders)}")])
+                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}+0+{10 - len(all_folders)}")])
         if len(buttons) > 10:
             buttons.pop()
             buttons.append([InlineKeyboardButton('➡️', callback_data=f'nxt+10+{20 - len(all_folders)}')])
