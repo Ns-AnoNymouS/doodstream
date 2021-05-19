@@ -10,8 +10,12 @@ async def actions(c, m, cb=False):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/urlupload/slots?key={api_key}"
     list_uploads = f"https://doodapi.com/api/urlupload/list?key={api_key}"
-    data = requests.get(url).json()
-    remote_list = requests.get(list_uploads).json()
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        data = await loop.run_in_executor(pool, requests.get, url)
+        remote_list = await loop.run_in_executor(pool, requests.get, list_uploads)
+    data = data.json()
+    remote_list = remote_list.json()
 
     reply_markup = None
     text = "--**Remote Upload:**--\n\n"
