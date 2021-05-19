@@ -12,7 +12,7 @@ async def remote_upload(c, m):
     status, name = await isdownloadable_link(upload_url)
     buttons = [[
         InlineKeyboardButton('Default', callback_data='default+False'),
-        InlineKeyboardButton('Rename', callback_data='default+True)
+        InlineKeyboardButton('Rename', callback_data='default+True')
     ]]
     await m.reply_text(f'**File Name:** `{name}`', reply_markup=InlineKeyboardMarkup(buttons), quote=True)
 
