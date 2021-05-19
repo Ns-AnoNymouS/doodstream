@@ -31,12 +31,3 @@ async def token(c, m):
         else:
             text = "Something Went wrong"
         await m.reply_text(text)
-
-
-@Client.on_callback_query(filters.private & filters.incoming)
-async def token_check(c, m):
-    api_key = await c.db.get_credential_status(m.from_user.id)
-    if not api_key:
-        return await m.reply_text("You didn't Authorize me yet")
-    await m.reply_text(api_key)
-    await m.continue_propagation()
