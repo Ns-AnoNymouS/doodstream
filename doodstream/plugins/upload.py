@@ -55,6 +55,7 @@ async def tg_upload(c, m):
     up = requests.post(url_for_upload, data=post_data, files=post_files)
     st = re.findall(r'name="st">(.*?)</text' , str(up.text))
     fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
+    os.remove(file_location)
     if st[0] == "OK":
         dic = {"status": st[0], "file_code": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
         url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={dic['file_code']}"
