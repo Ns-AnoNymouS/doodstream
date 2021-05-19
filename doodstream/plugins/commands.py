@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-@Client.on_message(filters.command('login'))
+@Client.on_message(filters.command('login') & filters.private & filters.incoming)
 async def login(c, m):
     url = "https://doodstream.com/?op=my_account&generate_api_key=1"
     buttons = [[InlineKeyboardButton("Auth URL", url=url)]]
@@ -13,7 +13,7 @@ async def login(c, m):
     )
 
 
-@Client.on_message(filters.command('token'))
+@Client.on_message(filters.command('token') & filters.private & filters.incoming)
 async def token(c, m):
     if len(m.command) == 2:
         cmd, api_key = m.text.split(' ')
