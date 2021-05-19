@@ -23,10 +23,20 @@ async def default(c, m):
     cmd, sts = m.data.split('+')
     upload_url = m.message.reply_to_message.text
     api_key = await c.db.get_credential_status(m.from_user.id)
+
     if sts == 'False':
         url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}"
+
     if sts == 'True':
-        newname = 
+        status, name = await isdownloadable_link(upload_url)
+        new_title = await c.ask(
+        #self=c,
+            chat_id=m.from_user.id,
+            text=f"**FileName:** `{name}`\n\nSend me the New file Name",
+            filters=filters.text
+        )
+        url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}&new_title={new_title}"
+
     data = requests.get(url).json()
     if data['status'] == 400:
         return await m.message.edit('Your URL already exist in the queue 🙄')
