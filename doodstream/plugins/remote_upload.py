@@ -6,7 +6,7 @@ from ..tools.name import isdownloadable_link
 from ..tools.progress_bar import humanbytes, TimeFormatter
 
 
-@Client.on_message(filters.regex('.*http.*'))
+@Client.on_message(filters.regex('.*http.*') & filters.private & filters.incoming)
 async def remote_upload(c, m):
     upload_url = m.text
     status, name = await isdownloadable_link(upload_url)
