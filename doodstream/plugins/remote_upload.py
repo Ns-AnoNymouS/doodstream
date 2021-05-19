@@ -43,7 +43,7 @@ async def default(c, m):
     data = requests.get(url).json()
     if data['status'] == 400:
         return await m.message.edit('Your URL already exist in the queue 🙄')
-    await m.message.edit('Adding to queue...')
+    await m.message.edit('Adding to queue...\n\nThis might take some time plz wait')
 
     link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
     json_data = requests.get(link).json()
