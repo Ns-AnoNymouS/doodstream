@@ -1,4 +1,6 @@
+import asyncio
 import requests
+
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import humanbytes, TimeFormatter
@@ -32,7 +34,11 @@ async def remame(c, m):
         filters=filters.text
     )
     rename_url = f"https://doodapi.com/api/file/rename?key={api_key}&file_code={file_code}&title={new_title.text}"
-    sts = requests.get(rename_url).json()
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        sts = await loop.run_in_executor(pool, requests.get, rename_url)
+    sts = sts.json()
+    
     if sts['status'] != 200:
         return await c.send_message(m.from_user.id, f"Unable to rename the file\n**Reason:** {sts['msg']}")
 
