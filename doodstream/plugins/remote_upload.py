@@ -47,7 +47,11 @@ async def default(c, m):
     await m.message.edit('Adding to queue...\n\nThis might take some time plz wait')
 
     link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
-    json_data = requests.get(link).json()
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        json_data = await loop.run_in_executor(pool, requests.get, link)
+
+    json_data = json_data.json()
     for file in json_data['result']:
         if file['file_code'] == data['result']['filecode']:
             file = file
@@ -55,7 +59,10 @@ async def default(c, m):
 
     while True:
         link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
-        json_data = requests.get(link).json()
+        loop = asyncio.get_event_loop()
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            json_data = await loop.run_in_executor(pool, requests.get, link)
+        json_data = json_data.json()
         try:
             if json_data['result'][index]['status'] == 'pending':
                 try:
@@ -80,13 +87,19 @@ async def default(c, m):
         file_code = data['result']['filecode']
         url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
         files_url = f"https://doodapi.com/api/file/list?key={api_key}"
-        data_file = requests.get(files_url).json()
-        files = data_file['result']['files'] #.find_one({'filecode':file_code})
+        loop = asyncio.get_event_loop()
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            data_file = await loop.run_in_executor(pool, requests.get, files_url)
+        data_file = data_file.json()
+        files = data_file['result']['files'] 
         for file in files:
             if file['file_code'] == file_code:
                 file_data = file
                 break
-        data = requests.get(url).json()
+        loop = asyncio.get_event_loop()
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            data = await loop.run_in_executor(pool, requests.get, url)
+        data = data.json()
 
         if data['status'] == 200:
             text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
