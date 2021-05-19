@@ -33,6 +33,33 @@ async def token(c, m):
         await m.reply_text(text)
 
 
+@Client.on_message(filters.command('start') & filters.incoming & filters.private)
+async def start(c, m, cb=False):
+
+    # start text
+    text = f"""Hi {m.from_user.mention(style='md')}
+
+I am a doodstream bot to maintain your [doodstream](https://doodstream.com) account.
+
+I can upload tg files to your doodstream account too. Check help button for more help.
+
+**Maintained By:** [Anonymous](https://t.me/Ns_AnoNymouS)
+"""
+
+    # Buttons
+    buttons = [[
+        InlineKeyboardButton('My Father 👨‍✈️', url=f"https://t.me/{owner_username}"),
+        InlineKeyboardButton('Help 💡', callback_data="help")
+        ],[
+        InlineKeyboardButton('About 📕', callback_data="about")
+    ]]
+    if cb:
+        await m.answer()
+        await m.message.edit(text=text, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
+    else:
+        await m.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons), quote=True,  disable_web_page_preview=True)
+
+
 @Client.on_message(filters.private & filters.incoming)
 async def token_check(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
