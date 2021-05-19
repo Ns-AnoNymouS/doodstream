@@ -51,13 +51,51 @@ I can upload tg files to your doodstream account too. Check help button for more
         InlineKeyboardButton('My Father 👨‍✈️', url=f"https://t.me/{owner_username}"),
         InlineKeyboardButton('Help 💡', callback_data="help")
         ],[
-        InlineKeyboardButton('About 📕', callback_data="about")
+        InlineKeyboardButton('About 📕', callback_data="about"),
+        InlineKeyboardButton('Close 🔐', callback_data='close')
     ]]
     if cb:
         await m.answer()
         await m.message.edit(text=text, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
     else:
         await m.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons), quote=True,  disable_web_page_preview=True)
+
+
+@Client.on_callback_query(filters.regex('^help$'))
+async def help_cb(c, m):
+    await m.answer()
+
+    # help text
+    help_text = """**You need Help?? 😎**
+
+✪ First use /login command and follow the steps given there.
+
+✪ For uploading telegram files to your doodstream account forward me a tg file or video.
+
+✪ For uploading links send me the link i will upload them using remote upload.
+
+✪ For checking your files use command /myfiles.
+
+✪ For checking active uploads use command /remote_actions.
+
+✪ For checking your account status use command /status.
+"""
+    # creating buttons
+    buttons = [
+        [
+            InlineKeyboardButton('Home 🏕', callback_data='home'),
+            InlineKeyboardButton('About 📕', callback_data='about')
+        ],
+        [
+            InlineKeyboardButton('Close 🔐', callback_data='close')
+        ]
+    ]
+
+    # editing as help message
+    await m.message.edit(
+        text=help_text,
+        reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 
 @Client.on_message(filters.private & filters.incoming)
