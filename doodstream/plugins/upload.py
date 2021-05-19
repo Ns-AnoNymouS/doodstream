@@ -2,6 +2,8 @@ import os
 import re
 import time
 import requests
+import asyncio
+import concurrent.futures
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import progress_bar, humanbytes, TimeFormatter
@@ -51,8 +53,13 @@ async def tg_upload(c, m):
         
     filename = file_location.split("/")[-1]
     post_files = {"file": (filename, open(file_location, "rb"))}
-    post_data = {"api_key": api_key}
-    up = requests.post(url_for_upload, data=post_data, files=post_files)
+
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            up = await loop.run_in_executor(
+                pool, requests.post, [url_for_upload, data=post_data, files=post_files])
+
     st = re.findall(r'name="st">(.*?)</text' , str(up.text))
     fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
     os.remove(file_location)
