@@ -37,5 +37,5 @@ async def token(c, m):
 async def token_check(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     if not api_key:
-        return await m.reply_text("You didn't Authorize me yet")
+        return await m.reply_text("You didn't Authorize me yet. Use the command and login to your account", quote=True)
     await m.continue_propagation()
