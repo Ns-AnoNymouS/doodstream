@@ -11,18 +11,22 @@ async def remote_upload(c, m):
     upload_url = m.text
     status, name = await isdownloadable_link(upload_url)
     buttons = [[
-        InlineKeyboardButton('Default', callback_data='default'),
-        InlineKeyboardButton('Rename', callback_data='rename')
+        InlineKeyboardButton('Default', callback_data='default+False'),
+        InlineKeyboardButton('Rename', callback_data='default+True)
     ]]
     await m.reply_text(f'**File Name:** `{name}`', reply_markup=InlineKeyboardMarkup(buttons), quote=True)
 
 
-@Client.on_callback_query(filters.regex('^default$'))
+@Client.on_callback_query(filters.regex('^default'))
 async def default(c, m):
     await m.answer()
+    cmd, sts = m.data.split('+')
     upload_url = m.message.reply_to_message.text
     api_key = await c.db.get_credential_status(m.from_user.id)
-    url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}"
+    if sts == 'False':
+        url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}"
+    if sts == 'True':
+        newname = 
     data = requests.get(url).json()
     if data['status'] == 400:
         return await m.message.edit('Your URL already exist in the queue 🙄')
