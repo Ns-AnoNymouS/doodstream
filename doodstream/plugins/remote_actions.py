@@ -35,6 +35,11 @@ async def actions(c, m, cb=False):
             ]]
             reply_markup = InlineKeyboardMarkup(buttons)
 
+    elif  data['status'] == 403:
+        text="Your TOKEN was expired. So please logout and login again"
+    else:
+        text = f"**Error:** {data['msg']}"
+
     if not cb:
         await m.reply_text(text=text, reply_markup=reply_markup, quote=True, disable_web_page_preview=True)
     else:
