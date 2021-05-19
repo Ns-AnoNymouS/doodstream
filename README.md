@@ -1,6 +1,6 @@
 
 ## How to create your own bot
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Ns-AnoNymouS/feedback-bot/tree/beta)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Ns-AnoNymouS/doodstream)
 - 👆 Press the deploy button.
 
 - Give a name to your app.
