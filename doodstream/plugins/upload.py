@@ -53,6 +53,7 @@ async def tg_upload(c, m):
         
     filename = file_location.split("/")[-1]
     post_files = {"file": (filename, open(file_location, "rb"))}
+    post_data = {"api_key": api_key}
 
     loop = asyncio.get_event_loop()
     with concurrent.futures.ThreadPoolExecutor() as pool:
