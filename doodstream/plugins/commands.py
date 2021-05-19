@@ -31,6 +31,8 @@ async def token(c, m):
         else:
             text = "Something Went wrong"
         await m.reply_text(text)
+    else:
+        await m.reply_text("Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`", quote=True)
 
 
 @Client.on_message(filters.command('start') & filters.incoming & filters.private)
