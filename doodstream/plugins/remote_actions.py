@@ -30,8 +30,10 @@ async def actions(c, m, cb=False):
     if not cb:
         await m.reply_text(text=text, reply_markup=reply_markup, quote=True, disable_web_page_preview=True)
     else:
-        await m.message.edit(text=text, reply_markup=reply_markup, disable_web_page_preview=True)
-
+        try:
+            await m.message.edit(text=text, reply_markup=reply_markup, disable_web_page_preview=True)
+        except:
+            pass
 
 @Client.on_callback_query(filters.regex('^action'))
 async def cb_action(c, m):
