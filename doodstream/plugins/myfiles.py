@@ -7,7 +7,11 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 async def myfiles(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
-    data = requests.get(url).json()
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        data = await loop.run_in_executor(pool, requests.get, url)
+    data = data.json()
+
     if data['status'] == 403:
         text = "Token Expired"
     elif data['status'] == 200:
@@ -29,7 +33,7 @@ async def myfiles(c, m):
         else:
             return await m.reply_text("You didn't have any files yet", quote=True)
     else:
-        text = "Something Went wrong"
+        text = f"Error: {data['msg']}"
     await m.reply_text(text)
 
 
@@ -41,7 +45,10 @@ async def nxt(c, m):
     fil = int(fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
-    data = requests.get(url).json()
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        data = await loop.run_in_executor(pool, requests.get, url)
+    data = data.json()
     if data['status'] == 403:
         text = "Token Expired"
     elif data['status'] == 200:
@@ -70,5 +77,5 @@ async def nxt(c, m):
         else:
             return await m.message.edit("Something went wrong 🤔")
     else:
-        text = "Something Went wrong"
+        text = f"Error: {data['msg']}"
     await m.reply_text(text)
