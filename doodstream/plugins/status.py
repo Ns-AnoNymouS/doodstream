@@ -5,6 +5,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 @Client.on_message(filters.command(status) & filters.private & filters.incoming)
 async def status(c, m):
+    api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/account/info?key={api_key}"
     userdetails = requests.get(url).json()
     if userdetails['status'] == 403:
