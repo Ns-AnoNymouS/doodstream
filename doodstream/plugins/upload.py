@@ -46,16 +46,23 @@ async def tg_upload(c, m):
     await msg.edit("Downloaded Sucessfully\n\nTrying to upload to doodstream.com")
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
-    data = requests.get(url).json()
-    url_for_upload = data['result']
-    if  data['status'] == 403:
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        data = await loop.run_in_executor(pool, requests.get, url)
+    data = data.json()
+
+    if data['status'] == 200:
+        pass
+    elif  data['status'] == 403:
         return await msg.edit(text="Your TOKEN was expired. So please logout and login again")
-        
+    else:
+        return await msg.edit(text=f"Error: {data['msg']}")
+
+    url_for_upload = data['result']
     filename = file_location.split("/")[-1]
     post_files = {"file": (filename, open(file_location, "rb"))}
     post_data = {"api_key": api_key}
 
-    loop = asyncio.get_event_loop()
     with concurrent.futures.ThreadPoolExecutor() as pool:
         up = await loop.run_in_executor(pool, make_requests, url_for_upload, post_data, post_files)
 
