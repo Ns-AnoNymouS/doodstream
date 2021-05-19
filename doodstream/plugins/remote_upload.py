@@ -35,7 +35,10 @@ async def default(c, m):
             text=f"**FileName:** `{name}`\n\nSend me the New file Name",
             filters=filters.text
         )
-        url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}&new_title={new_title}"
+        url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}&new_title={new_title.text}"
+        await new_title.delete()
+        await new_title.request.delete()
+
 
     data = requests.get(url).json()
     if data['status'] == 400:
