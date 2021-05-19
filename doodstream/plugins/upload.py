@@ -53,7 +53,7 @@ async def tg_upload(c, m):
 
     if data['status'] == 200:
         pass
-    elif  data['status'] == 403:
+    elif data['status'] == 403:
         return await msg.edit(text="Your TOKEN was expired. So please logout and login again")
     else:
         return await msg.edit(text=f"Error: {data['msg']}")
