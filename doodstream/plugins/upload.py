@@ -57,7 +57,7 @@ async def tg_upload(c, m):
 
     loop = asyncio.get_event_loop()
     with concurrent.futures.ThreadPoolExecutor() as pool:
-        up = await loop.run_in_executor(pool, requests.post, data={'url': url_for_upload, 'data': post_data, 'files': post_files})
+        up = await loop.run_in_executor(pool, make_requests, url_for_upload, post_data, post_files)
     # data=post_data, files=post_files
     st = re.findall(r'name="st">(.*?)</text' , str(up.text))
     fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
@@ -82,3 +82,6 @@ async def tg_upload(c, m):
     else:
         return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
 
+
+def make_requests(url_for_upload, post_data, post_files):
+    return requests.post(url_for_upload, data=post_data, files=post_files)
