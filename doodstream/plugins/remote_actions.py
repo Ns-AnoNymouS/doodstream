@@ -34,7 +34,6 @@ async def actions(c, m, cb=False):
                 InlineKeyboardButton("🗑 Clear All", callback_data="action+clear_all")
             ]]
             reply_markup = InlineKeyboardMarkup(buttons)
-
     elif  data['status'] == 403:
         text="Your TOKEN was expired. So please logout and login again"
     else:
