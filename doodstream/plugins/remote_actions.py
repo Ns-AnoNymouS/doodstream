@@ -18,21 +18,23 @@ async def actions(c, m, cb=False):
     remote_list = remote_list.json()
 
     reply_markup = None
-    text = "--**Remote Upload:**--\n\n"
-    text += f"**Total Slots:** {data['total_slots']}\n"
-    text += f"**Used Slots:** {data['used_slots']}\n\n\n"
-    if len(remote_list['result']) != 0:
-        text += "--**Active Uploads:**--\n\n"
-        for file in remote_list['result']:
-            text += f"**🔗 Url:** {file['remote_url']}\n"
-            text += f"**📊 Status:** {file['status']}\n\n\n"
-        buttons = [[
-            InlineKeyboardButton("🔄 Restart Errors", callback_data="action+restart_errors"),
-            InlineKeyboardButton("🛑 Clear Errors", callback_data="action+clear_errors")
-            ],[
-            InlineKeyboardButton("🗑 Clear All", callback_data="action+clear_all")
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
+    if data['status'] == 200:
+        text = "--**Remote Upload:**--\n\n"
+        text += f"**Total Slots:** {data['total_slots']}\n"
+        text += f"**Used Slots:** {data['used_slots']}\n\n\n"
+        if len(remote_list['result']) != 0:
+            text += "--**Active Uploads:**--\n\n"
+            for file in remote_list['result']:
+                text += f"**🔗 Url:** {file['remote_url']}\n"
+                text += f"**📊 Status:** {file['status']}\n\n\n"
+            buttons = [[
+                InlineKeyboardButton("🔄 Restart Errors", callback_data="action+restart_errors"),
+                InlineKeyboardButton("🛑 Clear Errors", callback_data="action+clear_errors")
+                ],[
+                InlineKeyboardButton("🗑 Clear All", callback_data="action+clear_all")
+            ]]
+            reply_markup = InlineKeyboardMarkup(buttons)
+
     if not cb:
         await m.reply_text(text=text, reply_markup=reply_markup, quote=True, disable_web_page_preview=True)
     else:
