@@ -48,7 +48,7 @@ I can upload tg files to your doodstream account too. Check help button for more
 
     # Buttons
     buttons = [[
-        InlineKeyboardButton('My Father 👨‍✈️', url=f"https://t.me/{owner_username}"),
+        InlineKeyboardButton('My Father 👨‍✈️', url="https://t.me/Ns_AnoNymouS"),
         InlineKeyboardButton('Help 💡', callback_data="help")
         ],[
         InlineKeyboardButton('About 📕', callback_data="about"),
