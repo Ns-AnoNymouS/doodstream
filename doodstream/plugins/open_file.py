@@ -10,13 +10,17 @@ async def open_file(c, m):
     cmd, file_code, fld, fil = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
-    data_file = requests.get(files_url).json()
-    files = data_file['result']['files'] #.find_one({'filecode':file_code})
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        data_file = await loop.run_in_executor(pool, requests.get, files_url)
+        data = await loop.run_in_executor(pool, requests.get, url)
+    data_file = data_file.json()
+    data = data.json()
+    files = data_file['result']['files'] 
     for file in files:
         if file['file_code'] == file_code:
             file_data = file
             break
-    data = requests.get(url).json()
 
     if data['status'] == 200:
         text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
@@ -52,13 +56,17 @@ async def openfile(c, m):
     cmd, folder_id, file_code, fld, fil = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
-    data_file = requests.get(files_url).json()
-    files = data_file['result']['files'] #.find_one({'filecode':file_code})
+    loop = asyncio.get_event_loop()
+    with concurrent.futures.ThreadPoolExecutor() as pool:
+        data_file = await loop.run_in_executor(pool, requests.get, files_url)
+        data = await loop.run_in_executor(pool, requests.get, url)
+    data_file = data_file.json()
+    data = data.json()
+    files = data_file['result']['files'] 
     for file in files:
         if file['file_code'] == file_code:
             file_data = file
             break
-    data = requests.get(url).json()
 
     if data['status'] == 200:
         text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
