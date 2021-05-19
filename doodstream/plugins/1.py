@@ -17,7 +17,7 @@ async def force_sub(c, m):
         return await m.reply_text("Hai you made a mistake so you are banned from channel so you are banned from me too 😜",  quote=True)
 
     except UserNotParticipant:
-        button = [[InlineKeyboardButton('join Updates channel 🥰', url='https://t.me/Ns_bot_updates')], [InlineKeyboardButton('Refresh 🔄', callback_data='refresh')]]
+        button = [[InlineKeyboardButton('join Updates channel 🥰', url='https://t.me/Ns_bot_updates')]]
         markup = InlineKeyboardMarkup(button)
         return await m.reply_text(text="""Hai bro,\n\n**You must join my channel for using my bot.**\n\nPress this button to join now 👇""", parse_mode='markdown', reply_markup=markup, quote=True)
 
