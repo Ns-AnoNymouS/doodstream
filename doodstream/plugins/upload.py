@@ -56,7 +56,7 @@ async def tg_upload(c, m):
 
     url_for_upload = data['result']
     filename = file_location.split("/")[-1]
-    post_data = {"file": (filename, open(file_location, "rb"))}
+    post_data = {"file": open(file_location, "rb")}
 
     async with aiohttp.ClientSession() as session:
        # with aiohttp.MultipartWriter('mixed') as mpwriter:
