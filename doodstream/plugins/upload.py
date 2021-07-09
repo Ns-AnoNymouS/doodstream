@@ -56,12 +56,11 @@ async def tg_upload(c, m):
 
     url_for_upload = data['result']
     filename = file_location.split("/")[-1]
-    post_data = {"file": open(file_location, "rb")}
 
-    async with aiohttp.ClientSession() as session:
-       # with aiohttp.MultipartWriter('mixed') as mpwriter:
-        async with session.post(url, data=post_data) as response:
-            up = await response.text()
+    with open(file_location, "rb") as f:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, data={"file": f}) as response:
+                up = await response.text()
     print(up)
     st = re.findall(r'name="st">(.*?)</text' , str(up))
     fn = re.findall(r'name="fn">(.*?)</text' , str(up))
