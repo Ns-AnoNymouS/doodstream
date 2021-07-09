@@ -68,6 +68,7 @@ async def default(c, m):
                             ''.join(["█" for i in range(math.floor(percentage / 10))]),
                             ''.join(["░" for i in range(10 - math.floor(percentage / 10))]))
                         await m.message.edit(f"__**Uploading:**__\n\n{progress}{round(percentage, 2)}%\n\n**Total Size:** {humanbytes(total)}\n**Done:** {humanbytes(done)}\n**Started on:** {file['created']}")
+                        await asyncio.sleep(3)
                     except Exception as e:
                         print(e)
                 elif file['status'] == 'error':
@@ -75,8 +76,8 @@ async def default(c, m):
                 else:
                     print(file['status'])
                     break
-        await asyncio.sleep(3)
-
+        else:
+            break
 
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
