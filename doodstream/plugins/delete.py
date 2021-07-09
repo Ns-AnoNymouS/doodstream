@@ -2,7 +2,7 @@ from ..tools.requests import reqPost
 from pyrogram import Client, filters
 
 
-@Client.on_callback_query(filters.regex(''))
+@Client.on_callback_query(filters.regex('^delete\+'))
 async def delete(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     data = m.data.split('+')
