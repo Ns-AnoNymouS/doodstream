@@ -48,7 +48,7 @@ async def tg_upload(c, m):
     data = await req(url)
     print(data)
     if data['status'] == 200:
-        pass
+        url = f"{data['result']}?{api_key}"
     elif data['status'] == 403:
         return await msg.edit(text="Your TOKEN was expired. So please logout and login again")
     else:
@@ -56,9 +56,10 @@ async def tg_upload(c, m):
 
     url_for_upload = data['result']
     filename = file_location.split("/")[-1]
-    post_data = {"api_key": api_key, "file": (filename, open(file_location, "rb"))}
+    post_data = {"file": (filename, open(file_location, "rb"))}
 
     async with aiohttp.ClientSession() as session:
+       # with aiohttp.MultipartWriter('mixed') as mpwriter:
         async with session.post(url, data=post_data) as response:
             up = await response.text()
     print(up)
