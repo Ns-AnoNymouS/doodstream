@@ -82,7 +82,7 @@ async def tg_upload(c, m):
                 InlineKeyboardButton("Watch Online 👀", url=f"{data['result'][0]['protected_embed']}"),
                 #InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil}")
             ]]
-            return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
+            return await msg.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
         elif data['status'] == 451:
             text = "Your video was disabled due to DMCA"
@@ -93,8 +93,8 @@ async def tg_upload(c, m):
         else:
             text = "File Not Found 🤪"
 
-        await m.message.edit(text)
+        await msg.edit(text)
     except Exception as e:
         print(f'Sorry i am unable to upload tg file due to {e}')
-        return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
+        return await msg.edit(f"Unable to upload Your file. If you think this is a big report in @Ns_Bot_supporters 😉.")
 
