@@ -59,7 +59,7 @@ async def tg_upload(c, m):
 
     with open(file_location, "rb") as f:
         data = await reqPost(url, data={"api_key": api_key, "file": f})
-
+    print(data)
     try:
         os.remove(file_location)
         if data['status'] == 200:
