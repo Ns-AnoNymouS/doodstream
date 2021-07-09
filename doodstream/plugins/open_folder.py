@@ -1,6 +1,4 @@
-import asyncio
-import requests
-import concurrent.futures
+from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -13,10 +11,7 @@ async def folder(c, m):
     fil = int(fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}&fld_id={folder_id}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data = await loop.run_in_executor(pool, requests.get, url)
-    data = data.json()
+    data = await req(url)
 
     if data['status'] == 403:
         text = "Token Expired"
