@@ -1,6 +1,4 @@
-import asyncio
-import requests
-import concurrent.futures
+from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -10,12 +8,8 @@ async def actions(c, m, cb=False):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/urlupload/slots?key={api_key}"
     list_uploads = f"https://doodapi.com/api/urlupload/list?key={api_key}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data = await loop.run_in_executor(pool, requests.get, url)
-        remote_list = await loop.run_in_executor(pool, requests.get, list_uploads)
-    data = data.json()
-    remote_list = remote_list.json()
+    data = await req(url)
+    remote_list = await req(list_uploads)
 
     reply_markup = None
     if data['status'] == 200:
@@ -47,12 +41,13 @@ async def actions(c, m, cb=False):
         except:
             pass
 
+
 @Client.on_callback_query(filters.regex('^action'))
 async def cb_action(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     cmd, act = m.data.split('+')
     url = f"https://doodapi.com/api/urlupload/actions?key={api_key}&{act}=1"
-    requests.get(url).json()
+    await req(url)
     await m.answer()
     await actions(c, m, cb=True)
     
