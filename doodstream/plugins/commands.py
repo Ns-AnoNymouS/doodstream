@@ -1,4 +1,4 @@
-import requests
+from ..tools.request import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -18,7 +18,7 @@ async def token(c, m):
     if len(m.command) == 2:
         cmd, api_key = m.text.split(' ')
         url = f"https://doodapi.com/api/account/info?key={api_key}"
-        userdetails = requests.get(url).json()
+        userdetails = await req(url)
         if userdetails['status'] == 403:
             text = "Send me the correct token"
         elif userdetails['status'] == 200:
