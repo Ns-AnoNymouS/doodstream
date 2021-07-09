@@ -1,6 +1,7 @@
 import os
 import re
 import time
+import aiohttp
 from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -58,8 +59,9 @@ async def tg_upload(c, m):
     post_files = {"file": (filename, open(file_location, "rb"))}
     post_data = {"api_key": api_key}
 
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        up = await loop.run_in_executor(pool, make_requests, url_for_upload, post_data, post_files)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=post_data, files=post_files) as response:
+            up = await response.text()
 
     st = re.findall(r'name="st">(.*?)</text' , str(up.text))
     fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
@@ -67,7 +69,7 @@ async def tg_upload(c, m):
     if st[0] == "OK":
         dic = {"status": st[0], "file_code": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
         url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={dic['file_code']}"
-        data = requests.get(url).json()
+        data = await req(url)
         text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
         text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
         text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
@@ -84,6 +86,3 @@ async def tg_upload(c, m):
     else:
         return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
 
-
-def make_requests(url_for_upload, post_data, post_files):
-    return requests.post(url_for_upload, data=post_data, files=post_files)
