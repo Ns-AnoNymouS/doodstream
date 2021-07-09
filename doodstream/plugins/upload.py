@@ -65,7 +65,6 @@ async def tg_upload(c, m):
     try:
         os.remove(file_location)
 
-        dic = {"status": st[0], "file_code": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
         url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={dic['file_code']}"
         data = await req(url)
         text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
