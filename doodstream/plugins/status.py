@@ -1,6 +1,4 @@
-import asyncio
-import requests
-import concurrent.futures
+from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -9,10 +7,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 async def status(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/account/info?key={api_key}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        userdetails = await loop.run_in_executor(pool, requests.get, url)
-    userdetails = userdetails.json()
+    userdetails = await req(url)
+
     if userdetails['status'] == 403:
         text = "Your Token expired"
     elif userdetails['status'] == 200:
