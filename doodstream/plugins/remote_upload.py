@@ -1,5 +1,6 @@
 import time
 import math
+import asyncio
 from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
