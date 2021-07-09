@@ -33,7 +33,7 @@ async def default(c, m):
             text=f"**FileName:** `{name}`\n\nSend me the New file Name",
             filters=filters.text
         )
-        url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url}&new_title={new_title.text}"
+        url = f"https://doodapi.com/api/upload/url?key={api_key}&url={upload_url.encode().decode()}&new_title={new_title.text}"
         await new_title.delete()
         await new_title.request.delete()
 
