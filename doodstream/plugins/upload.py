@@ -56,11 +56,10 @@ async def tg_upload(c, m):
 
     url_for_upload = data['result']
     filename = file_location.split("/")[-1]
-    post_files = {"file": (filename, open(file_location, "rb"))}
-    post_data = {"api_key": api_key}
+    post_data = {"api_key": api_key, "file": (filename, open(file_location, "rb"))}
 
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, data=post_data, files=post_files) as response:
+        async with session.post(url, data=post_data) as response:
             up = await response.text()
 
     st = re.findall(r'name="st">(.*?)</text' , str(up.text))
