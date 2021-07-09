@@ -62,10 +62,9 @@ async def tg_upload(c, m):
             async with session.post(url, data={"api_key": api_key, "file": f}) as response:
                 up = await response.text()
     print(up)
-    st = re.findall(r'name="st">(.*?)</text' , str(up))
-    fn = re.findall(r'name="fn">(.*?)</text' , str(up))
-    os.remove(file_location)
-    if st[0] == "OK":
+    try:
+        os.remove(file_location)
+
         dic = {"status": st[0], "file_code": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
         url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={dic['file_code']}"
         data = await req(url)
@@ -82,6 +81,7 @@ async def tg_upload(c, m):
         ]]
         return await msg.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
-    else:
+    except Exception as e:
+        print(f'Sorry i am unable to upload tg file due to {e}')
         return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
 
