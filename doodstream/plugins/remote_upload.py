@@ -52,8 +52,10 @@ async def default(c, m):
     while True:
         link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
         json_data = await req(link)
+        is_exist = False
         for file in json_data['result']:
             if file['file_code'] == file_code:
+                is_exist = True
                 if file['status'] == 'pending':
                     try:
                         await m.message.edit(f"Your task was added to queue. Uploading start soon 📤.")
@@ -76,7 +78,7 @@ async def default(c, m):
                 else:
                     print(file['status'])
                     break
-        else:
+        if not is_exist:
             break
 
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
