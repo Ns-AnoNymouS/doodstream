@@ -1,3 +1,4 @@
+import time
 import math
 from ..tools.requests import req
 from pyrogram import Client, filters
@@ -66,7 +67,7 @@ async def default(c, m):
                         ''.join(["░" for i in range(10 - math.floor(percentage / 10))]))
 
                     try:
-                        await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(total)}\n**Done:** {humanbytes()}\n**Started on:** {file['created']}")
+                        await m.message.edit(f"__**Uploading:**__\n\n{progress}{round(percentage, 2)}%\n\n**Total Size:** {humanbytes(total)}\n**Done:** {humanbytes()}\n**Started on:** {file['created']}")
                     except:
                         pass
                 elif file['status'] == 'error':
