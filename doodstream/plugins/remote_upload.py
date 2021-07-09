@@ -79,19 +79,13 @@ async def default(c, m):
         file_code = data['result']['filecode']
         url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
         files_url = f"https://doodapi.com/api/file/list?key={api_key}"
-        loop = asyncio.get_event_loop()
-        with concurrent.futures.ThreadPoolExecutor() as pool:
-            data_file = await loop.run_in_executor(pool, requests.get, files_url)
-        data_file = data_file.json()
+        data_file = await req(files_url)
         files = data_file['result']['files'] 
         for file in files:
             if file['file_code'] == file_code:
                 file_data = file
                 break
-        loop = asyncio.get_event_loop()
-        with concurrent.futures.ThreadPoolExecutor() as pool:
-            data = await loop.run_in_executor(pool, requests.get, url)
-        data = data.json()
+        data = await req(url)
 
         if data['status'] == 200:
             text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
