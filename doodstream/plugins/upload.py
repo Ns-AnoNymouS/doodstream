@@ -1,6 +1,7 @@
 import os
 import re
 import time
+import json
 import aiohttp
 from ..tools.requests import req
 from pyrogram import Client, filters
@@ -60,26 +61,40 @@ async def tg_upload(c, m):
     with open(file_location, "rb") as f:
         async with aiohttp.ClientSession() as session:
             async with session.post(url, data={"api_key": api_key, "file": f}) as response:
-                up = await response.text()
-    print(up)
+                data = (await response.text()).encode().decode()
+                try:
+                    data = json.loads(data)
+                except:
+                    pass
     try:
         os.remove(file_location)
 
-        url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={dic['file_code']}"
-        data = await req(url)
-        text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
-        text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
-        text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
-        text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
-        text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
-        buttons = [[
-            InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
-            InlineKeyboardButton("Download 📥", url=f"{dic['file_url']}"),
-            ],[
-            InlineKeyboardButton("Watch Online 👀", url=f"https://dood.so{data['result'][0]['protected_embed']}")
-        ]]
-        return await msg.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
+        if data['status'] == 200:
+            text = f"[\u2063]({data['result'][0]['splash_img']})"
+            text += f"**📁 Title:** `{data['result'][0]['title']}`\n\n"
+            text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
+            text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
+            text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
+            text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
+            buttons = [[
+                InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}+{fld}+{fil}"),
+                InlineKeyboardButton("Download 📥", url=f"{['result'][0]['download_url']}"),
+                ],[
+                InlineKeyboardButton("Watch Online 👀", url=f"{data['result'][0]['protected_embed']}"),
+                #InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil}")
+            ]]
+            return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
+        elif data['status'] == 451:
+            text = "Your video was disabled due to DMCA"
+
+        elif data['status'] == 403:
+            text = "Your TOKEN was expired. So please logout and login again"
+ 
+        else:
+            text = "File Not Found 🤪"
+
+        await m.message.edit(text)
     except Exception as e:
         print(f'Sorry i am unable to upload tg file due to {e}')
         return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
