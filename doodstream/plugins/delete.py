@@ -20,4 +20,3 @@ async def delete(c, m):
         'token': api_key
     }
     jsonData = await reqPost('https://doodstream.com/', postData)
-    print(jsonData)
