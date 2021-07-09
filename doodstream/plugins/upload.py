@@ -58,7 +58,7 @@ async def tg_upload(c, m):
     filename = file_location.split("/")[-1]
 
     with open(file_location, "rb") as f:
-        data = async reqPost(url, data={"api_key": api_key, "file": f})
+        data = await reqPost(url, data={"api_key": api_key, "file": f})
 
     try:
         os.remove(file_location)
