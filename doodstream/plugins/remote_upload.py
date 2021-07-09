@@ -68,9 +68,9 @@ async def default(c, m):
                         ''.join(["░" for i in range(10 - math.floor(percentage / 10))]))
 
                     try:
-                        await m.message.edit(f"__**Uploading:**__\n\n{progress}{round(percentage, 2)}%\n\n**Total Size:** {humanbytes(total)}\n**Done:** {humanbytes()}\n**Started on:** {file['created']}")
-                    except:
-                        pass
+                        await m.message.edit(f"__**Uploading:**__\n\n{progress}{round(percentage, 2)}%\n\n**Total Size:** {humanbytes(total)}\n**Done:** {humanbytes(done)}\n**Started on:** {file['created']}")
+                    except Exception as e:
+                        print(e)
                 elif file['status'] == 'error':
                     await m.message.edit(f"**Unable to Upload File**\n\n__This file may not be a supported remote link please trying again 😶.__")
                 else:
