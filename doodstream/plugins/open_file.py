@@ -1,9 +1,8 @@
-import asyncio 
-import requests
-import concurrent.futures
+from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import humanbytes, TimeFormatter
+
 
 @Client.on_callback_query(filters.regex('^file'))
 async def open_file(c, m):
@@ -12,12 +11,9 @@ async def open_file(c, m):
     cmd, file_code, fld, fil = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data_file = await loop.run_in_executor(pool, requests.get, files_url)
-        data = await loop.run_in_executor(pool, requests.get, url)
-    data_file = data_file.json()
-    data = data.json()
+    data_file = await req(files_url)
+    data = await req(url)
+
     files = data_file['result']['files'] 
     for file in files:
         if file['file_code'] == file_code:
@@ -58,12 +54,9 @@ async def openfile(c, m):
     cmd, folder_id, file_code, fld, fil = m.data.split('+')
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data_file = await loop.run_in_executor(pool, requests.get, files_url)
-        data = await loop.run_in_executor(pool, requests.get, url)
-    data_file = data_file.json()
-    data = data.json()
+    data_file = await req(files_url)
+    data = await req(url)
+
     files = data_file['result']['files'] 
     for file in files:
         if file['file_code'] == file_code:
