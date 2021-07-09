@@ -76,7 +76,7 @@ async def default(c, m):
                 else:
                     print(file['status'])
                     break
-            await asyncio.sleep(3)
+        await asyncio.sleep(3)
 
 
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
