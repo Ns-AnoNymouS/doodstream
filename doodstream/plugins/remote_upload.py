@@ -39,37 +39,31 @@ async def default(c, m):
 
 
     data = await req(url)
+    file_code = data['result']['filecode']
     if data['status'] == 400:
         return await m.message.edit('Your URL already exist in the queue 🙄')
     await m.message.edit('Adding to queue...\n\nThis might take some time plz wait')
 
-    link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
-    json_data = await req(link)
-    print(json_data)
-    for file in json_data['result']:
-        if file['file_code'] == data['result']['filecode']:
-            file = file
-            index = json_data['result'].index(file)
 
     while True:
         link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
         json_data = await req(link)
-        try:
-            if json_data['result'][index]['status'] == 'pending':
-                try:
-                    await m.message.edit(f"Your task was added to queue. Uploading start soon")
-                except:
-                    pass
-            elif json_data['result'][index]['status'] == 'working':
-                try:
-                    await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(file['bytes_total'])}\n**Done:** {humanbytes(file['bytes_downloaded'])}\n**Started on:** {file['created']}")
-                except:
-                    pass
+        for file in json_data['result']:
+            if file['file_code'] == file_code:
+                if file['status'] == 'pending':
+                    try:
+                        await m.message.edit(f"Your task was added to queue. Uploading start soon 📤.")
+                    except:
+                        pass
+                elif file['status'] == 'working':
+                    try:
+                        await m.message.edit(f"__**Uploading**__\n\n**Total Size:** {humanbytes(file['bytes_total'])}\n**Done:** {humanbytes(file['bytes_downloaded'])}\n**Started on:** {file['created']}")
+                    except:
+                        pass
             else:
                 break
             await asyncio.sleep(3)
-        except Exception as e:
-            break
+
 
     try:
         if json_data['result'][index]['status'] == 'error':
