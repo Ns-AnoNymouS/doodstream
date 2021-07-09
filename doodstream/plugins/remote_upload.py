@@ -70,7 +70,7 @@ async def default(c, m):
                         await m.message.edit(f"__**Uploading:**__\n\n{progress}{round(percentage, 2)}%\n\n**Total Size:** {humanbytes(total)}\n**Done:** {humanbytes(done)}\n**Started on:** {file['created']}")
                         await asyncio.sleep(3)
                     except Exception as e:
-                        print(e)
+                        pass
                 elif file['status'] == 'error':
                     await m.message.edit(f"**Unable to Upload File**\n\n__This file may not be a supported remote link please trying again 😶.__")
                 else:
