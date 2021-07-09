@@ -1,9 +1,8 @@
 import os
 import re
 import time
-import json
-import aiohttp
-from ..tools.requests import req
+
+from ..tools.requests import req, reqPost
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import progress_bar, humanbytes, TimeFormatter
@@ -59,13 +58,8 @@ async def tg_upload(c, m):
     filename = file_location.split("/")[-1]
 
     with open(file_location, "rb") as f:
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, data={"api_key": api_key, "file": f}) as response:
-                data = (await response.text()).encode().decode()
-                try:
-                    data = json.loads(data)
-                except:
-                    pass
+        data = async reqPost(url, data={"api_key": api_key, "file": f})
+
     try:
         os.remove(file_location)
         if data['status'] == 200:
