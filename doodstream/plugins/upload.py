@@ -46,7 +46,7 @@ async def tg_upload(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
     data = await req(url)
-
+    print(data)
     if data['status'] == 200:
         pass
     elif data['status'] == 403:
