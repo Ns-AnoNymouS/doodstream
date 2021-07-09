@@ -19,7 +19,7 @@ async def open_file(c, m):
         if file['file_code'] == file_code:
             file_data = file
             break
-    print(file_data, data)
+
     if data['status'] == 200:
         text = f"[\u2063]({data['result'][0]['splash_img']})"
         text += f"**📁 Title:** `{file_data['title']}`\n\n"
