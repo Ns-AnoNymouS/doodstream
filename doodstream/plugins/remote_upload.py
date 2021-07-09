@@ -62,7 +62,7 @@ async def default(c, m):
                 elif file['status'] == 'working':
                     total = file['bytes_total']
                     done = file['bytes_downloaded']
-                    percentage = (done / total) * 100
+                    percentage = (int(done) / int(total)) * 100
                     progress = "[{0}{1}]".format(
                         ''.join(["█" for i in range(math.floor(percentage / 10))]),
                         ''.join(["░" for i in range(10 - math.floor(percentage / 10))]))
