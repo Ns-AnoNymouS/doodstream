@@ -13,7 +13,7 @@ async def delete(c, m):
         cmd, fileId, folderId = data
 
     postData = {
-        'fld_id: int(folderId),
+        'fld_id': int(folderId),
         'file_id': int(fileId),
         'op': 'videos_json',
         'del_selected': 'Delete selected',
