@@ -61,9 +61,9 @@ async def tg_upload(c, m):
     async with aiohttp.ClientSession() as session:
         async with session.post(url, data=post_data) as response:
             up = await response.text()
-
-    st = re.findall(r'name="st">(.*?)</text' , str(up.text))
-    fn = re.findall(r'name="fn">(.*?)</text' , str(up.text))
+    print(up)
+    st = re.findall(r'name="st">(.*?)</text' , str(up))
+    fn = re.findall(r'name="fn">(.*?)</text' , str(up))
     os.remove(file_location)
     if st[0] == "OK":
         dic = {"status": st[0], "file_code": fn[0], "file_url": f"https://doodstream.com/d/{fn[0]}"}
