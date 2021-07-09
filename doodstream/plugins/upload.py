@@ -1,9 +1,7 @@
 import os
 import re
 import time
-import requests
-import asyncio
-import concurrent.futures
+from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import progress_bar, humanbytes, TimeFormatter
@@ -46,10 +44,7 @@ async def tg_upload(c, m):
     await msg.edit("Downloaded Sucessfully\n\nTrying to upload to doodstream.com")
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data = await loop.run_in_executor(pool, requests.get, url)
-    data = data.json()
+    data = await req(url)
 
     if data['status'] == 200:
         pass
