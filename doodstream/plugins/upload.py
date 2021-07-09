@@ -71,7 +71,7 @@ async def tg_upload(c, m):
             text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
             buttons = [[
                 InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}"),
-                InlineKeyboardButton("Delete 🗑", callback_data=f"delete+{data['result'][0]['filecode']}")
+                #InlineKeyboardButton("Delete 🗑", callback_data=f"delete+{data['result'][0]['filecode']}")
                 ],[
                 InlineKeyboardButton("Download 📥", url=f"{data['result'][0]['download_url']}"),
                 InlineKeyboardButton("Watch Online 👀", url=f"{data['result'][0]['protected_embed']}"),
