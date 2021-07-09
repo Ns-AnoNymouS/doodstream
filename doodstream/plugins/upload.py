@@ -66,10 +66,9 @@ async def tg_upload(c, m):
                     data = json.loads(data)
                 except:
                     pass
-   # try:
-    os.remove(file_location)
-    print(data)
-    if data['status'] == 200:
+    try:
+        os.remove(file_location)
+        if data['status'] == 200:
             text = f"[\u2063]({data['result'][0]['splash_img']})"
             text += f"**📁 Title:** `{data['result'][0]['title']}`\n\n"
             text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
@@ -85,17 +84,17 @@ async def tg_upload(c, m):
             ]]
             return await m.message.edit(text, reply_markup=InlineKeyboardMarkup(buttons))
 
-    elif data['status'] == 451:
+        elif data['status'] == 451:
             text = "Your video was disabled due to DMCA"
 
-    elif data['status'] == 403:
+        elif data['status'] == 403:
             text = "Your TOKEN was expired. So please logout and login again"
  
-    else:
+        else:
             text = "File Not Found 🤪"
 
-    await m.message.edit(text)
-    """except Exception as e:
+        await m.message.edit(text)
+    except Exception as e:
         print(f'Sorry i am unable to upload tg file due to {e}')
         return await msg.edit(f"unsupported video format {filename}, please upload video with mkv, mp4, wmv, avi, mpeg4, mpegps, flv, 3gp, webm, mov, mpg & m4v format")
-"""
+
