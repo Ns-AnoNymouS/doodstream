@@ -28,7 +28,7 @@ async def remame(c, m):
     new_title = await Client.ask(
         self=c,
         chat_id=m.from_user.id,
-        text=f"**FileName:** {file_data['title']}\n\nSend me the New file Name",
+        text=f"**FileName:** `{file_data['title']}`\n\nSend me the New file Name",
         filters=filters.text
     )
     rename_url = f"https://doodapi.com/api/file/rename?key={api_key}&file_code={file_code}&title={new_title.text}"
