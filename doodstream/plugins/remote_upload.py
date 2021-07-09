@@ -1,6 +1,4 @@
-import asyncio
-import requests
-import concurrent.futures
+from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.name import isdownloadable_link
@@ -31,7 +29,6 @@ async def default(c, m):
     if sts == 'True':
         status, name = await isdownloadable_link(upload_url)
         new_title = await c.ask(
-        #self=c,
             chat_id=m.from_user.id,
             text=f"**FileName:** `{name}`\n\nSend me the New file Name",
             filters=filters.text
@@ -41,15 +38,13 @@ async def default(c, m):
         await new_title.request.delete()
 
 
-    data = requests.get(url).json()
+    data = await req(url)
     if data['status'] == 400:
         return await m.message.edit('Your URL already exist in the queue 🙄')
     await m.message.edit('Adding to queue...\n\nThis might take some time plz wait')
 
     link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        json_data = await loop.run_in_executor(pool, requests.get, link)
+    json_data = await req(link)
 
     json_data = json_data.json()
     for file in json_data['result']:
@@ -59,10 +54,7 @@ async def default(c, m):
 
     while True:
         link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
-        loop = asyncio.get_event_loop()
-        with concurrent.futures.ThreadPoolExecutor() as pool:
-            json_data = await loop.run_in_executor(pool, requests.get, link)
-        json_data = json_data.json()
+        json_data = await req(link)
         try:
             if json_data['result'][index]['status'] == 'pending':
                 try:
