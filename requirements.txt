@@ -1,6 +1,7 @@
 motor
 dnspython
 aiohttp[speedups]
+requests
 pyrogram==1.2.9
 pyromod==1.5
 tgcrypto
