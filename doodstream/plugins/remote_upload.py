@@ -60,14 +60,13 @@ async def default(c, m):
                     except:
                         pass
                 elif file['status'] == 'working':
-                    total = int(file['bytes_total'])
-                    done = int(file['bytes_downloaded'])
-                    percentage = (done / total) * 100
-                    progress = "[{0}{1}]".format(
-                        ''.join(["█" for i in range(math.floor(percentage / 10))]),
-                        ''.join(["░" for i in range(10 - math.floor(percentage / 10))]))
-
                     try:
+                        total = int(file['bytes_total'])
+                        done = int(file['bytes_downloaded'])
+                        percentage = (done / total) * 100
+                        progress = "[{0}{1}]".format(
+                            ''.join(["█" for i in range(math.floor(percentage / 10))]),
+                            ''.join(["░" for i in range(10 - math.floor(percentage / 10))]))
                         await m.message.edit(f"__**Uploading:**__\n\n{progress}{round(percentage, 2)}%\n\n**Total Size:** {humanbytes(total)}\n**Done:** {humanbytes(done)}\n**Started on:** {file['created']}")
                     except Exception as e:
                         print(e)
