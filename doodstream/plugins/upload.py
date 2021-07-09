@@ -47,7 +47,7 @@ async def tg_upload(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/upload/server?key={api_key}" 
     data = await req(url)
-    print(data)
+
     if data['status'] == 200:
         url = f"{data['result']}?{api_key}"
     elif data['status'] == 403:
@@ -68,13 +68,13 @@ async def tg_upload(c, m):
                     pass
     try:
         os.remove(file_location)
-
+        print(data)
         if data['status'] == 200:
             text = f"[\u2063]({data['result'][0]['splash_img']})"
             text += f"**📁 Title:** `{data['result'][0]['title']}`\n\n"
             text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
             text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
-            text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
+            #text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
             text += f"**📆 Uploaded on:** {data['result'][0]['uploaded']}"
             buttons = [[
                 InlineKeyboardButton("Rename ✏", callback_data=f"rename+{data['result'][0]['filecode']}+{fld}+{fil}"),
