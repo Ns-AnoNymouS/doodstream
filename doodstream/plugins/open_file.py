@@ -21,7 +21,8 @@ async def open_file(c, m):
             break
     print(file_data, data)
     if data['status'] == 200:
-        text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
+        text = f"[\u2063]({data['result'][0]['single_img']})"
+        text += f"**📁 Title:** `{file_data['title']}`\n\n"
         text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
         text += f"**📊 Size:** {humanbytes(int(data['result'][0]['size']))}\n\n"
         text += f"**👁 Views:** {data['result'][0]['views']}\n\n"
