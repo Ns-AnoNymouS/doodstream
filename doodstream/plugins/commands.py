@@ -1,4 +1,4 @@
-from ..tools.request import req
+from ..tools.requests import req
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
