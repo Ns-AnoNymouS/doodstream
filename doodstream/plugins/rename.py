@@ -51,7 +51,7 @@ async def remame(c, m):
         ]]
         if fld:
             buttons[1].append(InlineKeyboardButton("Back 🔙", callback_data=f"nxt+{fld}+{fil}"))
-        return await c.send_message(m.from_user.id, text, reply_markup=InlineKeyboardMarkup(buttons))
+        return await new_title.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), quote=True)
 
     elif data['status'] == 451:
         text = "Your video was disabled due to DMCA"
