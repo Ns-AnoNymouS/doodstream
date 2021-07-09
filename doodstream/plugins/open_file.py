@@ -19,7 +19,7 @@ async def open_file(c, m):
         if file['file_code'] == file_code:
             file_data = file
             break
-
+    print(file_data, data)
     if data['status'] == 200:
         text = f"**📁 Title:** {data['result'][0]['title']}\n\n"
         text += f"**⏰ Duration:** {TimeFormatter(int(data['result'][0]['length']) * 1000)}\n\n"
