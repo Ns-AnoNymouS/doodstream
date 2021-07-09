@@ -45,7 +45,7 @@ async def default(c, m):
 
     link = f"https://doodapi.com/api/urlupload/status?key={api_key}&file_code={data['result']['filecode']}"
     json_data = await req(link)
-
+    print(json_data)
     for file in json_data['result']:
         if file['file_code'] == data['result']['filecode']:
             file = file
