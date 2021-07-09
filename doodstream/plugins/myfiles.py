@@ -42,10 +42,7 @@ async def nxt(c, m):
     fil = int(fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
     url = f"https://doodapi.com/api/folder/list?key={api_key}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data = await loop.run_in_executor(pool, requests.get, url)
-    data = data.json()
+    data = await req(url)
     if data['status'] == 403:
         text = "Token Expired"
     elif data['status'] == 200:
@@ -58,7 +55,6 @@ async def nxt(c, m):
             fil = 10 - len(folders)
         if len(folders) < 10:
             val = fil - 10 if fil > 10 else 0
-           # print(val, fil)
             files = data['result']['files'][val: fil + 1]
             for file in files:
                 buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}+{fld}+{fil}")])
