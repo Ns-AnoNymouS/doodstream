@@ -40,4 +40,5 @@ class NsBots(Client, Config):
 
 
 if __name__ == "__main__":
+    print('starting')
     NsBots().run()
