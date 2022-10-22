@@ -1,6 +1,4 @@
-import asyncio
-import requests
-import concurrent.futures
+from doodstream import DoodStream
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -8,15 +6,9 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 @Client.on_message(filters.command('myfiles') & filters.private & filters.incoming)
 async def myfiles(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
-    url = f"https://doodapi.com/api/folder/list?key={api_key}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data = await loop.run_in_executor(pool, requests.get, url)
-    data = data.json()
-
-    if data['status'] == 403:
-        text = "Token Expired"
-    elif data['status'] == 200:
+    doodstream = DoodStream(api_key)
+    data = await doodstream.getFileslist()
+    if data['status'] == 200:
         text = "Select your file\n\n"
         all_folders = data['result']['folders']
         folders = all_folders[:11]
