@@ -9,7 +9,7 @@ from pyrogram.errors import UserBannedInChannel, UserNotParticipant
 async def force_sub(c, m):
     chat_id = m.from_user.id
     try:
-        chat = await c.get_chat_member('Ns_bot_updates', m.from_user.id)
+        chat = await c.get_chat_member('NsBotsOfficial', m.from_user.id)
         if chat.status=='kicked':
             return await m.reply_text('😡 Hai you are kicked from my updates channel. So, you are not able to use me 😝',  quote=True)
 
@@ -17,7 +17,7 @@ async def force_sub(c, m):
         return await m.reply_text("Hai you made a mistake so you are banned from channel so you are banned from me too 😜",  quote=True)
 
     except UserNotParticipant:
-        button = [[InlineKeyboardButton('join Updates channel 🥰', url='https://t.me/Ns_bot_updates')]]
+        button = [[InlineKeyboardButton('join Updates channel 🥰', url='https://t.me/NsBotsOfficial')]]
         markup = InlineKeyboardMarkup(button)
         return await m.reply_text(text="""Hai bro,\n\n**You must join my channel for using my bot.**\n\nPress this button to join now 👇""", parse_mode='markdown', reply_markup=markup, quote=True)
 
