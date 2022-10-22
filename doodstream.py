@@ -2,10 +2,15 @@ import aiohttp
 
 
 class InvalidApiKey(Exception):
+    """ This error will be raised
+    if an invalid token is passed"""
+
     pass
 
 
 class DoodStream:
+    """ A simple api written according to my convenience"""
+
     base_url = "https://doodapi.com/api"
 
     def __init__(self, api_key):
@@ -14,6 +19,15 @@ class DoodStream:
 
     @staticmethod
     async def request(url, params=None):
+        """ For calling the http requests
+
+        parameters:
+            url (``str``):
+                a url path to which get request should be called.
+
+            params (``dict``, *optional*):
+                a python dictionary for any additional data that should be passed with get request.
+        """
         async with aiohttp.ClientSession() as session:
             async with session.get(url, params=params) as response:
                 data = await response.json()
@@ -24,6 +38,15 @@ class DoodStream:
 
 
     async def accountInfo(self):
+        """ For calling the http requests
+
+        parameters:
+            url (``str``):
+                a url path to which get request should be called.
+
+            params (``dict``, *optional*):
+                a python dictionary for any additional data that should be passed with get request.
+        """
         url = f"{self.base_url}/account/info"
         params = {'key': self.api_key}
         return await self.request(url, params)
