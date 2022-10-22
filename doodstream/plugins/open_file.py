@@ -1,15 +1,17 @@
-import asyncio 
-import requests
-import concurrent.futures
+from doodstream import DoodStream
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import humanbytes, TimeFormatter
 
+
 @Client.on_callback_query(filters.regex('^file'))
 async def open_file(c, m):
     await m.answer()
-    api_key = await c.db.get_credential_status(m.from_user.id)
     cmd, file_code, fld, fil = m.data.split('+')
+    api_key = await c.db.get_credential_status(m.from_user.id)
+    doodstream = DoodStream(api_key)
+    data = await doodstream.getFile()
+
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
     loop = asyncio.get_event_loop()
