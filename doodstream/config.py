@@ -1,10 +1,8 @@
-import os
+from os import getenv
 
-class Config(object):
-    BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
-    API_ID = int(os.environ.get("API_ID", 12345))
-    API_HASH = os.environ.get("API_HASH")
-    ACTIVE_DOWNLOADS = []
-    OWNER = os.environ.get("OWNER_ID", [1337144652])
-    DATABASE_URL = os.environ.get("DATABASE_URL", "")
-
+class Config:
+    api_hash = getenv("API_HASH")
+    api_id = int(getenv("API_ID", 12345))
+    bot_token = getenv("BOT_TOKEN", "")
+    database_url = getenv("DATABASE_URL", "")
+    owner = list(int(user) for users in getenv("OWNER_ID", "1458029115").split(' '))

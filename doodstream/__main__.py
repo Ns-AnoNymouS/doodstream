@@ -2,8 +2,10 @@ import logging
 import logging.config
 
 # Get logging configurations
-logging.getLogger().setLevel(logging.ERROR)
+logging.config.fileConfig('logging.conf')
+logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+log = logging.getLogger(__name__)
 
 from .config import Config
 from pyrogram import Client
@@ -11,19 +13,31 @@ from pyromod import listen
 from .database.database import Database
 
 
-def main():
-    plugins = dict(root="doodstream/plugins")
-    app = Client("Dood-Stream",
-                 bot_token=Config.BOT_TOKEN,
-                 api_id=Config.API_ID,
-                 api_hash=Config.API_HASH,
-                 plugins=plugins,
-                 workers=100)
+class NsBots(Client, Config):
+    def __init__(self):
+        super().__init__(
+            name="Dood-Stream",
+            bot_token=self.bot_token,
+            api_id=self.api_id,
+            api_hash=self.api_hash,
+            plugins=dict(root="doodstream/plugins"),
+            workers=100
+        )
+        self.active_downloads = dict()
+        self.db = Database(self.database_url, 'Doodstream_Bot')
+        self.download_location = './DOWNLOADS'
 
 
-    app.db = Database(Config.DATABASE_URL, 'Doodstream_NsBot')
-    app.run()
+    async def start(self):
+        await super().start()
+        me = await self.get_me()
+        log.info(f'Your Doodstream bot was started in {me.first_name} ({me.username})')
+
+
+    async def stop(self):
+        await super().stop()
+        log.info('Stopped your Doodstream bot')
 
 
 if __name__ == "__main__":
-    main()
+    NsBots().run()
