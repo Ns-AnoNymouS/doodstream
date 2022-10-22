@@ -59,7 +59,7 @@ class DoodStream:
         params = {
             'key': self.api_key,
             'url': url,
-            'fld_id': folder_id if folder_id
+            'fld_id': folder_id,
             'new_title': title
         }
         return await self.request(url, params)
