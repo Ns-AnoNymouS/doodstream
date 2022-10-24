@@ -1,4 +1,4 @@
-from doodstream import DoodStream
+from doodstream_api import DoodStream
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import humanbytes, TimeFormatter
