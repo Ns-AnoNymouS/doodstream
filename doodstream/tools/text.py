@@ -29,9 +29,9 @@ I can upload tg files to your doodstream account too. Check help button for more
 """
 --**Follow The below steps to login**--
 
-    • Open [Dood stream](http://doodstream.com) and login to the account
+    • Open [Dood stream](http://doodstream.com) and signin or singup to an account.
 
-    • And then press the below button and copy the API Key and paste here in the format `/token xxxxxxx...`
+    • And then press the below button and search for API Key and copy the API Key and send here in the format `/token xxxxxxx...`
 
 """
       RULES = """1. Don't Tag admins without proper reason.
@@ -53,5 +53,3 @@ I can upload tg files to your doodstream account too. Check help button for more
 9. Respect other Members in group.
 
 10. Don't argue with admins."""
-
-      LOGIN = """Only for admins for receiving feedbacks"""
