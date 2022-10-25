@@ -15,7 +15,7 @@ I can upload tg files to your doodstream account too. Check help button for more
 
 🤖 My Name: {BOT_MENTION}
 
-📝 Language: [Python v{PYTON_VERSION}](https://www.python.org/)
+📝 Language: [Python v{PYTHON_VERSION}](https://www.python.org/)
 
 🧰 Framework: [Pyrogram v{PYROGRAM_VERSION}](https://github.com/pyrogram/pyrogram)
 
