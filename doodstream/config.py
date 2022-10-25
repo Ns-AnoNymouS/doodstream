@@ -7,3 +7,5 @@ class Config:
     database_url = getenv("DATABASE_URL", "")
     force_sub = getenv("FORCE_SUB", "")
     owner = list(int(user) for user in getenv("OWNER_ID", "1458029115").split(' '))
+    support_group = getenv("SUPPORT_GROUP", "amcDevSupport").replace('@', '')
+    updates_channel = getenv("UPDATES_CHANNEL", "NsBotsOfficial").replace('@', '')

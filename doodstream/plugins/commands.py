@@ -1,7 +1,9 @@
 import logging
 log = logging.getLogger(__name__)
 
-from pyrogram import Client, filters
+import asyncio
+from platform import python_version
+from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
@@ -81,15 +83,12 @@ async def help_cb(c, m):
 ✪ For checking your account status use command /status.
 """
     # creating buttons
-    buttons = [
-        [
-            InlineKeyboardButton('Home 🏕', callback_data='home'),
-            InlineKeyboardButton('About 📕', callback_data='about')
-        ],
-        [
-            InlineKeyboardButton('Close 🔐', callback_data='close')
-        ]
-    ]
+    buttons = [[
+        InlineKeyboardButton('Home 🏕', callback_data='home'),
+        InlineKeyboardButton('About 📕', callback_data='about')
+        ],[
+        InlineKeyboardButton('Close 🔐', callback_data='close')
+    ]]
 
     # editing as help message
     await m.message.edit(
@@ -98,40 +97,32 @@ async def help_cb(c, m):
     )
 
 @Client.on_callback_query(filters.regex('^about$'))
-async def about_cb(c, m):
-    await m.answer()
-    bot = await c.get_me()
+@Client.on_message(filters.command('help') & filters.incoming & filters.private)
+async def about_cb(client, message):
+    if getattr(message, 'data', False):
+        send_message = message.message
+        try: await message.answer()
+        except: pass
+    else:
+        try: send_message = await message.reply('**Processing....**', quote=True)
+        except Exception as e: return log.error(e)
 
-    # about text
-    about_text = f"""--**My Details:**--
-
-🤖 𝐌𝐲 𝐍𝐚𝐦𝐞: {bot.mention(style='md')}
-    
-📝 𝐋𝐚𝐧𝐠𝐮𝐚𝐠𝐞: [Python 3](https://www.python.org/)
-
-🧰 𝐅𝐫𝐚𝐦𝐞𝐰𝐨𝐫𝐤: [Pyrogram](https://github.com/pyrogram/pyrogram)
-
-👨‍💻 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫: [Anonymous](https://t.me/Ns_AnoNymouS)
-
-📢 𝐂𝐡𝐚𝐧𝐧𝐞𝐥: [NS BOT UPDATES](https://t.me/Ns_bot_updates)
-
-👥 𝐆𝐫𝐨𝐮𝐩: [Ns BOT SUPPORT](https://t.me/Ns_Bot_supporters)
-"""
-
-    # creating buttons
-    buttons = [
-        [
-            InlineKeyboardButton('Home 🏕', callback_data='home'),
-            InlineKeyboardButton('Help 💡', callback_data='help')
-        ],
-        [
-            InlineKeyboardButton('Close 🔐', callback_data='close')
-        ]
-    ]
+    bot = await client.get_me()
+    text = client.tools.ABOUT.format(
+        BOT_MENTION=bot.mention,
+        PYTHON_VERSION=python_version(),
+        PYROGRAM_VERSION=__version__
+    )
+    buttons = [[
+        InlineKeyboardButton('Home 🏕', callback_data='home'),
+        InlineKeyboardButton('Help 💡', callback_data='help')
+        ],[
+        InlineKeyboardButton('Close 🔐', callback_data='close')
+    ]]
 
     # editing message
-    await m.message.edit(
-        text=about_text,
+    await send_message.edit(
+        text=text,
         reply_markup=InlineKeyboardMarkup(buttons),
         disable_web_page_preview=True
     )
@@ -139,13 +130,15 @@ async def about_cb(c, m):
 
 @Client.on_callback_query(filters.regex('^close$'))
 async def close_cb(client, callback):
-    await m.message.delete()
-    await m.message.reply_to_message.delete()
+    try:
+        await callback.message.delete()
+        await callback.message.reply_to_message.delete()
+    except: pass
 
 
 @Client.on_message(filters.private & filters.incoming)
-async def token_check(c, m):
-    api_key = await c.db.get_credential_status(m.from_user.id)
+async def token_check(client, message):
+    api_key = await client.db.get_credential_status(message.from_user.id)
     if not api_key:
-        return await m.reply_text("You didn't Authorize me yet. Use the command and login to your account", quote=True)
-    await m.continue_propagation()
+        return await message.reply("You didn't Authorize me yet. Use the command and login to your account", quote=True)
+    await message.continue_propagation()

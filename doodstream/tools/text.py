@@ -1,12 +1,29 @@
 class Text:
        # start text
-      START = f"""Hi {mention}
+      START = \
+"""Hi {mention}
 
 I am a doodstream bot to maintain your [doodstream](https://doodstream.com) account.
 
 I can upload tg files to your doodstream account too. Check help button for more help.
 
 **Maintained By:** [Anonymous](https://t.me/Ns_AnoNymouS)
+"""
+
+      ABOUT = \
+"""--**My Details:**--
+
+🤖 My Name: {BOT_MENTION}
+
+📝 Language: [Python v{PYTON_VERSION}](https://www.python.org/)
+
+🧰 Framework: [Pyrogram v{PYROGRAM_VERSION}](https://github.com/pyrogram/pyrogram)
+
+👨‍💻 Developer: [Anonymous](https://t.me/Ns_AnoNymouS)
+
+📢 Channel: [NS Bots](https://t.me/NsBotsOfficial)
+
+👥 Group: [Support Group](https://t.me/amcDevSupport)
 """
 
       RULES = """1. Don't Tag admins without proper reason.
