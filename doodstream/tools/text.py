@@ -25,7 +25,15 @@ I can upload tg files to your doodstream account too. Check help button for more
 
 👥 Group: [Support Group](https://t.me/amcDevSupport)
 """
+      LOGIN = \
+"""
+--**Follow The below steps to login**--
 
+    • Open [Dood stream](http://doodstream.com) and login to the account
+
+    • And then press the below button and copy the API Key and paste here in the format `/token xxxxxxx...`
+
+"""
       RULES = """1. Don't Tag admins without proper reason.
 
 2. Don't send unnecessary feedbacks.
