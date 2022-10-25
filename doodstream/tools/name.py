@@ -1,5 +1,6 @@
-import os
-import requests
+import logging
+log = logging.getLogger(__name__)
+
 import aiohttp
 
 
@@ -42,26 +43,3 @@ async def isdownloadable_link(link):
         filename = link.rsplit("/")[0]
         filename = await replace(filename)
         return False, filename
-
-
-async def replace(url_name):
-    if "%28" in url_name:
-        url_name = url_name.replace("%28", "(")
-    if "%29" in url_name:
-        url_name = url_name.replace("%29", ")")
-    if "%20" in url_name:
-        url_name = url_name.replace("%20", " ")
-    if "%7B" in url_name:
-        url_name = url_name.replace("%7B", "{")
-    if "%7D" in url_name:
-        url_name = url_name.replace("%7D", "}")
-    if "%5B" in url_name:
-        url_name = url_name.replace("%5B", "[")
-    if "%5D" in url_name:
-        url_name = url_name.replace("%5D", "]")
-    if "_" in url_name:
-        url_name = url_name.replace("_", " ")
-    if "?" in url_name:
-        url_name = url_name.split("?")[0]
-    return url_name
-

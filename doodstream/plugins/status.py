@@ -1,6 +1,4 @@
 import asyncio
-import requests
-import concurrent.futures
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
