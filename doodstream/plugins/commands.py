@@ -48,15 +48,6 @@ async def start(client, message):
         try: send_message = await message.reply('**Processing....**', quote=True)
         except Exception as e: return log.error(e)
            
-    # start text
-    text = f"""Hi {message.from_user.mention()}
-
-I am a doodstream bot to maintain your [doodstream](https://doodstream.com) account.
-
-I can upload tg files to your doodstream account too. Check help button for more help.
-
-**Maintained By:** [Anonymous](https://t.me/Ns_AnoNymouS)
-"""
 
     # Buttons
     buttons = [[
