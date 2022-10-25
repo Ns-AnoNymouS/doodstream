@@ -8,11 +8,10 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
-async def login(c, m):
-    url = "https://doodstream.com/api-docs"
-    buttons = [[InlineKeyboardButton("Auth URL", url=url)]]
-    await m.reply_text(
-        text="--**Follow The below steps to login**--\n\n    • Open [Dood stream](http://doodstream.com) and login to the account\n\n    • And then press the below button and copy the API Key and paste here in the format `/token xxxxxxx...`",
+async def login(client, message):
+    buttons = [[InlineKeyboardButton("API Key 🗝", url="https://doodstream.com/settings")]]
+    await message.reply(
+        text=client.tools.LOGIN,
         reply_markup=InlineKeyboardMarkup(buttons)
     )
 
