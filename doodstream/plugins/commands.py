@@ -41,8 +41,8 @@ async def token(client, message):
             text = "Something Went wrong"
     else:
         text = "Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`"
-    try: await m.reply(text, quote=True)
-    except: log.error(e)
+    try: await message.reply(text, quote=True)
+    except Exception as e: log.error(e)
 
 
 @Client.on_callback_query(filters.regex('^home$'))
