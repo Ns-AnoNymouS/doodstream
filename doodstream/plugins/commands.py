@@ -46,7 +46,8 @@ async def token(client, message):
         else:
             text = "Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`"
     except Exception as e: text = f"--Error:--\n\n{e}"
-    try: await send_message(text)
+    
+    try: await send_message.edit(text)
     except Exception as e: log.error(e)
 
 
