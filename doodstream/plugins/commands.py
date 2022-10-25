@@ -3,8 +3,8 @@ log = logging.getLogger(__name__)
 
 import asyncio
 from platform import python_version
-from doodstream_api import DoodStream
 from pyrogram import Client, filters, __version__
+from doodstream_api import DoodStream, InvalidApiKey
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import MessageNotModified
 
@@ -23,25 +23,30 @@ async def login(client, message):
 
 @Client.on_message(filters.command('token') & filters.private & filters.incoming)
 async def token(client, message):
-    if len(message.command) == 2:
-        api_key = message.command[1]
-        doodstream = DoodStream(api_key)
-        userdetails = await doodstream.accountInfo()
-        if userdetails['status'] == 403:
-            text = "Send me the correct token"
-        elif userdetails['status'] == 200:
-            await client.db.update_credential_status(message.from_user.id,  api_key)
-            text = "--**Your Details:**--\n\n"
-            text += f"**Email:** {userdetails['result']['email']}\n" if 'email' in userdetails['result'] else ""
-            text += f"**Balance:** {userdetails['result']['balance']}\n" if 'balance' in userdetails['result'] else ""   
-            text += f"**Storage left:** {userdetails['result']['storage_left']}\n" if 'storage_left' in userdetails['result'] else ""
-            text += f"**Premium Expiry:** {userdetails['result']['premim_expire']}\n" if 'premim_expire' in userdetails['result'] else "" 
+    try: send_message = await message.reply(client.tools.PROCESSING)
+    except Exception as e: log.error(e)
+
+    try:
+        if len(message.command) == 2:
+            api_key = message.command[1]
+            doodstream = DoodStream(api_key)
+            userdetails = await doodstream.accountInfo()
+            if userdetails['status'] == 403:
+                text = "Send me the correct token"
+            elif userdetails['status'] == 200:
+                await client.db.update_credential_status(message.from_user.id,  api_key)
+                text = "--**Your Details:**--\n\n"
+                text += f"**Email:** {userdetails['result']['email']}\n" if 'email' in userdetails['result'] else ""
+                text += f"**Balance:** {userdetails['result']['balance']}\n" if 'balance' in userdetails['result'] else ""   
+                text += f"**Storage left:** {userdetails['result']['storage_left']}\n" if 'storage_left' in userdetails['result'] else ""
+                text += f"**Premium Expiry:** {userdetails['result']['premim_expire']}\n" if 'premim_expire' in userdetails['result'] else "" 
+            else:
+                log.info(userdetails)
+                text = "Something Went wrong"
         else:
-            log.info(userdetails)
-            text = "Something Went wrong"
-    else:
-        text = "Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`"
-    try: await message.reply(text, quote=True)
+            text = "Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`"
+    except Exception as e: text = f"--Error:--\n\n{e}"
+    try: await send_message(text)
     except Exception as e: log.error(e)
 
 

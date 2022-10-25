@@ -4,8 +4,9 @@ import aiohttp
 class InvalidApiKey(Exception):
     """ This error will be raised
     if an invalid token is passed"""
-
-    pass
+    
+    def __str__(self):
+        return "The API key provided by you is invalid."
 
 
 class DoodStream:
@@ -31,7 +32,7 @@ class DoodStream:
         async with aiohttp.ClientSession() as session:
             async with session.get(url, params=params) as response:
                 data = await response.json()
-                if data["msg"] == "Wrong Auth":
+                if data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
                 else:
                     return data
