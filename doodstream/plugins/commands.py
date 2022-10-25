@@ -57,7 +57,7 @@ async def start(client, message):
         InlineKeyboardButton('About 📕', callback_data="about"),
         InlineKeyboardButton('Close 🔐', callback_data='close')
     ]]
-    text = client.tools.start.format(mention=message.from_user.mention)
+    text = client.tools.START.format(mention=message.from_user.mention)
     await send_message.edit(text=text, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
 
 
