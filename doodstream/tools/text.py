@@ -1,4 +1,13 @@
 class Text:
+       # start text
+      START = f"""Hi {mention}
+
+I am a doodstream bot to maintain your [doodstream](https://doodstream.com) account.
+
+I can upload tg files to your doodstream account too. Check help button for more help.
+
+**Maintained By:** [Anonymous](https://t.me/Ns_AnoNymouS)
+"""
 
       RULES = """1. Don't Tag admins without proper reason.
 
