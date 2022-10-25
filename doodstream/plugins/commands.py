@@ -26,7 +26,7 @@ async def token(client, message):
     if len(message.command) == 2:
         api_key = message.command[1]
         doodstream = DoodStream(api_key)
-        userdetails = doodstream.accountInfo()
+        userdetails = await doodstream.accountInfo()
         if userdetails['status'] == 403:
             text = "Send me the correct token"
         elif userdetails['status'] == 200:
