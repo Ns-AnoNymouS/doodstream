@@ -1,4 +1,6 @@
-import requests
+import logging
+log = logging.getLogger(__name__)
+
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -35,11 +37,19 @@ async def token(c, m):
         await m.reply_text("Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`", quote=True)
 
 
+@Client.on_callback_query(filters.regex('^home$'))
 @Client.on_message(filters.command('start') & filters.incoming & filters.private)
-async def start(c, m, cb=False):
-
+async def start(client, message):
+    if getattr(message, 'data', False):
+        send_message = message.message
+        try: await message.answer()
+        except: pass
+    else:
+        try: send_message = await message.reply('**Processing....**', quote=True)
+        except Exception as e: return log.error(e)
+           
     # start text
-    text = f"""Hi {m.from_user.mention(style='md')}
+    text = f"""Hi {message.from_user.mention()}
 
 I am a doodstream bot to maintain your [doodstream](https://doodstream.com) account.
 
@@ -56,11 +66,8 @@ I can upload tg files to your doodstream account too. Check help button for more
         InlineKeyboardButton('About 📕', callback_data="about"),
         InlineKeyboardButton('Close 🔐', callback_data='close')
     ]]
-    if cb:
-        await m.answer()
-        await m.message.edit(text=text, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
-    else:
-        await m.reply_text(text=text, reply_markup=InlineKeyboardMarkup(buttons), quote=True,  disable_web_page_preview=True)
+    
+    await send_message.edit(text=text, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
 
 
 @Client.on_callback_query(filters.regex('^help$'))
@@ -145,8 +152,7 @@ async def close_cb(c, m):
     await m.message.reply_to_message.delete()
 
 
-@Client.on_callback_query(filters.regex('^home$'))
-async def home_cb(c, m):
+
     await m.answer()
     await start(c, m, cb=True)
 
