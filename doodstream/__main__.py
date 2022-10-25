@@ -7,6 +7,7 @@ logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 log = logging.getLogger(__name__)
 
+from .tools import Tools
 from .config import Config
 from pyrogram import Client
 from pyromod import listen
@@ -25,7 +26,7 @@ class NsBots(Client, Config):
         )
         self.active_downloads = dict()
         self.db = Database(self.database_url, 'Doodstream_Bot')
-        self.download_location = './DOWNLOADS'
+        self.tools = Tools()
 
 
     async def start(self):
