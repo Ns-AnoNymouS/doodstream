@@ -138,14 +138,9 @@ async def about_cb(c, m):
 
 
 @Client.on_callback_query(filters.regex('^close$'))
-async def close_cb(c, m):
+async def close_cb(client, callback):
     await m.message.delete()
     await m.message.reply_to_message.delete()
-
-
-
-    await m.answer()
-    await start(c, m, cb=True)
 
 
 @Client.on_message(filters.private & filters.incoming)
