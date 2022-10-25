@@ -1,10 +1,4 @@
-class Translation(object):
-      START = """Hi **{}**,
-
-I am a feedback bot for Ns bots you can send feed back or ask for pm in this bot.
-
-**Maintained By:** [Anonymous](https://t.me/Ns_AnoNymouS)
-"""
+class Text:
 
       RULES = """1. Don't Tag admins without proper reason.
 
