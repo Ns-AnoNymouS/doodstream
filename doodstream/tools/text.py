@@ -1,15 +1,4 @@
 class Text:
-       # start text
-      START = \
-"""Hi {mention}
-
-I am a doodstream bot to maintain your [doodstream](https://doodstream.com) account.
-
-I can upload tg files to your doodstream account too. Check help button for more help.
-
-**Maintained By:** [Anonymous](https://t.me/Ns_AnoNymouS)
-"""
-
       ABOUT = \
 """--**My Details:**--
 
@@ -25,6 +14,21 @@ I can upload tg files to your doodstream account too. Check help button for more
 
 👥 Group: [Support Group](https://t.me/amcDevSupport)
 """
+      HELP = \
+"""**You need Help?? 😎**
+
+✪ First use /login command and follow the steps given there.
+
+✪ For uploading telegram files to your doodstream account forward me a tg file or video.
+
+✪ For uploading links send me the link i will upload them using remote upload.
+
+✪ For checking your files use command /myfiles.
+
+✪ For checking active uploads use command /remote_actions.
+
+✪ For checking your account status use command /status.
+"""
       LOGIN = \
 """
 --**Follow The below steps to login**--
@@ -34,22 +38,13 @@ I can upload tg files to your doodstream account too. Check help button for more
     • And then press the below button and search for API Key and copy the API Key and send here in the format `/token xxxxxxx...`
 
 """
-      RULES = """1. Don't Tag admins without proper reason.
+      PROCESSING = "**Processing....**"
+      START = \
+"""Hi {mention}
 
-2. Don't send unnecessary feedbacks.
+I am a doodstream bot to maintain your [doodstream](https://doodstream.com) account.
 
-3. Ask before PM.
+I can upload tg files to your doodstream account too. Check help button for more help.
 
-4. Don't use bad words.
-
-5. Don't send any links on group. 
-
-6. Better use English. 
-
-7. Specify the bot name while asking any question.
-
-8. Better only send screenshots.
-
-9. Respect other Members in group.
-
-10. Don't argue with admins."""
+**Maintained By:** [Anonymous](https://t.me/Ns_AnoNymouS)
+"""

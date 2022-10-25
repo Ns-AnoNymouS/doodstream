@@ -3,39 +3,46 @@ log = logging.getLogger(__name__)
 
 import asyncio
 from platform import python_version
+from doodstream_api import DoodStream
 from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors import MessageNotModified
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
 async def login(client, message):
     buttons = [[InlineKeyboardButton("API Key 🗝", url="https://doodstream.com/settings")]]
-    await message.reply(
-        text=client.tools.LOGIN,
-        reply_markup=InlineKeyboardMarkup(buttons)
-    )
+    try:
+        await message.reply(
+            text=client.tools.LOGIN,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            quote=True
+        )
+    except Exception as e: log.error(e)
 
 
 @Client.on_message(filters.command('token') & filters.private & filters.incoming)
-async def token(c, m):
-    if len(m.command) == 2:
-        cmd, api_key = m.text.split(' ')
-        url = f"https://doodapi.com/api/account/info?key={api_key}"
-        userdetails = requests.get(url).json()
+async def token(client, message):
+    if len(message.command) == 2:
+        api_key = message.command[1]
+        doodstream = DoodStream(api_key)
+        userdetails = doodstream.accountInfo()
         if userdetails['status'] == 403:
             text = "Send me the correct token"
         elif userdetails['status'] == 200:
-            await c.db.update_credential_status(m.from_user.id,  api_key)
+            await client.db.update_credential_status(message.from_user.id,  api_key)
             text = "--**Your Details:**--\n\n"
             text += f"**Email:** {userdetails['result']['email']}\n" if 'email' in userdetails['result'] else ""
             text += f"**Balance:** {userdetails['result']['balance']}\n" if 'balance' in userdetails['result'] else ""   
             text += f"**Storage left:** {userdetails['result']['storage_left']}\n" if 'storage_left' in userdetails['result'] else ""
             text += f"**Premium Expiry:** {userdetails['result']['premim_expire']}\n" if 'premim_expire' in userdetails['result'] else "" 
         else:
+            log.info(userdetails)
             text = "Something Went wrong"
-        await m.reply_text(text)
     else:
-        await m.reply_text("Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`", quote=True)
+        text = "Use this command with API KEY.\n**Example:** `/token 34095x5c0kj164vxxxxxx`"
+    try: await m.reply(text, quote=True)
+    except: log.error(e)
 
 
 @Client.on_callback_query(filters.regex('^home$'))
@@ -46,11 +53,10 @@ async def start(client, message):
         try: await message.answer()
         except: pass
     else:
-        try: send_message = await message.reply('**Processing....**', quote=True)
+        try: send_message = await message.reply(client.tools.PROCESSING, quote=True)
         except Exception as e: return log.error(e)
-           
 
-    # Buttons
+    # creating start message buttons
     buttons = [[
         InlineKeyboardButton('My Father 👨‍✈️', url="https://t.me/Ns_AnoNymouS"),
         InlineKeyboardButton('Help 💡', callback_data="help")
@@ -59,29 +65,30 @@ async def start(client, message):
         InlineKeyboardButton('Close 🔐', callback_data='close')
     ]]
     text = client.tools.START.format(mention=message.from_user.mention)
-    await send_message.edit(text=text, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
+
+    # editing as start message
+    try:
+        await send_message.edit(
+            text=text,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            disable_web_page_preview=True
+        )
+    except MessageNotModified: pass
+    except Exception as e: log.error(e)
 
 
 @Client.on_callback_query(filters.regex('^help$'))
-async def help_cb(c, m):
-    await m.answer()
+@Client.on_message(filters.command('help') & filters.incoming & filters.private)
+async def help(client, message):
+    if getattr(message, 'data', False):
+        send_message = message.message
+        try: await message.answer()
+        except: pass
+    else:
+        try: send_message = await message.reply(client.tools.PROCESSING, quote=True)
+        except Exception as e: return log.error(e)
 
-    # help text
-    help_text = """**You need Help?? 😎**
-
-✪ First use /login command and follow the steps given there.
-
-✪ For uploading telegram files to your doodstream account forward me a tg file or video.
-
-✪ For uploading links send me the link i will upload them using remote upload.
-
-✪ For checking your files use command /myfiles.
-
-✪ For checking active uploads use command /remote_actions.
-
-✪ For checking your account status use command /status.
-"""
-    # creating buttons
+    # creating buttons for help
     buttons = [[
         InlineKeyboardButton('Home 🏕', callback_data='home'),
         InlineKeyboardButton('About 📕', callback_data='about')
@@ -90,28 +97,36 @@ async def help_cb(c, m):
     ]]
 
     # editing as help message
-    await m.message.edit(
-        text=help_text,
-        reply_markup=InlineKeyboardMarkup(buttons)
-    )
+    try:
+        await send_message.edit(
+            text=client.tools.HELP,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            disable_web_page_preview=True
+        )
+    except MessageNotModified: pass
+    except Exception as e: log.error(e)
+
 
 @Client.on_callback_query(filters.regex('^about$'))
-@Client.on_message(filters.command('help') & filters.incoming & filters.private)
+@Client.on_message(filters.command('about') & filters.incoming & filters.private)
 async def about_cb(client, message):
     if getattr(message, 'data', False):
         send_message = message.message
         try: await message.answer()
         except: pass
     else:
-        try: send_message = await message.reply('**Processing....**', quote=True)
+        try: send_message = await message.reply(client.tools.PROCESSING, quote=True)
         except Exception as e: return log.error(e)
 
+    # getting about text ready
     bot = await client.get_me()
     text = client.tools.ABOUT.format(
         BOT_MENTION=bot.mention,
         PYTHON_VERSION=python_version(),
         PYROGRAM_VERSION=__version__
     )
+
+    # Creating buttons 
     buttons = [[
         InlineKeyboardButton('Home 🏕', callback_data='home'),
         InlineKeyboardButton('Help 💡', callback_data='help')
@@ -119,7 +134,7 @@ async def about_cb(client, message):
         InlineKeyboardButton('Close 🔐', callback_data='close')
     ]]
 
-    # editing message
+    # editing as about message
     await send_message.edit(
         text=text,
         reply_markup=InlineKeyboardMarkup(buttons),
