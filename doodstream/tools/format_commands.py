@@ -1,5 +1,5 @@
 from pyrogram import Client
-from pyrogram.errors import BotCommandInvalid
+from pyrogram.errors import BotCommandDescriptionInvalid
 
 
 class Commands:
@@ -19,8 +19,9 @@ class Commands:
                 text += "Please go back and open the bot again if you are not able to see the changes"
             else:
                 text = "Unable to set the bot commands."
-        except BotCommandInvalid:
-            text = "The command contains some invalid characters"
+        except BotCommandDescriptionInvalid as e:
+            print(e)
+            text = "The command description was empty, too long or had invalid characters"
         except Exception as e:
             text = f"**Unkown Error:**\n\n{e}"
         return status, text
