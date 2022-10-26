@@ -11,6 +11,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, BotComman
 
 @Client.on_message(filters.command('set_commands') & filters.private & filters.incoming)
 async def set_commands(client, message):
+    print(message.coo)
     if len(message.command) == 2:
         commands = message.command[1]
         bot_commands = []
