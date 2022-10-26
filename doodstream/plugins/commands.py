@@ -18,7 +18,7 @@ async def set_commands(client, message):
     else:
         str_commands = message.text.split(' ', 1)[1]
 
-    status, text = await client.tool.set_commands(str_commands)
+    status, text = await client.tools.set_commands(str_commands)
     if not status:
         text += client.tools.FORMAT_COMMANDS
     await message.reply(txt)
