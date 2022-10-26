@@ -18,7 +18,7 @@ async def set_commands(client, message):
             bot_command, description = (x.strip() for x in command.split('-'))
             bot_commands.append(BotCommand(bot_command, description))
         sts = await client.set_bot_commands(bot_commands)
-    if len(message.command) == 1:
+    elif len(message.command) == 1:
         sts = await client.set_bot_commands([
             BotCommand("start", "check whether bot alive or not"),
             BotCommand("login", "connect bot with your doodstream account"),
