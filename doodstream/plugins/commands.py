@@ -5,8 +5,20 @@ import asyncio
 from platform import python_version
 from pyrogram import Client, filters, __version__
 from doodstream_api import DoodStream, InvalidApiKey
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import MessageNotModified
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, BotCommand 
+
+
+@Client.on_message(filters.command('set_commands') & filters.private & filters.incoming)
+async def set_commands(client, message):
+    await client.set_bot_commands([
+        BotCommand("start", "check whether bot alive or not"),
+        BotCommand("login", "connect bot with your doodstream account"),
+        BotCommand("token", "your api key to connect with doodstream"), 
+        BotCommand("myfiles", "your doodstream account files."),
+        BotCommand("remote_actions", "check remote uplaod status"),
+        BotCommand("status", "check your account status")
+    ])
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
