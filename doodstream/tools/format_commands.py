@@ -22,6 +22,6 @@ class Commands:
         except BotCommandDescriptionInvalid as e:
             print(e)
             text = "The command description was empty, too long or had invalid characters"
-        except Exception as e:
-            text = f"**Unkown Error:**\n\n{e}"
+        # except Exception as e:
+        #     text = f"**Unkown Error:**\n\n{e}"
         return status, text
