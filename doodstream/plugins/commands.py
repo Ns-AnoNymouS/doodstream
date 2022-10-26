@@ -11,14 +11,22 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, BotComman
 
 @Client.on_message(filters.command('set_commands') & filters.private & filters.incoming)
 async def set_commands(client, message):
-    await client.set_bot_commands([
-        BotCommand("start", "check whether bot alive or not"),
-        BotCommand("login", "connect bot with your doodstream account"),
-        BotCommand("token", "your api key to connect with doodstream"), 
-        BotCommand("myfiles", "your doodstream account files."),
-        BotCommand("remote_actions", "check remote uplaod status"),
-        BotCommand("status", "check your account status")
-    ])
+    if len(m.command) == 2:
+        commands = m.command[1]
+        bot_commands = []
+        for command in commands.splitlines():
+            command, description = (x.strip() for x in command.split('-'))
+            bot_commands.append(BotCommand(command, description))
+        await client.set_bot_commands(bot_commands)
+    else:
+        await client.set_bot_commands([
+            BotCommand("start", "check whether bot alive or not"),
+            BotCommand("login", "connect bot with your doodstream account"),
+            BotCommand("token", "your api key to connect with doodstream"), 
+            BotCommand("myfiles", "your doodstream account files."),
+            BotCommand("remote_actions", "check remote uplaod status"),
+            BotCommand("status", "check your account status")
+        ])
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
