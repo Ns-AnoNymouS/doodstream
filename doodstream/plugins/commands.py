@@ -21,7 +21,7 @@ async def set_commands(client, message):
     status, text = await client.tools.set_commands(str_commands)
     if not status:
         text += client.tools.FORMAT_COMMANDS
-    await message.reply(txt)
+    await message.reply(text)
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
