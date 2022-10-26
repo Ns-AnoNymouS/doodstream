@@ -11,12 +11,12 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, BotComman
 
 @Client.on_message(filters.command('set_commands') & filters.private & filters.incoming)
 async def set_commands(client, message):
-    if len(m.command) == 2:
-        commands = m.command[1]
+    if len(message.command) == 2:
+        commands = message.command[1]
         bot_commands = []
         for command in commands.splitlines():
-            command, description = (x.strip() for x in command.split('-'))
-            bot_commands.append(BotCommand(command, description))
+            bot_command, description = (x.strip() for x in command.split('-'))
+            bot_commands.append(BotCommand(bot_command, description))
         await client.set_bot_commands(bot_commands)
     else:
         await client.set_bot_commands([
@@ -27,6 +27,7 @@ async def set_commands(client, message):
             BotCommand("remote_actions", "check remote uplaod status"),
             BotCommand("status", "check your account status")
         ])
+    await message.reply("sucess")
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
