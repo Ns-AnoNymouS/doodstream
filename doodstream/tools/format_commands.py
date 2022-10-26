@@ -3,7 +3,7 @@ from pyrogram.errors import BotCommandInvalid
 
 
 class Commands:
-    def __init__(self):
+    def __init__(self, client: Client):
         self.client = Client
 
 
