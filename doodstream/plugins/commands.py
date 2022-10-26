@@ -28,7 +28,7 @@ async def set_commands(client, message):
             bot_command, description = (x.strip() for x in command.split('-'))
             bot_commands.append(BotCommand(bot_command, description))
         sts = await client.set_bot_commands(bot_commands)
-    await message.reply("sucess", sts)
+    await message.reply(fchech"sucess {sts}")
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
