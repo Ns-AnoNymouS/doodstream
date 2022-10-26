@@ -11,15 +11,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, BotComman
 
 @Client.on_message(filters.command('set_commands') & filters.private & filters.incoming)
 async def set_commands(client, message):
-    print(le(message.command))
-    if len(message.command) == 2:
-        commands = message.command[1]
-        bot_commands = []
-        for command in commands.splitlines():
-            bot_command, description = (x.strip() for x in command.split('-'))
-            bot_commands.append(BotCommand(bot_command, description))
-        await client.set_bot_commands(bot_commands)
-    else:
+    print(len(message.command))
+    if len(message.command) == 1:
         await client.set_bot_commands([
             BotCommand("start", "check whether bot alive or not"),
             BotCommand("login", "connect bot with your doodstream account"),
@@ -28,6 +21,13 @@ async def set_commands(client, message):
             BotCommand("remote_actions", "check remote uplaod status"),
             BotCommand("status", "check your account status")
         ])
+    else:
+        commands = message.text.split(' ', 1)[1]
+        bot_commands = []
+        for command in commands.splitlines():
+            bot_command, description = (x.strip() for x in command.split('-'))
+            bot_commands.append(BotCommand(bot_command, description))
+        await client.set_bot_commands(bot_commands)
     await message.reply("sucess")
 
 
