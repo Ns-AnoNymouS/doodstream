@@ -9,7 +9,7 @@ class Commands:
 
     async def set_commands(self, str_commands: str):
         bot_commands, status = [], False
-        for command in commands.splitlines():
+        for command in str_commands.splitlines():
             bot_command, description = (x.strip() for x in command.split('-'))
             bot_commands.append(BotCommand(bot_command.lower(), description))
         try:
