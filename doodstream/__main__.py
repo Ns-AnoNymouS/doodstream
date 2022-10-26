@@ -26,7 +26,7 @@ class NsBots(Client, Config):
         )
         self.active_downloads = dict()
         self.db = Database(self.database_url, 'Doodstream_Bot')
-        self.tools = Tools()
+        self.tools = Tools(self)
 
 
     async def start(self):

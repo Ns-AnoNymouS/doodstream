@@ -12,29 +12,14 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, BotComman
 @Client.on_message(filters.command('set_commands') & filters.private & filters.incoming)
 async def set_commands(client, message):
     if message.reply_to_message:
-        commands = message.reply_to_message.text
-        bot_commands = []
-        for command in commands.splitlines():
-            bot_command, description = (x.strip() for x in command.split('-'))
-            bot_commands.append(BotCommand(bot_command, description))
-        sts = await client.set_bot_commands(bot_commands)
+        str_commands = message.reply_to_message.text
     elif len(message.command) == 1:
-        sts = await client.set_bot_commands([
-            BotCommand("start", "check whether bot alive or not"),
-            BotCommand("login", "connect bot with your doodstream account"),
-            BotCommand("token", "your api key to connect with doodstream"), 
-            BotCommand("myfiles", "your doodstream account files."),
-            BotCommand("remote_actions", "check remote uplaod status"),
-            BotCommand("status", "check your account status")
-        ])
+        str_commands = Text
     else:
-        commands = message.text.split(' ', 1)[1]
-        bot_commands = []
-        for command in commands.splitlines():
-            bot_command, description = (x.strip() for x in command.split('-'))
-            bot_commands.append(BotCommand(bot_command, description))
-        sts = await client.set_bot_commands(bot_commands)
-    await message.reply(f"sucess {sts}")
+        str_commands = message.text.split(' ', 1)[1]
+
+    txt = await client.tool.set_commands(str_commands)
+    await message.reply(txt)
 
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
@@ -98,7 +83,7 @@ async def start(client, message):
         InlineKeyboardButton('About 📕', callback_data="about"),
         InlineKeyboardButton('Close 🔐', callback_data='close')
     ]]
-    text = client.tools.START.format(mention=message.from_user.mention)
+    text = client.tools.START.format(USER_MENTION=message.from_user.mention)
 
     # editing as start message
     try:

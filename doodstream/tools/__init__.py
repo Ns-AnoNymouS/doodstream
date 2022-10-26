@@ -3,4 +3,5 @@ from .text import Text
 class Tools(
     Text
 ):
-    pass
+    def __init__(self, client: Client):
+        self.client = client
