@@ -409,7 +409,7 @@ class DoodStream:
 
 
     async def getFileInfo(self, file_id):
-                """Create a new folder
+        """Create a new folder
 
         parameters:
             name (``str``):
@@ -434,6 +434,7 @@ class DoodStream:
                 }
             }
         """
+
         url = f"{self.base_url}/file/info"
         params = {
             'key': self.api_key,
@@ -468,6 +469,7 @@ class DoodStream:
                 }
             }
         """
+
         url = f"{self.base_url}/file/image"
         params = {
             'key': self.api_key,
@@ -502,6 +504,7 @@ class DoodStream:
                 }
             }
         """
+
         url = f"{self.base_url}/file/rename"
         params = {
             'key': self.api_key,
@@ -537,6 +540,7 @@ class DoodStream:
                 }
             }
         """
+        
         url= f"{self.base_url}/search/videos"
         params = {
             'key': self.api_key,
