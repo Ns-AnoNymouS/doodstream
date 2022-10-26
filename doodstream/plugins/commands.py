@@ -6,7 +6,7 @@ from platform import python_version
 from pyrogram import Client, filters, __version__
 from doodstream_api import DoodStream, InvalidApiKey
 from pyrogram.errors import MessageNotModified
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, BotCommand 
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 @Client.on_message(filters.command('set_commands') & filters.private & filters.incoming)
