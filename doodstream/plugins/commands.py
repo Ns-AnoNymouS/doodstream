@@ -44,7 +44,7 @@ async def login(client, message):
 
 @Client.on_message(filters.command('token') & filters.private & filters.incoming)
 async def token(client, message):
-    try: send_message = await message.reply(client.tools.PROCESSING)
+    try: send_message = await message.reply(client.tools.PROCESSING, quote=True)
     except Exception as e: log.error(e)
 
     try:
