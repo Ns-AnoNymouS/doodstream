@@ -12,7 +12,7 @@ class Commands:
         bot_commands, status = [], False
         for command in str_commands.splitlines():
             bot_command, description = (x.strip() for x in command.split('-'))
-            bot_commands.append(BotCommand(bot_command.lower(), description))
+            bot_commands.append(BotCommand(bot_command[:32].lower(), description[:256]))
         try:
             status = await self.client.set_bot_commands(bot_commands)
             if status:
@@ -21,8 +21,10 @@ class Commands:
             else:
                 text = "Unable to set the bot commands."
         except BotCommandDescriptionInvalid as e:
-            print(e)
             text = "The command description was empty, too long or had invalid characters"
         except Exception as e:
-            text = f"**Unkown Error:**\n\n{e}"
+            if 'BOT_COMMAND_INVALID' in e:
+                text = "The command takes only lower english letter, underscores and digits"
+            else:
+                text = f"**Unkown Error:**\n\n{e}"
         return status, text
