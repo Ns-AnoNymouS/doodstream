@@ -14,11 +14,13 @@ async def set_commands(client, message):
     if message.reply_to_message:
         str_commands = message.reply_to_message.text
     elif len(message.command) == 1:
-        str_commands = Text
+        str_commands = client.tools.DEFAULT_COMMANDS
     else:
         str_commands = message.text.split(' ', 1)[1]
 
-    txt = await client.tool.set_commands(str_commands)
+    status, text = await client.tool.set_commands(str_commands)
+    if not status:
+        text += client.tools.FORMAT_COMMANDS
     await message.reply(txt)
 
 

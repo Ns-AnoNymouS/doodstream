@@ -24,10 +24,12 @@ class Text:
 👥 Group: [Support Group](https://t.me/amcDevSupport)
 """
 
-
+# the below commands are used as default commands
 # command - description (follow this format while setting commands and use newline to set another command)
-# command (``str``):  Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
-# description (``str``) – Description of the command; 1-256 characters.
+# command (``str``):
+#     Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
+# description (``str``):
+#     Description of the command; 1-256 characters.
 # Example:
 # start - check whether bot alive or not
 # about - check about me
@@ -38,6 +40,21 @@ token - your api key to connect with doodstream
 myfiles - your doodstream account files
 remote_actions - check remote uplaod status
 status - check your account status
+"""
+
+
+# if user send commands in incorrect format this will be send
+      FORMAT_COMMANDS = """
+--**Please Follow the Below format to set bot commands**--
+
+command - description (follow this format while setting commands and use newline to set another command)
+
+__command (`str`):__ Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
+__description (`str`):__ Description of the command; 1-256 characters.
+
+**Example:**
+      `start - check whether bot alive or not
+      about - check about me`
 """
 
 
