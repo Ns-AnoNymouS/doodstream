@@ -5,7 +5,7 @@ from pyrogram.errors import BotCommandDescriptionInvalid
 
 class Commands:
     def __init__(self, client: Client):
-        self.client = Client
+        self.client = client
 
 
     async def set_commands(self, str_commands: str):
