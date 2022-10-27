@@ -11,6 +11,7 @@ async def myfiles(c, m):
     if data['status'] == 200:
         results = data['result']
         text = "Select your file"
+        buttons = []
         for result in results:
             button_text = f"📁 {result['name']}" if result['type'] == 'folder' else f"🎥 {result['title']}"
             callback = f"folder+{result['fld_id']}+0+0" if result['type'] == 'folder' else f"file+{result['file_code']}+0+0"
