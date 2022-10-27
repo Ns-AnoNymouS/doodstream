@@ -46,6 +46,7 @@ class DoodStream:
 
         async with aiohttp.ClientSession() as session:
             async with session.get(url, params=params) as response:
+                print(data)
                 data = await response.json()
                 if data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
