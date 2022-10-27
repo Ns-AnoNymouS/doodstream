@@ -1,24 +1,26 @@
-import asyncio
 from pyrogram import Client, filters
+from doodstream_api import DoodStream, ApiKeyExpired
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 @Client.on_callback_query(filters.regex('^folder'))
 async def folder(c, m):
-    await m.answer()
+    try: await m.answer()
+    except: pass
+
     cmd, folder_id, fld, fil = m.data.split("+")
     fld = int(fld)
     fil = int(fil)
     api_key = await c.db.get_credential_status(m.from_user.id)
-    url = f"https://doodapi.com/api/folder/list?key={api_key}&fld_id={folder_id}"
-    loop = asyncio.get_event_loop()
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        data = await loop.run_in_executor(pool, requests.get, url)
-    data = data.json()
 
-    if data['status'] == 403:
-        text = "Token Expired"
-    elif data['status'] == 200:
+    try:
+        data = await dood.getFolderStatus(folder_id)
+    except ApiKeyExpired as e:
+        await m.message.edit(client.tools.API_KEY_EXPIRED)
+    except Exception as e:
+        log.exception(e)
+
+    if data['status'] == 200:
         text = "Select your file\n\n"
         folders = data['result']['folders'][fld : fld + 11]
         buttons = []

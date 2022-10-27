@@ -3,10 +3,19 @@ import aiohttp
 
 class InvalidApiKey(Exception):
     """ This error will be raised
-    if an invalid token is passed"""
-    
+    if an invalid api key was passed
+    """
+
     def __str__(self):
         return "The API key provided by you is invalid."
+
+
+class ApiKeyExpired(Exception):
+    """ This error will be raised
+    if an api key expired"""
+    
+    def __str__(self):
+        return "The API key provided by you is expired."
 
 
 class DoodStream:
@@ -40,6 +49,8 @@ class DoodStream:
                 data = await response.json()
                 if data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
+                elif data['status'] == 403:
+                    raise ApiKeyExpired
                 else:
                     return data
 
@@ -49,7 +60,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 account_info = await doodstream.accountInfo()
                 print(account_info)
 
@@ -91,7 +102,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 status = await doodstream.addLink('https://dropbox.com/hukbasd7k3fd')
                 print(status)
         
@@ -125,7 +136,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 status = await doodstream.uploadList
                 print(status)
         
@@ -164,7 +175,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 status = await doodstream.uploadStatus('hjsnr087johj')
                 print(status)
         
@@ -199,7 +210,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 slots = await doodstream.uploadSlots
                 print(slots)
         
@@ -244,7 +255,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 slots = await doodstream.uploadAction()
                 print(slots)
         
@@ -265,7 +276,7 @@ class DoodStream:
 
 
     ########## Manage Folders ##########
-
+    #https://doodapi.com/api/folder/list?key={api_key}&fld_id={folder_id}
     async def createFolder(self, name: str, parent_id: str = None):
         """Create a new folder
 
@@ -278,7 +289,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 sts = await doodstream.createFolder('New Folder')
                 print(sts)
         
@@ -314,7 +325,7 @@ class DoodStream:
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 sts = await doodstream.createFolder('New Folder')
                 print(sts)
         
@@ -326,6 +337,7 @@ class DoodStream:
                 "result": "true"
             }
         """
+
         url = f"{self.base_url}/folder/rename"
         params = {
             'key': self.api_key,
@@ -337,20 +349,28 @@ class DoodStream:
 
     ########## Manage Files ##########
 
-    async def listFiles(self, page=1, per_page=10, folder_id=0):
-        """Create a new folder
+    async def listFiles(
+        self, 
+        page: int = 1,
+        per_page: int = 10,
+        folder_id: str = 0
+    ):
+        """get the list of files.
 
         parameters:
-            name (``str``):
-                the name of folder that should be created
+            page (``int``, *optional*):
+                the page no you want
+
+            per_page(``int``, *optional*):
+                no of files to be included in the result
             
-            parent_id (``str``, *optional*):
-                pass a parent id to create folder in that
+            folder_id (``str``, *optional*):
+                pass a folder id to get the files from specified list
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
-                sts = await doodstream.createFolder('New Folder')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
+                sts = await doodstream.listFiles()
                 print(sts)
         
         Output:
@@ -359,10 +379,27 @@ class DoodStream:
                 "server_time": "2017-08-11 04:30:07",
                 "status": 200,
                 "result": {
-                    "fld_id": "1234567"
+                    "total_pages": 1,
+                    "files": [
+                        {
+                        "download_url": "https://dood.to/d/xxx",
+                        "single_img": "https://img.doodcdn.com/snaps/xxx.jpg",
+                        "file_code": "xxx",
+                        "canplay": 1,
+                        "length": "1234",
+                        "views": "1",
+                        "uploaded": "2017-08-11 04:30:07",
+                        "public": "1",
+                        "fld_id": "0",
+                        "title": "test_file"
+                        }
+                    ],
+                    "results_total": "1",
+                    "results": 1
                 }
             }
         """
+
         url = f"{self.base_url}/file/list"
         params = {
             'key': self.api_key,
@@ -374,20 +411,17 @@ class DoodStream:
     
 
 
-    async def getFileStatus(self, file_id):
-        """Create a new folder
+    async def getFileStatus(self, file_id: str):
+        """get the status of a file
 
         parameters:
-            name (``str``):
-                the name of folder that should be created
-            
-            parent_id (``str``, *optional*):
-                pass a parent id to create folder in that
+            file_id (``str``):
+                pass a file id, which you need to get the status
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
-                sts = await doodstream.createFolder('New Folder')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
+                sts = await doodstream.getFileStatus('xxx')
                 print(sts)
         
         Output:
@@ -395,11 +429,15 @@ class DoodStream:
                 "msg": "OK",
                 "server_time": "2017-08-11 04:30:07",
                 "status": 200,
-                "result": {
-                    "fld_id": "1234567"
-                }
+                "result": [
+                    {
+                    "status": "Active",
+                    "filecode": "xxx"
+                    }
+                ]
             }
         """
+
         url = f"{self.base_url}/file/check"
         params = {
             'key': self.api_key,
@@ -409,18 +447,15 @@ class DoodStream:
 
 
     async def getFileInfo(self, file_id):
-        """Create a new folder
+        """get the information about a file using its fileId
 
         parameters:
-            name (``str``):
-                the name of folder that should be created
-            
-            parent_id (``str``, *optional*):
-                pass a parent id to create folder in that
+            file_id (``str``):
+                pass a file id, from which you need to get the information
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
                 sts = await doodstream.createFolder('New Folder')
                 print(sts)
         
@@ -429,9 +464,23 @@ class DoodStream:
                 "msg": "OK",
                 "server_time": "2017-08-11 04:30:07",
                 "status": 200,
-                "result": {
-                    "fld_id": "1234567"
-                }
+                "result": [
+                    {
+                    "single_img": "https://img.doodcdn.com/snaps/xxx.jpg",
+                    "status": 200,
+                    "filecode": "xxx",
+                    "splash_img": "https://img.doodcdn.com/splash/xxx.jpg",
+                    "canplay": 1,
+                    "size": "123456",
+                    "views": "0",
+                    "length": "123456",
+                    "uploaded": "2017-08-11 04:30:07",
+                    "last_view": "",
+                    "protected_embed": "/e/yyy",
+                    "protected_dl": "/d/zzz",
+                    "title": "test_file"
+                    }
+                ]
             }
         """
 
@@ -443,20 +492,17 @@ class DoodStream:
         return await self.request(url, params)
 
 
-    async def getFileImage(self, file_id):
-        """Create a new folder
+    async def getFileImage(self, file_id: str):
+        """get the thumb and all availabele images of a file 
 
         parameters:
-            name (``str``):
-                the name of folder that should be created
-            
-            parent_id (``str``, *optional*):
-                pass a parent id to create folder in that
+            file_id (``str``):
+                pass a file id, which you need to get the images
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
-                sts = await doodstream.createFolder('New Folder')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
+                sts = await doodstream.getFileImage('xxx')
                 print(sts)
         
         Output:
@@ -464,9 +510,16 @@ class DoodStream:
                 "msg": "OK",
                 "server_time": "2017-08-11 04:30:07",
                 "status": 200,
-                "result": {
-                    "fld_id": "1234567"
-                }
+                "result": [
+                    {
+                    "status": 200,
+                    "filecode": "xxx",
+                    "title": "test_file",
+                    "single_img": "https://img.doodcdn.com/snaps/xxx.jpg",
+                    "thumb_img": "https://img.doodcdn.com/thumbnails/xxx.jpg",
+                    "splash_img": "https://img.doodcdn.com/splash/xxx.jpg"
+                    }
+                ]
             }
         """
 
@@ -478,20 +531,20 @@ class DoodStream:
         return await self.request(url, params)
 
 
-    async def renameFile(self, file_id, name):
-        """Create a new folder
+    async def renameFile(self, file_id: str, name: str):
+        """rename a file by its fileId
 
         parameters:
-            name (``str``):
-                the name of folder that should be created
+            file_id (``str``):
+                pass a file id which you need to rename
             
-            parent_id (``str``, *optional*):
-                pass a parent id to create folder in that
+            name (``str``):
+                the new name of file
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
-                sts = await doodstream.createFolder('New Folder')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
+                sts = await doodstream.renameFile('xxx', 'New Name')
                 print(sts)
         
         Output:
@@ -499,9 +552,7 @@ class DoodStream:
                 "msg": "OK",
                 "server_time": "2017-08-11 04:30:07",
                 "status": 200,
-                "result": {
-                    "fld_id": "1234567"
-                }
+                "result": "true"
             }
         """
 
@@ -514,20 +565,17 @@ class DoodStream:
         return await self.request(url, params)
     
 
-    async def searchFiles(self, query):
+    async def searchFiles(self, query: str):
         """Create a new folder
 
         parameters:
-            name (``str``):
-                the name of folder that should be created
-            
-            parent_id (``str``, *optional*):
-                pass a parent id to create folder in that
+            query (``str``):
+                the term that need to be searched for.
 
         Example:
             .. code-block:: python
-                doodstream = DoodStream(api_key='34095e0kjrczf7fav728b')
-                sts = await doodstream.createFolder('New Folder')
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
+                sts = await doodstream.searchFiles()
                 print(sts)
         
         Output:
@@ -535,9 +583,7 @@ class DoodStream:
                 "msg": "OK",
                 "server_time": "2017-08-11 04:30:07",
                 "status": 200,
-                "result": {
-                    "fld_id": "1234567"
-                }
+                "result": "true"
             }
         """
         

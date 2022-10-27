@@ -1,17 +1,23 @@
-from doodstream_api import DoodStream
 from pyrogram import Client, filters
+from doodstream_api import DoodStream, ApiKeyExpired
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ..tools.progress_bar import humanbytes, TimeFormatter
 
 
-@Client.on_callback_query(filters.regex('^file'))
+@Client.on_callback_query(filters.regex('^file\+'))
 async def open_file(c, m):
-    await m.answer()
+    try: await m.answer()
+    except: pass
+
     cmd, file_code, fld, fil = m.data.split('+')
     api_key = await c.db.get_credential_status(m.from_user.id)
-    doodstream = DoodStream(api_key)
-    data = await doodstream.getFile()
-
+    dood = DoodStream(api_key)
+    try:
+        data = await dood.getFile()
+    except ApiKeyExpired as e:
+        await m.message.edit(client.tools.API_KEY_EXPIRED)
+    except Exception as e:
+        log.exception(e)
     url = f"https://doodapi.com/api/file/info?key={api_key}&file_code={file_code}"
     files_url = f"https://doodapi.com/api/file/list?key={api_key}"
     loop = asyncio.get_event_loop()

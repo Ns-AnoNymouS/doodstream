@@ -24,11 +24,16 @@ class Text:
 👥 Group: [Support Group](https://t.me/amcDevSupport)
 """
 
+
+# if the api key of the user was expired or regenerated, this text will be sent.
+      API_KEY_EXPIRED = "Your API Key was expired or may be regenerated.\n\nPlease /login again."
+
+
 # the below commands are used as default commands
 # command - description (follow this format while setting commands and use newline to set another command)
-# command (``str``):
+# command:
 #     Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
-# description (``str``):
+# description:
 #     Description of the command; 1-256 characters.
 # Example:
 # start - check whether bot alive or not
@@ -75,6 +80,11 @@ __description (`str`):__ Description of the command; 1-256 characters.
 
 ✪ For checking your account status use command /status.
 """
+
+
+# if the api key sent by the user was invalid, this text will be sent
+      INVALID_API_KEY = "The API Key was **INVALID**\n\nPlease follow the process correctly, check /login for more details ."
+ 
 
 # The message that should be sent when user send /login command
       LOGIN = """
