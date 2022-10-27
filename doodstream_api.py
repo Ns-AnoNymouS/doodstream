@@ -276,7 +276,20 @@ class DoodStream:
 
 
     ########## Manage Folders ##########
-    #https://doodapi.com/api/folder/list?key={api_key}&fld_id={folder_id}
+    # https://doodapi.com/api/folder/list?key={api_key}&fld_id={folder_id}
+    async def getAll(self, folder_id=0, sort_field=1, sort_order=0):
+        url = "https://doodstream.com/"
+        params = {
+            'op': 'videos_json',
+            'page': 1,
+            'fld_id': 0,
+            'key': self.api_key,
+            'sort_field': 'file_created',
+            'sort_order': 'down'
+        }  #_=1666856072588
+        return await self.request(url, params)
+
+
     async def createFolder(self, name: str, parent_id: str = None):
         """Create a new folder
 
@@ -307,7 +320,7 @@ class DoodStream:
         url = f"{self.base_url}/folder/create?key={self.api_key}&name={name}"
         if parent_id:
             url += f'&parent_id={parent_id}'
-        return await self.request(url, params)
+        return await self.request(url)
 
 
     async def renameFolder(self, folder_id: str, name: str):

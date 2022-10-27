@@ -7,7 +7,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 async def myfiles(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     doodstream = DoodStream(api_key)
-    data = await doodstream.listFiles()
+    data = await doodstream.getAll()
+    print(data)
     if data['status'] == 200:
         text = "Select your file\n\n"
         all_folders = data['result']['folders']
