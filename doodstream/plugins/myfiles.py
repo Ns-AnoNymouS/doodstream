@@ -12,8 +12,8 @@ async def myfiles(c, m):
         results = data['result']
         text = "Select your file"
         for result in results:
-            button_text = f"📁 {result['name']}" if result['type'] == 'folder' else f"🎥 {file['title']}"
-            callback = f"folder+{folder['fld_id']}+0+0" if result['type'] == 'folder' else f"file+{file['file_code']}+0+{10 - len(all_folders)}"
+            button_text = f"📁 {result['name']}" if result['type'] == 'folder' else f"🎥 {result['title']}"
+            callback = f"folder+{result['fld_id']}+0+0" if result['type'] == 'folder' else f"file+{result['file_code']}+0+0"
             buttons.append([InlineKeyboardButton(button_text, callback_data=callback)])
 
         if data['next_page_available']:

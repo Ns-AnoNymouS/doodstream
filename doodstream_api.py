@@ -333,10 +333,10 @@ class DoodStream:
             if total_folders < folder_end_index:
                 files_start_index = folder_start_index - total_folders
                 files_end_index = files_start_index + per_page
-                files = response['result']['files']
-                if len(files) >= files_end_index:
+                allfiles = response['result']['files']
+                if len(allfiles) >= files_end_index:
                     data['next_page_available'] = True
-                files = files[files_start_index:files_end_index]
+                files = allfiles[files_start_index:files_end_index]
             else:
                 data['next_page_available'] = True
 
