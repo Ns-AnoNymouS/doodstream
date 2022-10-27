@@ -8,20 +8,15 @@ async def myfiles(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
     doodstream = DoodStream(api_key)
     data = await doodstream.getAll()
-    print(data)
     if data['status'] == 200:
-        text = "Select your file\n\n"
-        all_folders = data['result']['folders']
-        folders = all_folders[:11]
-        buttons = []
-        for folder in folders:
-            buttons.append([InlineKeyboardButton(f"📁 {folder['name']}", callback_data=f"folder+{folder['fld_id']}+0+0")])
-        if len(folders) < 10:
-            files = data['result']['files'][:11 - len(folders)]
-            for file in files:
-                buttons.append([InlineKeyboardButton(f"🎥 {file['title']}", callback_data=f"file+{file['file_code']}+0+{10 - len(all_folders)}")])
-        if len(buttons) > 10:
-            buttons.pop()
+        results = data['result']
+        text = "Select your file"
+        for result in results:
+            button_text = f"📁 {result['name']}" if result['type'] == 'folder' else f"🎥 {file['title']}"
+            callback = f"folder+{folder['fld_id']}+0+0" if result['type'] == 'folder' else f"file+{file['file_code']}+0+{10 - len(all_folders)}"
+            buttons.append([InlineKeyboardButton(button_text, callback_data=callback)])
+
+        if data['next_page_available']:
             buttons.append([InlineKeyboardButton('➡️', callback_data=f'nxt+10+{20 - len(all_folders)}')])
         if len(buttons) != 0:
             return await m.reply_text(text, reply_markup=InlineKeyboardMarkup(buttons), quote=True)

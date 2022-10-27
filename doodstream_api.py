@@ -307,6 +307,7 @@ class DoodStream:
                 "msg":"OK",
                 "server_time":"2022-10-27 14:42:26",
                 "status":200,
+                "next_page_available":False,
                 "result":{
                     [{"type": "folder", "name":"test file1","fld_id":"12345","code":"xxxxxx"},
                     {"type": "folder", "name":"test file2","fld_id":"67891","code":"xxxxxx"}],
@@ -323,6 +324,7 @@ class DoodStream:
         if response['status'] == 200:
             data = response.copy()
             data['result'] = []
+            data['next_page_available'] = False
             folders = response['result']['folders']
             total_folders = len(folders)
             files = []
@@ -331,8 +333,13 @@ class DoodStream:
             if total_folders < folder_end_index:
                 files_start_index = folder_start_index - total_folders
                 files_end_index = files_start_index + per_page
-                files = response['result']['files'][files_start_index:files_end_index]
-            
+                files = response['result']['files']
+                if len(files) >= files_end_index:
+                    data['next_page_available'] = True
+                files = files[files_start_index:files_end_index]
+            else:
+                data['next_page_available'] = True
+
             for folder in folders:
                 folder['type'] = 'folder'
                 data['result'].append(folder)
