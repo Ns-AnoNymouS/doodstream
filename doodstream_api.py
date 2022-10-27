@@ -277,18 +277,71 @@ class DoodStream:
 
 
     ########## Manage Folders ##########
-    # https://doodapi.com/api/folder/list?key={api_key}&fld_id={folder_id}
-    async def getAll(self, folder_id=0, sort_field=1, sort_order=0):
-        url = f"https://doodstream.com/?op=videos_json&page=1&fld_id=0&key={self.api_key}&sort_field=file_created&sort_order=down" #&_=1666857245650"
+    
+    async def getAll(
+        self, 
+        folder_id: int = 0,
+        page: int = 1, 
+        per_page: int = 10
+    ):
+        """get files and folders combinedly
+
+        parameters:
+            folder_id (``int``, *optional*):
+                the id of folder which files you want 
+            
+            page (``int``, *optional*):
+                page no of the data
+            
+            per_page (``int``, *optional*):
+                no of files should present per page
+
+        Example:
+            .. code-block:: python
+                doodstream = DoodStream(api_key='34095x0xxxxxx7xxx728x')
+                sts = await doodstream.getAll('New Folder')
+                print(sts)
+        
+        Output:
+            {
+                "msg":"OK",
+                "server_time":"2022-10-27 14:42:26",
+                "status":200,
+                "result":{
+                    [{"type": "folder", "name":"test file1","fld_id":"12345","code":"xxxxxx"},
+                    {"type": "folder", "name":"test file2","fld_id":"67891","code":"xxxxxx"}],
+                    {"type": "file", "download_url":"https://dood.la/d/xxxxxxx","single_img":"https://img.doodcdn.co/snaps/fkszt9c0xxxxxxx.jpg","file_code":"xxxxxxx","canplay":1,"length":"8436","views":"0","uploaded":"2022-10-22 09:01:41","public":"0","fld_id":"0","title":"Bimbisara (2022) Telugu HQ HDRip - 400MB - AAC - ESub"}]}}
+        """
+
+        url = f"https://doodapi.com/api/folder/list?fld_id=0&key=34095bvht3uqdobt8e0i4"
         params = {
-            'op': 'videos_json',
-            'page': 1,
-            'fld_id': 0,
-            'key': self.api_key,
-            'sort_field': 'file_created',
-            'sort_order': 'down'
-        }  #_=1666856072588
-        return await self.request(url)
+            'fld_id': folder_id,
+            'key': self.api_key
+        }
+        response = await self.request(url)
+
+        if response['status'] == 200:
+            data = response.copy()
+            data['result'] = []
+            folders = response['result']['folders']
+            total_folders = len(folders)
+            files = []
+            folder_start_index, folder_end_index = (page-1)*per_page, page*per_page
+            folders = folders[folder_start_index:folder_end_index]
+            if total_folders < folder_end_index:
+                files_start_index = folder_start_index - total_folders
+                files_end_index = files_start_index + per_page
+                files = response['result']['files'][files_start_index:files_end_index]
+            
+            for folder in folders:
+                folder['type'] = 'folder'
+                data['result'].append(folder)
+            for file in files:
+                file['type'] = 'file'
+                data['result'].append(file)
+        else:
+            data = response
+        return data
 
 
     async def createFolder(self, name: str, parent_id: str = None):
