@@ -56,9 +56,9 @@ class DoodStream:
                 if 'text/html' in response.content_type:
                     return await response.text()
                 data = await response.json()
-                if data["msg"] in ["Wrong Auth", "Invalid key"]:
+                if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
-                elif data['status'] == 403:
+                elif 'status' in data and data['status'] == 403:
                     raise ApiKeyExpired
                 else:
                     return data
