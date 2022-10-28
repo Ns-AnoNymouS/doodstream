@@ -31,7 +31,7 @@ class DoodStream:
     base_url = "https://doodapi.com/api"
     base_url2 = "https://doodstream.com"
 
-    def __init__(self, api_key: str, cookies: str):
+    def __init__(self, api_key: str = None, cookies: str = None):
         self.api_key = api_key
         self.cookies = cookies
 
