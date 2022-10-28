@@ -22,18 +22,22 @@ class DoodStream:
     """ An unofficial asynchronous DoodStream API written in python.
     
     parameters:
-        api_key (``str``):
+        api_key (``str``, *optional*):
             your doodstream api you can get this from https://doodstream.com/settings.
+        cookies (``str``, *optional*):
+            you cookes returened by login method.
     """
 
     base_url = "https://doodapi.com/api"
+    base_url2 = "https://doodstream.com"
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, cookies: str):
         self.api_key = api_key
+        self.cookies = cookies
 
 
     @staticmethod
-    async def request(url, params=None):
+    async def request(url, params=None, json=True):
         """ For calling the http requests
 
         parameters:
@@ -42,10 +46,14 @@ class DoodStream:
 
             params (``dict``, *optional*):
                 a python dictionary for any additional data that should be passed with get request.
+            
+            json (``bool``, *optioal*):
+                pass False to get response back else you will get a json file
         """
 
         async with aiohttp.ClientSession() as session:
             async with session.get(url, params=params) as response:
+                if not json: return response
                 data = await response.json()
                 if data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
@@ -53,6 +61,37 @@ class DoodStream:
                     raise ApiKeyExpired
                 else:
                     return data
+
+
+    async def login(self, username: str, password: str, otp: int = ''):
+        """ get the required cookies
+
+        parameters:
+            username (``str``):
+                username or email of you doodstream account.
+
+            password (``str``):
+                password of the doodstream.
+
+            otp (``int`` *optional*):
+                otp if sent.
+        """
+
+        url = f"{self.base_url2}/"
+        params = {
+            'op':'login_ajax',
+            'login': username,
+            'password': password, 
+            'loginotp': otp,
+            'g-recaptcha-response': ''
+        }
+        response = await self.request(url, params, False)
+        content_type = response.content_type
+        if 'text/html' in content_type:
+            print(await response.text())
+        else:
+            print(await response.json())
+
 
 
     async def accountInfo(self):

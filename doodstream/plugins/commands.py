@@ -24,16 +24,16 @@ async def set_commands(client, message):
     await message.reply(text)
 
 
-@Client.on_message(filters.command('login') & filters.private & filters.incoming)
-async def login(client, message):
-    buttons = [[InlineKeyboardButton("API Key 🗝", url="https://doodstream.com/settings")]]
-    try:
-        await message.reply(
-            text=client.tools.LOGIN,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            quote=True
-        )
-    except Exception as e: log.error(e)
+# @Client.on_message(filters.command('login') & filters.private & filters.incoming)
+# async def login(client, message):
+#     buttons = [[InlineKeyboardButton("API Key 🗝", url="https://doodstream.com/settings")]]
+#     try:
+#         await message.reply(
+#             text=client.tools.LOGIN,
+#             reply_markup=InlineKeyboardMarkup(buttons),
+#             quote=True
+#         )
+#     except Exception as e: log.error(e)
 
 
 @Client.on_message(filters.command('token') & filters.private & filters.incoming)
