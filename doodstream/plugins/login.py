@@ -1,5 +1,5 @@
 from doodstream_api import DoodStream
-
+from program import Client, filters
 
 @Client.on_message(filters.command('login') & filters.private & filters.incoming)
 async def login(client, message):
