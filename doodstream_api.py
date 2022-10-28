@@ -86,7 +86,7 @@ class DoodStream:
             'loginotp': otp,
             'g-recaptcha-response': ''
         }
-        data = await self.request(url, params, False)
+        data = await self.request(url, params)
         print(data, type(data))
 
 
