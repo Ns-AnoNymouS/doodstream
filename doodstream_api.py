@@ -37,7 +37,7 @@ class DoodStream:
 
 
     @staticmethod
-    async def request(url, params=None, json=True):
+    async def request(url, params=None):
         """ For calling the http requests
 
         parameters:
@@ -53,7 +53,8 @@ class DoodStream:
 
         async with aiohttp.ClientSession() as session:
             async with session.get(url, params=params) as response:
-                if not json: return response
+                if 'text/html' in response.content_type:
+                    return await response.text()
                 data = await response.json()
                 if data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
@@ -85,12 +86,8 @@ class DoodStream:
             'loginotp': otp,
             'g-recaptcha-response': ''
         }
-        response = await self.request(url, params, False)
-        content_type = response.content_type
-        if 'text/html' in content_type:
-            print(await response.text())
-        else:
-            print(await response.json())
+        data = await self.request(url, params, False)
+        print(data, type(data))
 
 
 
