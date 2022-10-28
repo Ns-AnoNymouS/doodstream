@@ -54,7 +54,7 @@ class DoodStream:
         async with aiohttp.ClientSession() as session:
             async with session.get(url, params=params) as response:
                 if 'text/html' in response.content_type:
-                    return await response.text()
+                    return response.cookies
                 data = await response.json()
                 if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
@@ -88,6 +88,11 @@ class DoodStream:
         }
         data = await self.request(url, params)
         print(data, type(data))
+        if type(data) == dict:
+            if data['status'] == 'otp_sent':
+                return 'otp_sent'
+        else:
+            return data
 
 
 
