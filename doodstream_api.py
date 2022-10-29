@@ -55,7 +55,7 @@ class DoodStream:
             async with session.get(url, params=params) as response:
                 if 'text/html' in response.content_type:
                     cookies = session.cookie_jar.filter_cookies('http://httpbin.org')
-                    for key, value in sts.items():
+                    for key, value in cookies.items():
                         print(key, value)
                     return
                 data = await response.json()
