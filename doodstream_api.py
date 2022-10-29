@@ -31,7 +31,7 @@ class DoodStream:
     base_url = "https://doodapi.com/api"
     base_url2 = "https://doodstream.com"
 
-    def __init__(self, api_key: str = None, cookies: str = None):
+    def __init__(self, api_key: str = None, cookies: dict = None):
         self.api_key = api_key
         self.cookies = cookies
 
@@ -51,7 +51,7 @@ class DoodStream:
                 pass False to get response back else you will get a json file
         """
 
-        async with aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar()) as session:
+        async with aiohttp.ClientSession(cookies=self.cookies, cookie_jar=aiohttp.CookieJar()) as session:
             async with session.get(url, params=params) as response:
                 if 'text/html' in response.content_type:
                     cookies = session.cookie_jar._cookies# filter_cookies('http://httpbin.org')
@@ -88,7 +88,6 @@ class DoodStream:
             'g-recaptcha-response': ''
         }
         data = await self.request(url, params)
-        # print(data, type(data))
         if type(data) == dict:
             if 'status' in data and data['status'] == 'otp_sent':
                 return 'otp_sent'
@@ -359,7 +358,9 @@ class DoodStream:
             'fld_id': folder_id,
             'key': self.api_key
         }
+        url = 'https://doodstream.com/?op=videos_json&page=1&fld_id=0&key=&sort_field=file_created&sort_order=down&_=1667037316692'
         response = await self.request(url)
+        return print(response)
 
         if response['status'] == 200:
             data = response.copy()

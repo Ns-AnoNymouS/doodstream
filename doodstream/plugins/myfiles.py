@@ -6,7 +6,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 @Client.on_message(filters.command('myfiles') & filters.private & filters.incoming)
 async def myfiles(c, m):
     api_key = await c.db.get_credential_status(m.from_user.id)
-    doodstream = DoodStream(api_key)
+    doodstream = DoodStream(cookies=api_key)
     data = await doodstream.getAll()
     if data['status'] == 200:
         results = data['result']
