@@ -55,9 +55,7 @@ class DoodStream:
             async with session.get(url, params=params) as response:
                 if 'text/html' in response.content_type:
                     cookies = session.cookie_jar._cookies# filter_cookies('http://httpbin.org')
-                    # for key, value in cookies.items():
-                    print(str(cookies.get('doodstream.com')))
-                    return
+                    return cookies.get('doodstream.com')
                 data = await response.json()
                 if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
@@ -92,10 +90,9 @@ class DoodStream:
         data = await self.request(url, params)
         # print(data, type(data))
         if type(data) == dict:
-            if data['status'] == 'otp_sent':
+            if 'status' in data and data['status'] == 'otp_sent':
                 return 'otp_sent'
-        else:
-            return data
+        return data
 
 
 
