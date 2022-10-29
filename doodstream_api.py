@@ -56,7 +56,7 @@ class DoodStream:
                 if 'text/html' in response.content_type:
                     cookies = session.cookie_jar._cookies# filter_cookies('http://httpbin.org')
                     # for key, value in cookies.items():
-                    print(cookies.get('doodstream.com'))
+                    print(str(cookies.get('doodstream.com')))
                     return
                 data = await response.json()
                 if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
