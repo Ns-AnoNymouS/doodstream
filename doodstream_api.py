@@ -56,7 +56,7 @@ class DoodStream:
                 if 'text/html' in response.content_type:
                     cookies = session.cookie_jar._cookies# filter_cookies('http://httpbin.org')
                     # for key, value in cookies.items():
-                    print(cookies)
+                    print(cookies.get('doodstream.com'))
                     return
                 data = await response.json()
                 if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
@@ -90,7 +90,7 @@ class DoodStream:
             'g-recaptcha-response': ''
         }
         data = await self.request(url, params)
-        print(data, type(data))
+        # print(data, type(data))
         if type(data) == dict:
             if data['status'] == 'otp_sent':
                 return 'otp_sent'
