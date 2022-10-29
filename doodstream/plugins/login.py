@@ -10,3 +10,5 @@ async def login(client, message):
     if sts == 'otp_sent':
         otp = await client.ask(message.from_user.id, 'send the opt sent to your email.')
         sts = await dood.login(username.text, password.text, otp.text)
+        for key, value in sts.items():
+            print(key, value)
