@@ -36,8 +36,7 @@ class DoodStream:
         self.cookies = cookies
 
 
-    @staticmethod
-    async def request(url, params=None):
+    async def request(self, url, params=None):
         """ For calling the http requests
 
         parameters:
