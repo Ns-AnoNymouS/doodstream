@@ -12,7 +12,7 @@ async def login(client, message):
         sts = await dood.login(username.text, password.text, otp.text)
         di = {}
         for key, value in sts.items():
-            di[key] = value
+            di[key] = value.value
         print(di)
         await client.db.update_credential_status(message.from_user.id, di)
 
