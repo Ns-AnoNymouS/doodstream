@@ -51,10 +51,10 @@ class DoodStream:
                 pass False to get response back else you will get a json file
         """
 
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar()) as session:
             async with session.get(url, params=params) as response:
                 if 'text/html' in response.content_type:
-                    return response.cookie_jar.filter_cookies('http://httpbin.org')
+                    return session.cookie #_jar.filter_cookies('http://httpbin.org')
                 data = await response.json()
                 if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
