@@ -54,7 +54,10 @@ class DoodStream:
         async with aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar()) as session:
             async with session.get(url, params=params) as response:
                 if 'text/html' in response.content_type:
-                    return session.cookie_jar.filter_cookies('http://httpbin.org')
+                    cookies = session.cookie_jar.filter_cookies('http://httpbin.org')
+                    for key, value in sts.items():
+                        print(key, value)
+                    return
                 data = await response.json()
                 if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
