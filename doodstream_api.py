@@ -53,8 +53,8 @@ class DoodStream:
         async with aiohttp.ClientSession(cookies=self.cookies, cookie_jar=aiohttp.CookieJar()) as session:
             async with session.get(url, params=params) as response:
                 if 'text/html' in response.content_type:
-                    cookies = session.cookie_jar._cookies# filter_cookies('http://httpbin.org')
-                    return cookies.get('doodstream.com')
+                    cookies = session.cookie_jar# filter_cookies('http://httpbin.org')
+                    return cookies
                 data = await response.json()
                 if 'msg' in data and data["msg"] in ["Wrong Auth", "Invalid key"]:
                     raise InvalidApiKey
@@ -62,6 +62,26 @@ class DoodStream:
                     raise ApiKeyExpired
                 else:
                     return data
+
+
+    async def getCookies(self)-> dict:
+        return self.cookies
+
+
+    async def updateCookies(self, cookies_jar: "aiohttp.CookieJar"):
+        """Updating cookies 
+        
+        parameters:
+            cookies_jar (:obj: `~aiohttp.CookieJar`, *optional*):
+                the cookies jar object to update the self.cookies
+        """
+
+        cookies = cookies_jar._cookies.get('doodstream.com', None)
+        if not cookies:
+            return
+
+        for key, value in cookies.items():
+            self.cookies[key] = value.value
 
 
     async def login(self, username: str, password: str, otp: int = ''):

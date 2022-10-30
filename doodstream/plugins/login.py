@@ -11,8 +11,6 @@ async def login(client, message):
         otp = await client.ask(message.from_user.id, 'send the opt sent to your email.')
         sts = await dood.login(username.text, password.text, otp.text)
         di = {}
-        for key, value in sts.items():
-            di[key] = value.value
         print(di)
         await client.db.update_credential_status(message.from_user.id, di)
 
