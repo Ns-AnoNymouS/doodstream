@@ -5,7 +5,6 @@ import logging.config
 logging.config.fileConfig('logging.conf')
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
-log = logging.getLogger(__name__)
 
 from .tools import Tools
 from .config import Config
@@ -32,12 +31,12 @@ class NsBots(Client, Config):
     async def start(self):
         await super().start()
         me = await self.get_me()
-        log.info(f'Your Doodstream bot was started in {me.first_name} ({me.username})')
+        print(f'Your Doodstream bot was started in {me.first_name} ({me.username})')
 
 
     async def stop(self):
         await super().stop()
-        log.info('Stopped your Doodstream bot')
+        print('Stopped your Doodstream bot')
 
 
 if __name__ == "__main__":
